@@ -82,3 +82,17 @@ device/eventId 및 task/version/seq 유일 제약, 중복 우선 검사, 영구 
 BLOCKED/TASK_ALREADY_CONFIRMED로 응답하고 확정·집계를 유지한다.
 committedAt/confirmedAt은 트랜잭션 마지막 저장 직전에 읽은 MySQL UTC 시각이며
 ACK는 실제 COMMIT 이후이다. DB 로그의 정확한 commit timestamp를 뜻하지 않음.
+
+## S5 — 운영 화면·API·집계 구현
+
+요구: M-A01~07, M-D06·M-W06, T24·T26·T30~31·T33.
+구현: React 주문 검색/페이지·상세·정정, 작업 배정/메모/이벤트,
+실패 job 조회·조건부 재시도, 단말 마지막 보고·수신 시각 기준 stale,
+업무일/상품별 CONFIRMED 재계산 및 CSV. 운영 변경은 사유·감사·requestId를 보존.
+DATA_HOLD만 revision 정정, 원본 불변, task 존재 후 정정 금지,
+영구 job 오류 재시도 우회 금지, 일시 job 오류 5회 예산.
+실행: 실제 MySQL 정정/원본/감사/재시도/집계 멱등성 PASS.
+실제 Nest HTTP 401/403, 검색/목록 max200, 256KiB body 제한, 메모 201,
+CSV content type, stale 관측·readiness·React index 제공 PASS.
+브라우저 클릭·웹캠·모니터의 실제 UI 동작은 아직 NOT_RUN/BLOCKED이며
+번들 build/HTTP 응답만으로 현장 UI 시험 통과를 주장하지 않음.
