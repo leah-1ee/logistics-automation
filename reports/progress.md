@@ -41,3 +41,13 @@ T02 프로세스 SIGKILL은 아직 NOT_RUN; 위 결과는 예외 rollback 시험
 결정: 비어 있지 않은 cursor 페이지 재요청의 재현성을 위해 페이지 경계를 고정한다.
 해당 페이지 마지막 레코드의 가상 공개 시각 전에는 empty/same-cursor/poll 응답을 준다.
 공개된 일부 레코드가 페이지가 채워질 때까지 기다릴 수 있음. 실제 UTC 시각으로 해석하지 않음.
+
+## S2 — 업무 모델 구현 / Redis 장애 통합은 S6에서 검증
+
+요구: M-W01~05, T05~07·T20~22.
+구현: MySQL task UNIQUE, job/order row lock, revision fencing, outbox lease 재발행,
+BullMQ ops-jobs 워커 concurrency=1, immutable snapshot과 최초 배정,
+운영 requestId canonical hash/응답 보존·감사·actor별 변경 직렬화.
+실행: 실제 DB task 생성 중 예외 rollback, 동시 중복 job 후 작업 1개,
+같은 requestId 응답 보존, 다른 requestId 재배정 거부, 같은 requestId 본문 변경 거부 PASS.
+task 생성과 outbox DONE은 같은 트랜잭션. 실제 Redis 중단/복구·워커 SIGKILL은 아직 NOT_RUN.
