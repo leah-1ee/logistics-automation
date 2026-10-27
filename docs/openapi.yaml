@@ -1615,6 +1615,30 @@ paths:
         description: ''
       servers:
       - url: http://127.0.0.1:4000
+  /local/v1/tasks/{taskId}/history:
+    get:
+      operationId: local_history
+      summary: 로컬 스캔 취소 및 복구를 위한 보존 이벤트 이력
+      security: []
+      parameters:
+      - {name: taskId, in: path, required: true, schema: {type: string, format: uuid}}
+      responses:
+        '200':
+          description: SQLite 보존 이벤트와 전송 결과
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/LocalHistory'}
+  /local/v1/health:
+    get:
+      operationId: local_health
+      summary: 단말 프로세스와 SQLite 상태
+      security: []
+      responses:
+        '200':
+          description: 단말 상태
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Health'}
 components:
   securitySchemes:
     adminAuth:
@@ -2734,3 +2758,22 @@ components:
       - items
       - nextCursor
       additionalProperties: false
+    LocalHistory:
+      type: object
+      required: [events, syncError]
+      additionalProperties: false
+      properties:
+        syncError: {type: [string, 'null']}
+        events:
+          type: array
+          items:
+            type: object
+            required: [event, status, receipt]
+            additionalProperties: false
+            properties:
+              event: {$ref: '#/components/schemas/DeviceEvent'}
+              status: {type: string, enum: [PENDING, ACKED, BLOCKED]}
+              receipt:
+                oneOf:
+                - {$ref: '#/components/schemas/EventResult'}
+                - {type: 'null'}

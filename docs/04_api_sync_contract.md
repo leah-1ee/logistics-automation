@@ -138,4 +138,13 @@ QR은 상품 식별자만 담습니다. API 토큰·운영자 권한·임의 명
 
 서버 confirmedAt은 서버 DB 커밋 시각입니다. confirmedBusinessDate는 이 시각을 설정한 업무 시간대로 바꾼 날짜입니다. 오프라인 중 작업자가 완료한 실제 시각은 localCompletedAt 관측 정보로 별도 보존합니다.
 
+구현 보완(2026-10-27): committedAt/confirmedAt은 트랜잭션의 마지막 기록 직전에
+MySQL UTC 시계에서 얻은 확정 기록 시각입니다. ACK는 COMMIT 성공 후에만 반환하며,
+필드는 DB 엔진 로그의 정확한 commit timestamp를 의미하지 않습니다.
+CONFIRMED는 terminal이므로 새 eventId의 추가 입력은 BLOCKED/TASK_ALREADY_CONFIRMED이며
+seq·확정·집계를 바꾸지 않습니다. 기존 eventId 중복 검사는 이 상태 검사보다 우선합니다.
+
+로컬 보존 이력·취소 대상·차단 사유는 GET /local/v1/tasks/{taskId}/history로 조회합니다.
+GET /local/v1/health는 프로세스와 SQLite 상태를 확인합니다.
+
 단말 시계가 틀릴 수 있어 MVP 집계는 서버 확정 기준입니다. '현장 작업일 기준 집계'는 시계 신뢰 정책을 포함해 E2에서 추가합니다.

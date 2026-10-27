@@ -1,0 +1,36 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
+import { readFileSync,mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { LocalStore } from '../src/device/store.js';
+import { snapshotHash } from '../src/shared/contracts.js';
+const examples=JSON.parse(readFileSync('docs/examples.json','utf8'));
+const qr=(p='a'.repeat(32))=>'LOPS1:PRODUCT:'+p;
+test('T07~T13/T32 SQLite fixture download, validation, reversal, atomic rollback and restart',()=>{
+  const path=mkdtempSync(tmpdir()+'/logistics-local-')+'/device.sqlite';const s=examples.taskSnapshot;
+  let store=new LocalStore(path,'pi-01');store.download(s);
+  assert.throws(()=>store.scan(s.taskId,'invalid'));assert.equal(store.get(s.taskId).nextSeq,1);
+  assert.throws(()=>store.scan(s.taskId,qr('f'.repeat(32))));
+  for(const boundary of ['before_event','after_event','before_commit'])assert.throws(()=>store.scan(s.taskId,qr(),stage=>{if(stage===boundary)throw new Error('write failed');}));
+  assert.equal(store.events(s.taskId).length,0);assert.equal(store.get(s.taskId).nextSeq,1);
+  const scan=store.scan(s.taskId,qr());assert.throws(()=>store.action(s.taskId,'COMPLETE',{}));
+  store.action(s.taskId,'REVERSE_SCAN',{targetEventId:scan.event.eventId});assert.throws(()=>store.action(s.taskId,'REVERSE_SCAN',{targetEventId:scan.event.eventId}));
+  assert.equal(store.get(s.taskId).localStatus,'IN_PROGRESS');
+  store.scan(s.taskId,qr());store.scan(s.taskId,qr());assert.throws(()=>store.scan(s.taskId,qr()));store.scan(s.taskId,qr('b'.repeat(32)));
+  store.action(s.taskId,'COMPLETE',{});assert.equal(store.get(s.taskId).localStatus,'LOCAL_COMPLETED');assert.equal(store.get(s.taskId).syncStatus,'PENDING');
+  store.download(s);assert.equal(store.events(s.taskId).length,6);store.close();store=new LocalStore(path,'pi-01');
+  assert.equal(store.get(s.taskId).localStatus,'LOCAL_COMPLETED');assert.deepEqual(store.get(s.taskId).items.map((i:any)=>i.appliedQty),[2,1]);
+  assert.throws(()=>store.scan(s.taskId,qr()));
+  const changed=structuredClone(s);changed.requiredItems[0].requiredQty=3;changed.snapshotHash=snapshotHash(changed);
+  assert.equal(store.download(changed),false);assert.equal(store.get(s.taskId).snapshot.snapshotHash,s.snapshotHash);assert.equal(store.get(s.taskId).syncStatus,'BLOCKED');store.close();
+});
+test('T34 late ACK preserves later unsent local projection and duplicate rejection stays blocked',()=>{
+  const store=new LocalStore(mkdtempSync(tmpdir()+'/logistics-ack-')+'/device.sqlite','pi-01'),s=examples.taskSnapshot;
+  store.download(s);const first=store.scan(s.taskId,qr());store.scan(s.taskId,qr());
+  const ack={eventId:first.event.eventId,taskId:s.taskId,result:'APPLIED',code:'OK',retryable:false,receipt:{committedAt:new Date().toISOString(),processedSeq:1,taskStatus:'IN_PROGRESS',confirmedAt:null,appliedItems:[{productId:'a'.repeat(32),quantity:1}]}};
+  store.accept(ack);assert.equal(store.get(s.taskId).items[0].appliedQty,2);assert.equal(store.get(s.taskId).nextSeq,3);assert.equal(store.syncStatus().pendingCount,1);
+  const next=store.events(s.taskId)[1].event;
+  store.accept({...ack,eventId:next.eventId,result:'DUPLICATE',originalResult:'REJECTED',code:'OVER_QUANTITY',receipt:{...ack.receipt,processedSeq:2,taskStatus:'HOLD'}});
+  assert.equal(store.get(s.taskId).syncStatus,'BLOCKED');store.close();
+});

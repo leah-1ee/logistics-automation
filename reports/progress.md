@@ -51,3 +51,34 @@ BullMQ ops-jobs 워커 concurrency=1, immutable snapshot과 최초 배정,
 실행: 실제 DB task 생성 중 예외 rollback, 동시 중복 job 후 작업 1개,
 같은 requestId 응답 보존, 다른 requestId 재배정 거부, 같은 requestId 본문 변경 거부 PASS.
 task 생성과 outbox DONE은 같은 트랜잭션. 실제 Redis 중단/복구·워커 SIGKILL은 아직 NOT_RUN.
+
+## S3 — 파일 SQLite·로컬 화면 구현 / 하드웨어 gate BLOCKED
+
+요구: M-E01~08, T07~13·T32·T34.
+SQLite WAL/synchronous=FULL, UUID·seq·이벤트·수량·취소·완료·receipt 보존,
+부팅 시 전체 로컬 이벤트 projection 재생, snapshot 충돌 격리.
+React 현장 화면은 로컬 API만 사용. ZXing 웹캠으로 QR 1개씩 읽기·스캔별 취소,
+부족 완료 차단·로컬 완료/서버 확정 분리. 번들 자원은 로컬 제공하며 CDN 없음.
+실행: 파일 SQLite 잘못된 QR·상품·초과·재취소·부족 완료, 예외 rollback,
+재다운로드·재연결·완료 잠금·늦은 ACK 수량 보존 단위 시험 PASS. 전체 빌드 PASS.
+실제 Pi/웹캠/모니터/SD 시험은 BLOCKED. 프로세스 SIGKILL은 S6 시험으로 남음.
+
+계약 보완: 재시작 후 취소할 eventId와 차단 사유를 읽을 수 있도록
+GET /local/v1/tasks/{taskId}/history, 단말 health를 OpenAPI에 추가.
+기존 스냅샷·이벤트 의미는 유지. 원본 계약은 최초 Git 커밋에 보존됨.
+
+## S4 — 동기화 구현 / 통합 장애 검증 진행
+
+요구: M-S01~08, T14~19·T23·T25·T34.
+단말 event는 이벤트별 MySQL 트랜잭션에서 receipt·seq·수량·task·report outbox를
+함께 저장하고 transactional promise가 완료된 뒤만 반환. Redis 경로 사용 없음.
+device/eventId 및 task/version/seq 유일 제약, 중복 우선 검사, 영구 거부와 일시 오류 분리.
+단말은 순서·단일 요청·작업 격리·jitter·Retry-After·5회 예산 후 수동 재시도.
+실행: 실제 MySQL ACK 직후 응답 유실 hook, 중복 payload 충돌, seq gap,
+다른 단말/버전, 부분 batch 후 throw, 중복 COMPLETE, 미완료 서버 직접 호출 PASS.
+아직 위 hook을 실제 API SIGKILL 시험과 동일하게 표시하지 않음.
+
+계약 해석: CONFIRMED는 terminal이므로 새 eventId로 뒤늦은 추가 입력은
+BLOCKED/TASK_ALREADY_CONFIRMED로 응답하고 확정·집계를 유지한다.
+committedAt/confirmedAt은 트랜잭션 마지막 저장 직전에 읽은 MySQL UTC 시각이며
+ACK는 실제 COMMIT 이후이다. DB 로그의 정확한 commit timestamp를 뜻하지 않음.
