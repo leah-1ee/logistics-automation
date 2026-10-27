@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checks": {
+    "assertions": 331,
+    "refs": 195,
+    "validated_examples": 14,
+    "operations": 27,
+    "requirements": 35,
+    "test_scenarios": 34
+  },
+  "errors": [],
+  "scope": "문서 링크·로컬 참조·스키마 사용 기능·예시·요구사항 추적 검사. 구현/데이터/성능 시험 아님."
+}

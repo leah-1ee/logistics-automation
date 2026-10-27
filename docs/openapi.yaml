@@ -1,0 +1,2736 @@
+openapi: 3.1.0
+jsonSchemaDialect: https://json-schema.org/draft/2020-12/schema
+info:
+  title: Logistics Operations MVP API
+  version: 1.0.0
+  description: 출고 작업 자동화·단말 오프라인 기록·DB 반영 receipt 계약. 2026-10-27 PRD. 구현된 서비스가 아님.
+servers:
+- url: http://127.0.0.1:3000
+  description: 개발 서버. 외부 접근 환경은 HTTPS.
+paths:
+  /api/v1/health:
+    get:
+      operationId: health_live
+      summary: 프로세스 생존 확인
+      description: ''
+      tags:
+      - health
+      security: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /api/v1/ready:
+    get:
+      operationId: health_ready
+      summary: DB readiness와 Redis degraded 상태 확인
+      description: ''
+      tags:
+      - health
+      security: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: MySQL 사용 불가
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+  /api/v1/ingestion/runs:
+    post:
+      operationId: ingestion_start
+      summary: 등록 데이터 재생 수집 시작
+      description: ''
+      tags:
+      - ingestion
+      security:
+      - adminAuth: []
+      responses:
+        '202':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionRun'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IngestionStart'
+  /api/v1/ingestion/runs/{runId}:
+    get:
+      operationId: ingestion_get
+      summary: 수집 진행 조회
+      description: ''
+      tags:
+      - ingestion
+      security:
+      - adminAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionRun'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: runId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+  /api/v1/orders:
+    get:
+      operationId: orders_list
+      summary: 주문 검색·목록
+      description: ''
+      tags:
+      - orders
+      security:
+      - adminAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderPage'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: datasetRunId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: ''
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: ''
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - RECEIVED
+          - DATA_HOLD
+          - UNSUPPORTED
+          - READY
+          - TASK_CREATED
+        description: ''
+      - name: query
+        in: query
+        required: false
+        schema:
+          type: string
+        description: ''
+  /api/v1/orders/{orderId}:
+    get:
+      operationId: orders_get
+      summary: 원본·정규화·상품 조회
+      description: ''
+      tags:
+      - orders
+      security:
+      - adminAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDetail'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+  /api/v1/orders/{orderId}/corrections:
+    post:
+      operationId: orders_correct
+      summary: 작업 생성 전 DATA_HOLD 정정
+      description: ''
+      tags:
+      - orders
+      security:
+      - adminAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderDetail'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CorrectionRequest'
+  /api/v1/tasks:
+    get:
+      operationId: tasks_list
+      summary: 작업 목록
+      description: ''
+      tags:
+      - tasks
+      security:
+      - adminAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskPage'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: datasetRunId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: ''
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: ''
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - CREATED
+          - ASSIGNED
+          - IN_PROGRESS
+          - HOLD
+          - CONFIRMED
+        description: ''
+      - name: deviceId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: ''
+  /api/v1/tasks/{taskId}:
+    get:
+      operationId: tasks_get
+      summary: 작업과 이벤트 이력
+      description: ''
+      tags:
+      - tasks
+      security:
+      - adminAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDetail'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+  /api/v1/tasks/{taskId}/assignment:
+    post:
+      operationId: tasks_assign
+      summary: 최초 단말 배정
+      description: ''
+      tags:
+      - tasks
+      security:
+      - adminAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskSnapshot'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignmentRequest'
+  /api/v1/tasks/{taskId}/notes:
+    post:
+      operationId: tasks_note
+      summary: 업무 상태를 바꾸지 않는 운영 메모
+      description: ''
+      tags:
+      - tasks
+      security:
+      - adminAuth: []
+      responses:
+        '201':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReasonRequest'
+  /api/v1/jobs:
+    get:
+      operationId: jobs_list
+      summary: 후속 작업·실패 목록
+      description: ''
+      tags:
+      - jobs
+      security:
+      - adminAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobPage'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: datasetRunId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: ''
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: ''
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - PENDING
+          - DISPATCHED
+          - DONE
+          - FAILED
+        description: ''
+  /api/v1/jobs/{jobId}/retry:
+    post:
+      operationId: jobs_retry
+      summary: 실패 작업 조건부 재시도
+      description: ''
+      tags:
+      - jobs
+      security:
+      - adminAuth: []
+      responses:
+        '202':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: jobId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReasonRequest'
+  /api/v1/devices:
+    get:
+      operationId: devices_list
+      summary: 마지막 보고 시점과 단말 상태
+      description: ''
+      tags:
+      - devices
+      security:
+      - adminAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DevicePage'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: ''
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: ''
+  /api/v1/reports/daily:
+    get:
+      operationId: reports_daily
+      summary: 서버 확정일 기준 집계
+      description: ''
+      tags:
+      - reports
+      security:
+      - adminAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DailyReport'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: datasetRunId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      - name: businessDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+        description: ''
+  /api/v1/reports/daily.csv:
+    get:
+      operationId: reports_csv
+      summary: 같은 조건의 CSV 다운로드
+      tags:
+      - reports
+      security:
+      - adminAuth: []
+      parameters:
+      - name: datasetRunId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      - name: businessDate
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date
+        description: ''
+      responses:
+        '200':
+          description: UTF-8 CSV. 주문/상품 ID는 문자열로 유지.
+          content:
+            text/csv:
+              schema:
+                type: string
+        '401':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+  /api/v1/device/tasks:
+    get:
+      operationId: device_tasks
+      summary: 인증된 단말의 배정 스냅샷
+      description: ''
+      tags:
+      - device
+      security:
+      - deviceAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SnapshotPage'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: datasetRunId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: ''
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: ''
+  /api/v1/device/events:
+    post:
+      operationId: device_events
+      summary: 순서·중복·업무 검증 후 건별 receipt
+      description: 최대100건/256KiB. HTTP200은 배치 전부 성공이 아님. 각 APPLIED/REJECTED receipt는 MySQL 커밋 후 반환.
+      tags:
+      - device
+      security:
+      - deviceAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchResult'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '413':
+          description: 요청 크기 초과
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventBatch'
+  /api/v1/device/status:
+    post:
+      operationId: device_status
+      summary: 단말 관측값 보고
+      description: ''
+      tags:
+      - device
+      security:
+      - deviceAuth: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accepted'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceStatusReport'
+  /local/v1/tasks:
+    get:
+      operationId: local_list
+      summary: SQLite 작업 목록
+      description: ''
+      tags:
+      - local
+      security: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalTaskPage'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: ''
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: ''
+      servers:
+      - url: http://127.0.0.1:3001
+  /local/v1/tasks/{taskId}:
+    get:
+      operationId: local_get
+      summary: 로컬 진행·전송 상태
+      description: ''
+      tags:
+      - local
+      security: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalTask'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      servers:
+      - url: http://127.0.0.1:3001
+  /local/v1/tasks/{taskId}/scans:
+    post:
+      operationId: local_scan
+      summary: QR 검증·스캔 기록
+      description: ''
+      tags:
+      - local
+      security: []
+      responses:
+        '201':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalActionResult'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocalScan'
+      servers:
+      - url: http://127.0.0.1:3001
+  /local/v1/tasks/{taskId}/reversals:
+    post:
+      operationId: local_reverse
+      summary: 기존 스캔 되돌리기
+      description: ''
+      tags:
+      - local
+      security: []
+      responses:
+        '201':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalActionResult'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocalReverse'
+      servers:
+      - url: http://127.0.0.1:3001
+  /local/v1/tasks/{taskId}/complete:
+    post:
+      operationId: local_complete
+      summary: 로컬 완료 기록
+      description: ''
+      tags:
+      - local
+      security: []
+      responses:
+        '201':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalActionResult'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmptyRequest'
+      servers:
+      - url: http://127.0.0.1:3001
+  /local/v1/sync/status:
+    get:
+      operationId: local_sync_status
+      summary: 전송 대기·차단 상태
+      description: ''
+      tags:
+      - local
+      security: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncStatus'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      servers:
+      - url: http://127.0.0.1:3001
+  /local/v1/sync/retry:
+    post:
+      operationId: local_retry
+      summary: 일시 실패 재시도 요청
+      description: ''
+      tags:
+      - local
+      security: []
+      responses:
+        '202':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accepted'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmptyRequest'
+      servers:
+      - url: http://127.0.0.1:3001
+  /source/v1/orders:
+    get:
+      operationId: source_orders
+      summary: 과거 실주문을 시간순으로 공개하는 모의 API
+      description: 실제 외부 운영 API가 아님. sourceAvailableAt까지 공개. empty page와 exhausted를 구분.
+      tags:
+      - source
+      security: []
+      responses:
+        '200':
+          description: 정상 응답
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SourcePage'
+        '400':
+          description: 입력 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '403':
+          description: 권한 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '409':
+          description: 상태·버전·요청 충돌
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+        '503':
+          description: 일시 장애
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      parameters:
+      - name: datasetRunId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: ''
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+        description: ''
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 200
+          default: 50
+        description: ''
+      servers:
+      - url: http://127.0.0.1:4000
+components:
+  securitySchemes:
+    adminAuth:
+      type: http
+      scheme: bearer
+      description: 운영자 token
+    deviceAuth:
+      type: http
+      scheme: bearer
+      description: 등록 단말 전용 token. deviceId와 소유권 확인
+  schemas:
+    Problem:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        requestId:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+      required:
+      - code
+      - message
+      - requestId
+      additionalProperties: false
+    Health:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ok
+          - degraded
+          - unavailable
+        database:
+          type: string
+          enum:
+          - up
+          - down
+          - not_checked
+        redis:
+          type: string
+          enum:
+          - up
+          - down
+          - not_checked
+        version:
+          type: string
+      required:
+      - status
+      - database
+      - redis
+      - version
+      additionalProperties: false
+    TaskItem:
+      type: object
+      properties:
+        productId:
+          type: string
+          pattern: ^[a-f0-9]{32}$
+        displayLabel:
+          type: string
+        requiredQty:
+          type: integer
+          minimum: 1
+        appliedQty:
+          type: integer
+          minimum: 0
+      required:
+      - productId
+      - displayLabel
+      - requiredQty
+      - appliedQty
+      additionalProperties: false
+    SnapshotItem:
+      type: object
+      properties:
+        productId:
+          type: string
+          pattern: ^[a-f0-9]{32}$
+        displayLabel:
+          type: string
+        requiredQty:
+          type: integer
+          minimum: 1
+      required:
+      - productId
+      - displayLabel
+      - requiredQty
+      additionalProperties: false
+    TaskSnapshot:
+      type: object
+      properties:
+        taskId:
+          type: string
+          format: uuid
+        datasetRunId:
+          type: string
+          format: uuid
+        externalOrderId:
+          type: string
+        assignmentVersion:
+          type: integer
+          minimum: 1
+        deviceId:
+          type: string
+          minLength: 1
+        requiredItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/SnapshotItem'
+          minItems: 1
+        snapshotHash:
+          type: string
+          pattern: ^[a-f0-9]{64}$
+        assignedAt:
+          type: string
+          format: date-time
+      required:
+      - taskId
+      - datasetRunId
+      - externalOrderId
+      - assignmentVersion
+      - deviceId
+      - requiredItems
+      - snapshotHash
+      - assignedAt
+      additionalProperties: false
+      description: 배정 후 불변. snapshotHash 자체를 제외한 모든 필드의 canonical JSON SHA-256.
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        datasetRunId:
+          type: string
+          format: uuid
+        orderId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - CREATED
+          - ASSIGNED
+          - IN_PROGRESS
+          - HOLD
+          - CONFIRMED
+        deviceId:
+          type:
+          - string
+          - 'null'
+        assignmentVersion:
+          type: integer
+          minimum: 0
+        lastProcessedSeq:
+          type: integer
+          minimum: 0
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskItem'
+          minItems: 1
+        confirmedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        holdReason:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - datasetRunId
+      - orderId
+      - status
+      - deviceId
+      - assignmentVersion
+      - lastProcessedSeq
+      - items
+      - confirmedAt
+      - holdReason
+      additionalProperties: false
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        datasetRunId:
+          type: string
+          format: uuid
+        sourceOrderId:
+          type: string
+        sourceStatus:
+          type: string
+        status:
+          type: string
+          enum:
+          - RECEIVED
+          - DATA_HOLD
+          - UNSUPPORTED
+          - READY
+          - TASK_CREATED
+        revision:
+          type: integer
+          minimum: 1
+        holdReasons:
+          type: array
+          items:
+            type: string
+        taskId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      required:
+      - id
+      - datasetRunId
+      - sourceOrderId
+      - sourceStatus
+      - status
+      - revision
+      - holdReasons
+      - taskId
+      additionalProperties: false
+    OrderDetail:
+      type: object
+      properties:
+        order:
+          $ref: '#/components/schemas/Order'
+        raw:
+          type: object
+          additionalProperties: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SnapshotItem'
+        audit:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+      required:
+      - order
+      - raw
+      - items
+      - audit
+      additionalProperties: false
+    TaskDetail:
+      type: object
+      properties:
+        task:
+          $ref: '#/components/schemas/Task'
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventResult'
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Note'
+      required:
+      - task
+      - events
+      - notes
+      additionalProperties: false
+    Job:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum:
+          - CREATE_TASK
+          - REBUILD_REPORT_DAY
+        status:
+          type: string
+          enum:
+          - PENDING
+          - DISPATCHED
+          - DONE
+          - FAILED
+        attempts:
+          type: integer
+          minimum: 0
+        errorCode:
+          type:
+          - string
+          - 'null'
+        availableAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - type
+      - status
+      - attempts
+      - errorCode
+      - availableAt
+      additionalProperties: false
+    DeviceStatusReport:
+      type: object
+      properties:
+        appVersion:
+          type: string
+        observedAt:
+          type: string
+          format: date-time
+        pendingCount:
+          type: integer
+          minimum: 0
+        blockedTaskCount:
+          type: integer
+          minimum: 0
+        oldestPendingAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      required:
+      - appVersion
+      - observedAt
+      - pendingCount
+      - blockedTaskCount
+      - oldestPendingAt
+      additionalProperties: false
+    Device:
+      type: object
+      properties:
+        id:
+          type: string
+        enabled:
+          type: boolean
+        lastSeenAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        lastReport:
+          oneOf:
+          - $ref: '#/components/schemas/DeviceStatusReport'
+          - type: 'null'
+        stale:
+          type: boolean
+      required:
+      - id
+      - enabled
+      - lastSeenAt
+      - lastReport
+      - stale
+      additionalProperties: false
+    Receipt:
+      type: object
+      properties:
+        committedAt:
+          type: string
+          format: date-time
+        processedSeq:
+          type: integer
+          minimum: 1
+        taskStatus:
+          type: string
+          enum:
+          - CREATED
+          - ASSIGNED
+          - IN_PROGRESS
+          - HOLD
+          - CONFIRMED
+        confirmedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        appliedItems:
+          type: array
+          items:
+            type: object
+            properties:
+              productId:
+                type: string
+                pattern: ^[a-f0-9]{32}$
+              quantity:
+                type: integer
+                minimum: 0
+            required:
+            - productId
+            - quantity
+            additionalProperties: false
+      required:
+      - committedAt
+      - processedSeq
+      - taskStatus
+      - confirmedAt
+      - appliedItems
+      additionalProperties: false
+    EventResult:
+      type: object
+      properties:
+        eventId:
+          type: string
+          format: uuid
+        taskId:
+          type: string
+          format: uuid
+        result:
+          type: string
+          enum:
+          - APPLIED
+          - DUPLICATE
+          - REJECTED
+          - DEFERRED
+          - BLOCKED
+        originalResult:
+          type: string
+          enum:
+          - APPLIED
+          - REJECTED
+        code:
+          type: string
+        retryable:
+          type: boolean
+        expectedSeq:
+          type: integer
+          minimum: 1
+        receipt:
+          $ref: '#/components/schemas/Receipt'
+      required:
+      - eventId
+      - taskId
+      - result
+      - code
+      - retryable
+      additionalProperties: false
+      description: APPLIED/REJECTED는 영구 receipt 필수. DUPLICATE는 originalResult와 최초 receipt 필수. DEFERRED/BLOCKED는
+        seq 미소비.
+      allOf:
+      - if:
+          properties:
+            result:
+              enum:
+              - APPLIED
+              - REJECTED
+              - DUPLICATE
+          required:
+          - result
+        then:
+          required:
+          - receipt
+      - if:
+          properties:
+            result:
+              const: DUPLICATE
+          required:
+          - result
+        then:
+          required:
+          - originalResult
+    ScanEvent:
+      type: object
+      properties:
+        eventId:
+          type: string
+          format: uuid
+        taskId:
+          type: string
+          format: uuid
+        deviceId:
+          type: string
+          minLength: 1
+        assignmentVersion:
+          type: integer
+          minimum: 1
+        seq:
+          type: integer
+          minimum: 1
+        occurredAt:
+          type: string
+          format: date-time
+        type:
+          const: SCAN_ITEM
+          type: string
+        payload:
+          type: object
+          properties:
+            productId:
+              type: string
+              pattern: ^[a-f0-9]{32}$
+            quantity:
+              type: integer
+              const: 1
+          required:
+          - productId
+          - quantity
+          additionalProperties: false
+      required:
+      - eventId
+      - taskId
+      - deviceId
+      - assignmentVersion
+      - seq
+      - occurredAt
+      - type
+      - payload
+      additionalProperties: false
+    ReverseEvent:
+      type: object
+      properties:
+        eventId:
+          type: string
+          format: uuid
+        taskId:
+          type: string
+          format: uuid
+        deviceId:
+          type: string
+          minLength: 1
+        assignmentVersion:
+          type: integer
+          minimum: 1
+        seq:
+          type: integer
+          minimum: 1
+        occurredAt:
+          type: string
+          format: date-time
+        type:
+          const: REVERSE_SCAN
+          type: string
+        payload:
+          type: object
+          properties:
+            targetEventId:
+              type: string
+              format: uuid
+          required:
+          - targetEventId
+          additionalProperties: false
+      required:
+      - eventId
+      - taskId
+      - deviceId
+      - assignmentVersion
+      - seq
+      - occurredAt
+      - type
+      - payload
+      additionalProperties: false
+    CompleteEvent:
+      type: object
+      properties:
+        eventId:
+          type: string
+          format: uuid
+        taskId:
+          type: string
+          format: uuid
+        deviceId:
+          type: string
+          minLength: 1
+        assignmentVersion:
+          type: integer
+          minimum: 1
+        seq:
+          type: integer
+          minimum: 1
+        occurredAt:
+          type: string
+          format: date-time
+        type:
+          const: COMPLETE
+          type: string
+        payload:
+          type: object
+          properties: {}
+          required: []
+          additionalProperties: false
+      required:
+      - eventId
+      - taskId
+      - deviceId
+      - assignmentVersion
+      - seq
+      - occurredAt
+      - type
+      - payload
+      additionalProperties: false
+    DeviceEvent:
+      oneOf:
+      - $ref: '#/components/schemas/ScanEvent'
+      - $ref: '#/components/schemas/ReverseEvent'
+      - $ref: '#/components/schemas/CompleteEvent'
+      discriminator:
+        propertyName: type
+        mapping:
+          SCAN_ITEM: '#/components/schemas/ScanEvent'
+          REVERSE_SCAN: '#/components/schemas/ReverseEvent'
+          COMPLETE: '#/components/schemas/CompleteEvent'
+    EventBatch:
+      type: object
+      properties:
+        batchId:
+          type: string
+          format: uuid
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceEvent'
+          minItems: 1
+          maxItems: 100
+      required:
+      - batchId
+      - events
+      additionalProperties: false
+    BatchResult:
+      type: object
+      properties:
+        batchId:
+          type: string
+          format: uuid
+        serverTime:
+          type: string
+          format: date-time
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventResult'
+          minItems: 1
+          maxItems: 100
+      required:
+      - batchId
+      - serverTime
+      - results
+      additionalProperties: false
+    IngestionStart:
+      type: object
+      properties:
+        datasetRunId:
+          type: string
+          format: uuid
+        requestId:
+          type: string
+          format: uuid
+      required:
+      - datasetRunId
+      - requestId
+      additionalProperties: false
+    IngestionRun:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        datasetRunId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - RUNNING
+          - PAUSED
+          - DONE
+          - FAILED
+        cursor:
+          type:
+          - string
+          - 'null'
+        receivedCount:
+          type: integer
+          minimum: 0
+        readyCount:
+          type: integer
+          minimum: 0
+        holdCount:
+          type: integer
+          minimum: 0
+        unsupportedCount:
+          type: integer
+          minimum: 0
+      required:
+      - id
+      - datasetRunId
+      - status
+      - cursor
+      - receivedCount
+      - readyCount
+      - holdCount
+      - unsupportedCount
+      additionalProperties: false
+    AssignmentRequest:
+      type: object
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        deviceId:
+          type: string
+          minLength: 1
+        reason:
+          type: string
+          minLength: 1
+      required:
+      - requestId
+      - deviceId
+      - reason
+      additionalProperties: false
+    CorrectionRequest:
+      type: object
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        expectedRevision:
+          type: integer
+          minimum: 1
+        reason:
+          type: string
+          minLength: 1
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              productId:
+                type: string
+                pattern: ^[a-f0-9]{32}$
+              sellerId:
+                type: string
+                minLength: 1
+              requiredQty:
+                type: integer
+                minimum: 1
+            required:
+            - productId
+            - sellerId
+            - requiredQty
+            additionalProperties: false
+          minItems: 1
+      required:
+      - requestId
+      - expectedRevision
+      - reason
+      - items
+      additionalProperties: false
+      description: 작업 미생성 DATA_HOLD만 허용. 원본 불변, revision과 감사 이력 추가. 근거 없는 값 보완 금지.
+    ReasonRequest:
+      type: object
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        reason:
+          type: string
+          minLength: 1
+      required:
+      - requestId
+      - reason
+      additionalProperties: false
+    Note:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        actorId:
+          type: string
+        reason:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - actorId
+      - reason
+      - createdAt
+      additionalProperties: false
+    DailyReport:
+      type: object
+      properties:
+        datasetRunId:
+          type: string
+          format: uuid
+        businessDate:
+          type: string
+          format: date
+        taskCount:
+          type: integer
+          minimum: 0
+        itemCount:
+          type: integer
+          minimum: 0
+        computedAt:
+          type: string
+          format: date-time
+        rebuildPending:
+          type: boolean
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              productId:
+                type: string
+                pattern: ^[a-f0-9]{32}$
+              quantity:
+                type: integer
+                minimum: 0
+            required:
+            - productId
+            - quantity
+            additionalProperties: false
+      required:
+      - datasetRunId
+      - businessDate
+      - taskCount
+      - itemCount
+      - computedAt
+      - rebuildPending
+      - products
+      additionalProperties: false
+    SourceItem:
+      type: object
+      properties:
+        sourceItemId:
+          type: integer
+          minimum: 1
+        productId:
+          type:
+          - string
+          - 'null'
+        sellerId:
+          type:
+          - string
+          - 'null'
+        shipByRaw:
+          type:
+          - string
+          - 'null'
+        category:
+          type:
+          - string
+          - 'null'
+      required:
+      - sourceItemId
+      - productId
+      - sellerId
+      - shipByRaw
+      - category
+      additionalProperties: false
+    SourceOrder:
+      type: object
+      properties:
+        sourceRecordId:
+          type: string
+          minLength: 1
+        sourceOrderId:
+          type:
+          - string
+          - 'null'
+        sourceStatus:
+          type:
+          - string
+          - 'null'
+        sourcePurchasedAtRaw:
+          type:
+          - string
+          - 'null'
+        sourceApprovedAtRaw:
+          type:
+          - string
+          - 'null'
+        sourceAvailableAt:
+          type: string
+          format: date-time
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceItem'
+        qualityFlags:
+          type: array
+          items:
+            type: string
+      required:
+      - sourceRecordId
+      - sourceOrderId
+      - sourceStatus
+      - sourcePurchasedAtRaw
+      - sourceApprovedAtRaw
+      - sourceAvailableAt
+      - items
+      - qualityFlags
+      additionalProperties: false
+    SourcePage:
+      type: object
+      properties:
+        datasetRunId:
+          type: string
+          format: uuid
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SourceOrder'
+        nextCursor:
+          type:
+          - string
+          - 'null'
+        exhausted:
+          type: boolean
+        nextPollAfterMs:
+          type: integer
+          minimum: 0
+      required:
+      - datasetRunId
+      - items
+      - nextCursor
+      - exhausted
+      - nextPollAfterMs
+      additionalProperties: false
+    LocalTask:
+      type: object
+      properties:
+        snapshot:
+          $ref: '#/components/schemas/TaskSnapshot'
+        localStatus:
+          type: string
+          enum:
+          - DOWNLOADED
+          - IN_PROGRESS
+          - LOCAL_COMPLETED
+          - SERVER_CONFIRMED
+        syncStatus:
+          type: string
+          enum:
+          - SYNCED
+          - PENDING
+          - RETRYING
+          - BLOCKED
+        nextSeq:
+          type: integer
+          minimum: 1
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskItem'
+      required:
+      - snapshot
+      - localStatus
+      - syncStatus
+      - nextSeq
+      - items
+      additionalProperties: false
+    LocalScan:
+      type: object
+      properties:
+        qrText:
+          type: string
+          minLength: 1
+      required:
+      - qrText
+      additionalProperties: false
+    LocalReverse:
+      type: object
+      properties:
+        targetEventId:
+          type: string
+          format: uuid
+      required:
+      - targetEventId
+      additionalProperties: false
+    EmptyRequest:
+      type: object
+      properties: {}
+      required: []
+      additionalProperties: false
+    LocalActionResult:
+      type: object
+      properties:
+        event:
+          $ref: '#/components/schemas/DeviceEvent'
+        task:
+          $ref: '#/components/schemas/LocalTask'
+      required:
+      - event
+      - task
+      additionalProperties: false
+    SyncStatus:
+      type: object
+      properties:
+        pendingCount:
+          type: integer
+          minimum: 0
+        blockedTaskCount:
+          type: integer
+          minimum: 0
+        lastSuccessAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        oldestPendingAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      required:
+      - pendingCount
+      - blockedTaskCount
+      - lastSuccessAt
+      - oldestPendingAt
+      additionalProperties: false
+    Accepted:
+      type: object
+      properties:
+        accepted:
+          type: boolean
+        requestId:
+          type: string
+      required:
+      - accepted
+      - requestId
+      additionalProperties: false
+    OrderPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+        nextCursor:
+          type:
+          - string
+          - 'null'
+      required:
+      - items
+      - nextCursor
+      additionalProperties: false
+    TaskPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        nextCursor:
+          type:
+          - string
+          - 'null'
+      required:
+      - items
+      - nextCursor
+      additionalProperties: false
+    JobPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Job'
+        nextCursor:
+          type:
+          - string
+          - 'null'
+      required:
+      - items
+      - nextCursor
+      additionalProperties: false
+    DevicePage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Device'
+        nextCursor:
+          type:
+          - string
+          - 'null'
+      required:
+      - items
+      - nextCursor
+      additionalProperties: false
+    LocalTaskPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocalTask'
+        nextCursor:
+          type:
+          - string
+          - 'null'
+      required:
+      - items
+      - nextCursor
+      additionalProperties: false
+    SnapshotPage:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskSnapshot'
+        nextCursor:
+          type:
+          - string
+          - 'null'
+      required:
+      - items
+      - nextCursor
+      additionalProperties: false

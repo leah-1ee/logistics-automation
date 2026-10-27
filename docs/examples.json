@@ -1,0 +1,450 @@
+{
+  "notice": "예시용으로 생성한 식별자와 주문입니다. 실제 Olist에서 추출한 주문이나 실행 결과가 아닙니다.",
+  "sourcePage": {
+    "datasetRunId": "11111111-1111-4111-8111-111111111111",
+    "items": [
+      {
+        "sourceRecordId": "cccccccccccccccccccccccccccccccc",
+        "sourceOrderId": "cccccccccccccccccccccccccccccccc",
+        "sourceStatus": "delivered",
+        "sourcePurchasedAtRaw": "2017-01-01 10:00:00",
+        "sourceApprovedAtRaw": "2017-01-01 10:05:00",
+        "sourceAvailableAt": "2026-10-27T00:00:00Z",
+        "qualityFlags": [],
+        "items": [
+          {
+            "sourceItemId": 1,
+            "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "sellerId": "dddddddddddddddddddddddddddddddd",
+            "shipByRaw": "2017-01-03 10:05:00",
+            "category": "demo_category"
+          },
+          {
+            "sourceItemId": 2,
+            "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "sellerId": "dddddddddddddddddddddddddddddddd",
+            "shipByRaw": "2017-01-03 10:05:00",
+            "category": "demo_category"
+          },
+          {
+            "sourceItemId": 3,
+            "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "sellerId": "dddddddddddddddddddddddddddddddd",
+            "shipByRaw": "2017-01-03 10:05:00",
+            "category": "demo_category"
+          }
+        ]
+      }
+    ],
+    "nextCursor": "opaque-demo-cursor",
+    "exhausted": false,
+    "nextPollAfterMs": 0
+  },
+  "taskSnapshot": {
+    "taskId": "33333333-3333-4333-8333-333333333333",
+    "datasetRunId": "11111111-1111-4111-8111-111111111111",
+    "externalOrderId": "cccccccccccccccccccccccccccccccc",
+    "assignmentVersion": 1,
+    "deviceId": "pi-01",
+    "requiredItems": [
+      {
+        "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "displayLabel": "예시 상품 A",
+        "requiredQty": 2
+      },
+      {
+        "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "displayLabel": "예시 상품 B",
+        "requiredQty": 1
+      }
+    ],
+    "assignedAt": "2026-10-27T00:00:00Z",
+    "snapshotHash": "d89a4bb888aa88ecca590317c607ea48d4c941ef3b555a5758094639ddf11b8e"
+  },
+  "events": [
+    {
+      "eventId": "10000000-0000-4000-8000-000000000001",
+      "taskId": "33333333-3333-4333-8333-333333333333",
+      "deviceId": "pi-01",
+      "assignmentVersion": 1,
+      "seq": 1,
+      "occurredAt": "2026-10-27T00:00:01Z",
+      "type": "SCAN_ITEM",
+      "payload": {
+        "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "quantity": 1
+      }
+    },
+    {
+      "eventId": "10000000-0000-4000-8000-000000000002",
+      "taskId": "33333333-3333-4333-8333-333333333333",
+      "deviceId": "pi-01",
+      "assignmentVersion": 1,
+      "seq": 2,
+      "occurredAt": "2026-10-27T00:00:02Z",
+      "type": "SCAN_ITEM",
+      "payload": {
+        "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "quantity": 1
+      }
+    },
+    {
+      "eventId": "10000000-0000-4000-8000-000000000003",
+      "taskId": "33333333-3333-4333-8333-333333333333",
+      "deviceId": "pi-01",
+      "assignmentVersion": 1,
+      "seq": 3,
+      "occurredAt": "2026-10-27T00:00:03Z",
+      "type": "REVERSE_SCAN",
+      "payload": {
+        "targetEventId": "10000000-0000-4000-8000-000000000002"
+      }
+    },
+    {
+      "eventId": "10000000-0000-4000-8000-000000000004",
+      "taskId": "33333333-3333-4333-8333-333333333333",
+      "deviceId": "pi-01",
+      "assignmentVersion": 1,
+      "seq": 4,
+      "occurredAt": "2026-10-27T00:00:04Z",
+      "type": "SCAN_ITEM",
+      "payload": {
+        "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "quantity": 1
+      }
+    },
+    {
+      "eventId": "10000000-0000-4000-8000-000000000005",
+      "taskId": "33333333-3333-4333-8333-333333333333",
+      "deviceId": "pi-01",
+      "assignmentVersion": 1,
+      "seq": 5,
+      "occurredAt": "2026-10-27T00:00:05Z",
+      "type": "SCAN_ITEM",
+      "payload": {
+        "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "quantity": 1
+      }
+    },
+    {
+      "eventId": "10000000-0000-4000-8000-000000000006",
+      "taskId": "33333333-3333-4333-8333-333333333333",
+      "deviceId": "pi-01",
+      "assignmentVersion": 1,
+      "seq": 6,
+      "occurredAt": "2026-10-27T00:00:06Z",
+      "type": "COMPLETE",
+      "payload": {}
+    }
+  ],
+  "eventHashes": {
+    "10000000-0000-4000-8000-000000000001": "53a2031401741cc50ac23d6f640ed64aa773f026663b7087792b22ac2f49596d",
+    "10000000-0000-4000-8000-000000000002": "ae679d681fa19ed2d7222871cec433f3ad9ff42c05c9984cff70c20ddb87d8b2",
+    "10000000-0000-4000-8000-000000000003": "66a3f46003e9b544bbf46999d8eee02769fd5b477a9ce077369841ccfed2a460",
+    "10000000-0000-4000-8000-000000000004": "afefe8bb811c56ce830a3fcd2379f1f120817b416d368aecd70e6b5902451a39",
+    "10000000-0000-4000-8000-000000000005": "ebeb167834628097c846f7f44ca1c2589abb6326ec285f791055fdfb57c32e45",
+    "10000000-0000-4000-8000-000000000006": "148aec825e023c5eefd79a8baf691b051a38be753ba645c3350c3d58ec7fdd4d"
+  },
+  "eventBatch": {
+    "batchId": "44444444-4444-4444-8444-444444444444",
+    "events": [
+      {
+        "eventId": "10000000-0000-4000-8000-000000000001",
+        "taskId": "33333333-3333-4333-8333-333333333333",
+        "deviceId": "pi-01",
+        "assignmentVersion": 1,
+        "seq": 1,
+        "occurredAt": "2026-10-27T00:00:01Z",
+        "type": "SCAN_ITEM",
+        "payload": {
+          "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "quantity": 1
+        }
+      },
+      {
+        "eventId": "10000000-0000-4000-8000-000000000002",
+        "taskId": "33333333-3333-4333-8333-333333333333",
+        "deviceId": "pi-01",
+        "assignmentVersion": 1,
+        "seq": 2,
+        "occurredAt": "2026-10-27T00:00:02Z",
+        "type": "SCAN_ITEM",
+        "payload": {
+          "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "quantity": 1
+        }
+      },
+      {
+        "eventId": "10000000-0000-4000-8000-000000000003",
+        "taskId": "33333333-3333-4333-8333-333333333333",
+        "deviceId": "pi-01",
+        "assignmentVersion": 1,
+        "seq": 3,
+        "occurredAt": "2026-10-27T00:00:03Z",
+        "type": "REVERSE_SCAN",
+        "payload": {
+          "targetEventId": "10000000-0000-4000-8000-000000000002"
+        }
+      },
+      {
+        "eventId": "10000000-0000-4000-8000-000000000004",
+        "taskId": "33333333-3333-4333-8333-333333333333",
+        "deviceId": "pi-01",
+        "assignmentVersion": 1,
+        "seq": 4,
+        "occurredAt": "2026-10-27T00:00:04Z",
+        "type": "SCAN_ITEM",
+        "payload": {
+          "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "quantity": 1
+        }
+      },
+      {
+        "eventId": "10000000-0000-4000-8000-000000000005",
+        "taskId": "33333333-3333-4333-8333-333333333333",
+        "deviceId": "pi-01",
+        "assignmentVersion": 1,
+        "seq": 5,
+        "occurredAt": "2026-10-27T00:00:05Z",
+        "type": "SCAN_ITEM",
+        "payload": {
+          "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "quantity": 1
+        }
+      },
+      {
+        "eventId": "10000000-0000-4000-8000-000000000006",
+        "taskId": "33333333-3333-4333-8333-333333333333",
+        "deviceId": "pi-01",
+        "assignmentVersion": 1,
+        "seq": 6,
+        "occurredAt": "2026-10-27T00:00:06Z",
+        "type": "COMPLETE",
+        "payload": {}
+      }
+    ]
+  },
+  "appliedResult": {
+    "eventId": "10000000-0000-4000-8000-000000000006",
+    "taskId": "33333333-3333-4333-8333-333333333333",
+    "result": "APPLIED",
+    "code": "OK",
+    "retryable": false,
+    "receipt": {
+      "committedAt": "2026-10-27T00:00:08Z",
+      "processedSeq": 6,
+      "taskStatus": "CONFIRMED",
+      "confirmedAt": "2026-10-27T00:00:08Z",
+      "appliedItems": [
+        {
+          "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "quantity": 2
+        },
+        {
+          "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "quantity": 1
+        }
+      ]
+    }
+  },
+  "duplicateResult": {
+    "eventId": "10000000-0000-4000-8000-000000000006",
+    "taskId": "33333333-3333-4333-8333-333333333333",
+    "result": "DUPLICATE",
+    "code": "OK",
+    "retryable": false,
+    "receipt": {
+      "committedAt": "2026-10-27T00:00:08Z",
+      "processedSeq": 6,
+      "taskStatus": "CONFIRMED",
+      "confirmedAt": "2026-10-27T00:00:08Z",
+      "appliedItems": [
+        {
+          "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "quantity": 2
+        },
+        {
+          "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "quantity": 1
+        }
+      ]
+    },
+    "originalResult": "APPLIED"
+  },
+  "sequenceGapResult": {
+    "eventId": "10000000-0000-4000-8000-000000000002",
+    "taskId": "33333333-3333-4333-8333-333333333333",
+    "result": "DEFERRED",
+    "code": "SEQUENCE_GAP",
+    "retryable": true,
+    "expectedSeq": 1
+  },
+  "reuseConflictResult": {
+    "eventId": "10000000-0000-4000-8000-000000000001",
+    "taskId": "33333333-3333-4333-8333-333333333333",
+    "result": "BLOCKED",
+    "code": "EVENT_ID_REUSED",
+    "retryable": false
+  },
+  "batchResult": {
+    "batchId": "44444444-4444-4444-8444-444444444444",
+    "serverTime": "2026-10-27T00:00:17Z",
+    "results": [
+      {
+        "eventId": "10000000-0000-4000-8000-000000000001",
+        "taskId": "33333333-3333-4333-8333-333333333333",
+        "result": "APPLIED",
+        "code": "OK",
+        "retryable": false,
+        "receipt": {
+          "committedAt": "2026-10-27T00:00:11Z",
+          "processedSeq": 1,
+          "taskStatus": "IN_PROGRESS",
+          "confirmedAt": null,
+          "appliedItems": [
+            {
+              "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "quantity": 1
+            },
+            {
+              "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "quantity": 0
+            }
+          ]
+        }
+      },
+      {
+        "eventId": "10000000-0000-4000-8000-000000000002",
+        "taskId": "33333333-3333-4333-8333-333333333333",
+        "result": "APPLIED",
+        "code": "OK",
+        "retryable": false,
+        "receipt": {
+          "committedAt": "2026-10-27T00:00:12Z",
+          "processedSeq": 2,
+          "taskStatus": "IN_PROGRESS",
+          "confirmedAt": null,
+          "appliedItems": [
+            {
+              "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "quantity": 2
+            },
+            {
+              "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "quantity": 0
+            }
+          ]
+        }
+      },
+      {
+        "eventId": "10000000-0000-4000-8000-000000000003",
+        "taskId": "33333333-3333-4333-8333-333333333333",
+        "result": "APPLIED",
+        "code": "OK",
+        "retryable": false,
+        "receipt": {
+          "committedAt": "2026-10-27T00:00:13Z",
+          "processedSeq": 3,
+          "taskStatus": "IN_PROGRESS",
+          "confirmedAt": null,
+          "appliedItems": [
+            {
+              "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "quantity": 1
+            },
+            {
+              "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "quantity": 0
+            }
+          ]
+        }
+      },
+      {
+        "eventId": "10000000-0000-4000-8000-000000000004",
+        "taskId": "33333333-3333-4333-8333-333333333333",
+        "result": "APPLIED",
+        "code": "OK",
+        "retryable": false,
+        "receipt": {
+          "committedAt": "2026-10-27T00:00:14Z",
+          "processedSeq": 4,
+          "taskStatus": "IN_PROGRESS",
+          "confirmedAt": null,
+          "appliedItems": [
+            {
+              "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "quantity": 2
+            },
+            {
+              "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "quantity": 0
+            }
+          ]
+        }
+      },
+      {
+        "eventId": "10000000-0000-4000-8000-000000000005",
+        "taskId": "33333333-3333-4333-8333-333333333333",
+        "result": "APPLIED",
+        "code": "OK",
+        "retryable": false,
+        "receipt": {
+          "committedAt": "2026-10-27T00:00:15Z",
+          "processedSeq": 5,
+          "taskStatus": "IN_PROGRESS",
+          "confirmedAt": null,
+          "appliedItems": [
+            {
+              "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "quantity": 2
+            },
+            {
+              "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "quantity": 1
+            }
+          ]
+        }
+      },
+      {
+        "eventId": "10000000-0000-4000-8000-000000000006",
+        "taskId": "33333333-3333-4333-8333-333333333333",
+        "result": "APPLIED",
+        "code": "OK",
+        "retryable": false,
+        "receipt": {
+          "committedAt": "2026-10-27T00:00:16Z",
+          "processedSeq": 6,
+          "taskStatus": "CONFIRMED",
+          "confirmedAt": "2026-10-27T00:00:16Z",
+          "appliedItems": [
+            {
+              "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "quantity": 2
+            },
+            {
+              "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "quantity": 1
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "normalizationExpected": {
+    "productQuantities": {
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": 2,
+      "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb": 1
+    },
+    "sellerCount": 1
+  },
+  "configDefaults": {
+    "sourcePageSize": 200,
+    "adminDefaultLimit": 50,
+    "adminMaxLimit": 200,
+    "syncBatchMaxEvents": 100,
+    "syncBodyMaxBytes": 262144,
+    "syncBackoffMinSeconds": 1,
+    "syncBackoffMaxSeconds": 60,
+    "localAckRetentionDays": 7
+  }
+}
