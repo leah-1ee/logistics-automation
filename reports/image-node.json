@@ -1,0 +1,6 @@
+{
+  "repository": "node",
+  "tag": "24.22.1-bookworm-slim",
+  "digest": "sha256:2dd9a4f758e173b65fee15388f7706af6fb01ef50cf7a2c0538711d67a6981ae",
+  "compressedBytes": 81042384
+}

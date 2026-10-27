@@ -1,0 +1,18 @@
+name: MVP contracts and software checks
+on: [push, pull_request]
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 24.22.1, cache: npm}
+      - run: npm ci --ignore-scripts
+      - run: npm run verify:documents
+      - run: npm test
+      - run: npm run build
+      - run: python3 tools/init-env.py
+      - run: docker compose up -d --wait mysql redis
+      - run: npm run migrate
+      - run: npm run seed
+      - run: npm run test:integration

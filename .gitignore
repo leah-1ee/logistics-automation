@@ -1,0 +1,15 @@
+node_modules/
+.tools/
+.env
+.env.*
+!.env.example
+data/
+var/
+dist/
+coverage/
+*.sqlite*
+*.log
+reports/olist-metadata.json
+reports/olist-download-page.html
+reports/olist-files.json
+reports/runtime/

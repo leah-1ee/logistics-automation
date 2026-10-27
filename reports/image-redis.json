@@ -1,0 +1,6 @@
+{
+  "repository": "redis",
+  "tag": "7.4-alpine",
+  "digest": "sha256:1cf73a2f04808e55a8bd2f5706c2aa0ebb0f71938f93deb7af79f48311cd5cb9",
+  "compressedBytes": 16243847
+}

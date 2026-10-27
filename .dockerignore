@@ -1,0 +1,8 @@
+.git
+.env*
+data
+var
+.tools
+node_modules
+reports
+dist

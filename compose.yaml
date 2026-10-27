@@ -1,0 +1,68 @@
+name: logistics-mvp
+x-app: &app
+  build: .
+  env_file: .env
+  environment: &appenv
+    MYSQL_HOST: mysql
+    MYSQL_PORT: 3306
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
+    SOURCE_URL: http://source:3100
+    API_HOST: 0.0.0.0
+  volumes:
+    - ./data:/app/data:ro
+  restart: unless-stopped
+services:
+  mysql:
+    image: mysql:8.4@sha256:2068651a18ac6048578647ea57b940ca2daed3f504ebe7fba6a93beeb39aaa1f
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports: ["127.0.0.1:${MYSQL_PORT:-3307}:3306"]
+    volumes: ["mysql-data:/var/lib/mysql"]
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=$$MYSQL_PASSWORD mysql -h 127.0.0.1 -u$$MYSQL_USER -e 'SELECT 1' $$MYSQL_DATABASE"]
+      interval: 5s
+      timeout: 3s
+      retries: 40
+    restart: unless-stopped
+  redis:
+    image: redis:7.4-alpine@sha256:1cf73a2f04808e55a8bd2f5706c2aa0ebb0f71938f93deb7af79f48311cd5cb9
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    ports: ["127.0.0.1:${REDIS_PORT:-6380}:6379"]
+    volumes: ["redis-data:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+  migrate:
+    <<: *app
+    command: ["node", "dist/tools/migrate.js"]
+    restart: "no"
+    depends_on:
+      mysql: {condition: service_healthy}
+  api:
+    <<: *app
+    command: ["node", "dist/src/server/main.js"]
+    ports: ["127.0.0.1:3000:3000"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+  worker:
+    <<: *app
+    command: ["node", "dist/src/server/worker-main.js"]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+  source:
+    <<: *app
+    command: ["node", "dist/src/source/main.js"]
+    environment:
+      <<: *appenv
+      SOURCE_HOST: 0.0.0.0
+    ports: ["127.0.0.1:3100:3100"]
+volumes:
+  mysql-data:
+  redis-data:

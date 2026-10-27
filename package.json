@@ -1,0 +1,52 @@
+{
+  "name": "logistics-operations-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.22.1 <25"
+  },
+  "scripts": {
+    "build": "tsc && vite build --config web/vite.config.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "test:integration": "node --import tsx --test --test-concurrency=1 tests/integration/*.test.ts",
+    "start": "node --env-file=.env dist/src/server/main.js",
+    "dev": "node --import tsx --env-file=.env src/server/main.ts",
+    "worker": "node --import tsx --env-file=.env src/server/worker-main.ts",
+    "source": "node --import tsx --env-file=.env src/source/main.ts",
+    "device": "node --import tsx --env-file=.env src/device/main.ts",
+    "migrate": "node --import tsx --env-file=.env tools/migrate.ts",
+    "seed": "node --import tsx --env-file=.env tools/seed.ts",
+    "prepare:data": "node --import tsx --env-file=.env tools/prepare-data.ts",
+    "ingest": "node --import tsx --env-file=.env tools/ingest.ts",
+    "reconcile": "node --import tsx --env-file=.env tools/reconcile.ts",
+    "verify:documents": "node --import tsx tools/check-documents.ts"
+  },
+  "dependencies": {
+    "@nestjs/common": "12.2.0",
+    "@nestjs/core": "12.2.0",
+    "@nestjs/platform-express": "12.2.0",
+    "@mikro-orm/core": "7.2.5",
+    "@mikro-orm/mysql": "7.2.5",
+    "@zxing/browser": "0.2.1",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "bullmq": "6.5.0",
+    "csv-parse": "7.0.3",
+    "ioredis": "6.0.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vite": "8.3.5"
+  }
+}
