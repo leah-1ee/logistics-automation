@@ -24,5 +24,12 @@ test('T01/T02/T03/T04/T32 MySQL page replay, rollback, checkpoint and conflict e
     assert.equal((typeof r.payload==='string'?JSON.parse(r.payload):r.payload).items[0].productId,'a'.repeat(32));
     assert.equal((await ingestionStatus(db,runId)).holdCount,1);
     const conflicts=await connection(db).execute('SELECT * FROM source_conflicts c JOIN raw_orders r ON r.id=c.raw_order_id WHERE r.run_id=?',[runId]);assert.equal(conflicts.length,1);
+    const aliasRun=await register(db);const second={...structuredClone(raw),sourceRecordId:'e'.repeat(32),sourceOrderId:'e'.repeat(32)};
+    await ingestPage(db,aliasRun.runId,sourcePage(aliasRun.runId,[raw,second],false),null);
+    const alias={...structuredClone(raw),sourceOrderId:second.sourceOrderId};
+    await ingestPage(db,aliasRun.runId,sourcePage(aliasRun.runId,[alias]),'next');
+    assert.equal((await ingestionStatus(db,aliasRun.runId)).receivedCount,2);
+    assert.equal((await ingestionStatus(db,aliasRun.runId)).holdCount,2);
+    const both=await connection(db).execute('SELECT c.id FROM source_conflicts c JOIN raw_orders r ON r.id=c.raw_order_id WHERE r.run_id=?',[aliasRun.runId]);assert.equal(both.length,2);
   }finally{await db.close(true);}
 });

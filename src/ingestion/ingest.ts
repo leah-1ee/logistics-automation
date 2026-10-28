@@ -23,11 +23,13 @@ export async function ingestPage(db:Db,runId:string,page:any,expectedCursor:stri
     for(const source of page.items) {
       if(typeof source.sourceRecordId!=='string'||!source.sourceRecordId||!Array.isArray(source.items))throw new Problem('INVALID_SOURCE_ENVELOPE',400);
       const digest=hash(source);
-      const [existing]=await tx.execute('SELECT * FROM raw_orders WHERE run_id=? AND source=? AND (source_record_id=? OR external_order_id=?) FOR UPDATE',[runId,'olist',source.sourceRecordId,source.sourceOrderId]);
-      if(existing) {
-        if(existing.payload_hash!==digest) {
-          await tx.execute('INSERT INTO source_conflicts VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE id=id',[randomUUID(),existing.id,digest,JSON.stringify(source),now()]);
-          const [order]=await tx.execute('SELECT * FROM orders WHERE raw_order_id=? FOR UPDATE',[existing.id]);
+      const byKey=await tx.execute('SELECT * FROM raw_orders WHERE run_id=? AND source=? AND source_record_id=? FOR UPDATE',[runId,'olist',source.sourceRecordId]);
+      const byExternal=source.sourceOrderId?await tx.execute('SELECT * FROM raw_orders WHERE run_id=? AND source=? AND external_order_id=? FOR UPDATE',[runId,'olist',source.sourceOrderId]):[];
+      const existing=[...new Map([...byKey,...byExternal].map((row:any)=>[row.id,row])).values()] as any[];
+      if(existing.length) {
+        for(const record of existing)if(record.payload_hash!==digest) {
+          await tx.execute('INSERT INTO source_conflicts VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE id=id',[randomUUID(),record.id,digest,JSON.stringify(source),now()]);
+          const [order]=await tx.execute('SELECT * FROM orders WHERE raw_order_id=? FOR UPDATE',[record.id]);
           if(order.status!=='TASK_CREATED')await tx.execute('UPDATE orders SET status=?,hold_reasons=? WHERE id=?',['DATA_HOLD',JSON.stringify([...new Set([...parseJson(order.hold_reasons),'SOURCE_KEY_CONFLICT'])]),order.id]);
         }
         continue;

@@ -1,0 +1,7 @@
+{
+  "scope": "Actual MySQL 8.4 plan observed during Olist v2 ingestion; source values omitted",
+  "before": {"predicate": "source_record_id=? OR external_order_id=? with run/source", "accessType": "ref", "estimatedRows": 7233, "keyLength": 274},
+  "after": {"predicate": "separate exact unique-key lookups with run/source", "accessType": "const", "estimatedRowsPerLookup": 1, "keyLength": 996},
+  "preservation": "No original CSV or committed raw record reset; resume existing DB checkpoint",
+  "checks": "Same-key conflicts and crossed-identity conflicts tested against MySQL; full reconciliation remains required"
+}
