@@ -11,8 +11,11 @@ const prepared=new DatabaseSync(process.env.PREPARED_DB!,{readOnly:true});
 const manifest=JSON.parse((prepared.prepare("SELECT value FROM meta WHERE key='manifest'").get() as any).value);prepared.close();
 if(manifest.synthetic||manifest.datasetVersion!=='olist-v2'){console.error('F1 BLOCKED: actual Olist v2 manifest required; synthetic input refused');process.exit(2);}
 const db=await connectDb(),runId=process.env.DATASET_RUN_ID!,deviceId=process.env.DEVICE_ID!,root=process.env.SERVER_URL!;
+const trial=process.env.F1_TRIAL||'';
+if(trial&&!/^[a-zA-Z0-9_-]{1,64}$/.test(trial))throw new Error('F1_TRIAL must be a safe 1..64 character label');
+const artifactKey=runId+(trial?'-'+trial:'');
 mkdirSync('var',{recursive:true});mkdirSync('reports',{recursive:true});
-const planPath=`var/f1-${runId}.json`,local=new LocalStore(`var/f1-${runId}.sqlite`,deviceId);
+const planPath=`var/f1-${artifactKey}.json`,local=new LocalStore(`var/f1-${artifactKey}.sqlite`,deviceId);
 const started=performance.now();let deliveries=0,droppedResponses=0;
 async function admin(path:string,body:any) {
   const r=await fetch(new URL('/api/v1/'+path,root),{method:'POST',headers:{Authorization:'Bearer '+process.env.ADMIN_TOKEN,'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(15000)});
@@ -29,10 +32,10 @@ try {
     if(checkpoint?.status!=='DONE'||Number(pending.n)!==0)throw new Error('F1 BLOCKED: ingestion and task generation must drain before deterministic selection');
     const tasks=await c.execute("SELECT t.id,o.source_order_id FROM tasks t JOIN orders o ON o.id=t.order_id WHERE t.run_id=? AND t.status='CREATED' ORDER BY o.source_order_id LIMIT 1000",[runId]);
     if(tasks.length!==1000)throw new Error('F1 BLOCKED: 1000 eligible unassigned actual orders required; do not relax filters');
-    plan={datasetRunId:runId,deviceId,manifestHash:hash(manifest),seed:42,selection:'sourceOrderId lexical ascending',actions:'SIMULATED_WAREHOUSE_NOT_PHYSICAL',createdAt:now(),tasks:tasks.map((t:any,index:number)=>({taskId:t.id,sourceOrderId:t.source_order_id,requestId:randomUUID(),dropResponse:index%10===0}))};
+    plan={datasetRunId:runId,deviceId,trial,manifestHash:hash(manifest),seed:42,selection:'sourceOrderId lexical ascending',actions:'SIMULATED_WAREHOUSE_NOT_PHYSICAL',createdAt:now(),tasks:tasks.map((t:any,index:number)=>({taskId:t.id,sourceOrderId:t.source_order_id,requestId:randomUUID(),dropResponse:index%10===0}))};
     writeFileSync(planPath,JSON.stringify(plan,null,2)+'\n',{flag:'wx',mode:0o600});
   }
-  if(plan.datasetRunId!==runId||plan.deviceId!==deviceId||plan.manifestHash!==hash(manifest)||plan.tasks.length!==1000)throw new Error('F1 plan mismatch; refusing reset');
+  if(plan.datasetRunId!==runId||plan.deviceId!==deviceId||(plan.trial||'')!==trial||plan.manifestHash!==hash(manifest)||plan.tasks.length!==1000)throw new Error('F1 plan mismatch; refusing reset');
   const dropTasks=new Set(plan.tasks.filter((t:any)=>t.dropResponse).map((t:any)=>t.taskId));
   const transport:typeof fetch=async(url,init)=>{
     const events=init?.body?JSON.parse(String(init.body)).events:undefined;
@@ -80,6 +83,6 @@ try {
     const [report]=await c.execute('SELECT * FROM report_daily WHERE run_id=? AND business_date=?',[runId,day.business_date]);
     if(!report||report.task_count!==Number(day.task_count)||report.item_count!==Number(day.item_count))throw new Error('F1 daily report reconciliation failed');
   }
-  const report={status:'PASS',test:'T27',input:'ACTUAL_OLIST_V2',actions:'SIMULATED_SOFTWARE_WAREHOUSE',hardware:'BLOCKED_UNTIL_T29',datasetRunId:runId,manifestHash:hash(manifest),planSha256:sha256(readFileSync(planPath)),taskCount:1000,itemCount:selectedItems,uniqueEvents:events,deliveriesThisInvocation:deliveries,droppedResponsesThisInvocation:droppedResponses,localPending:local.syncStatus().pendingCount,elapsedSeconds:(performance.now()-started)/1000,codeCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),lockfileSha256:sha256(readFileSync('package-lock.json')),at:now()};
-  writeFileSync('reports/f1-'+runId+'.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
+  const report={status:'PASS',test:'T27',input:'ACTUAL_OLIST_V2',actions:'SIMULATED_SOFTWARE_WAREHOUSE',hardware:'BLOCKED_UNTIL_T29',datasetRunId:runId,trial,manifestHash:hash(manifest),planSha256:sha256(readFileSync(planPath)),taskCount:1000,itemCount:selectedItems,uniqueEvents:events,deliveriesThisInvocation:deliveries,droppedResponsesThisInvocation:droppedResponses,localPending:local.syncStatus().pendingCount,elapsedSeconds:(performance.now()-started)/1000,codeCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),lockfileSha256:sha256(readFileSync('package-lock.json')),replayScriptSha256:sha256(readFileSync('tools/replay-actual.ts')),at:now()};
+  writeFileSync('reports/f1-'+artifactKey+'.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
 }finally{local.close();await db.close(true);}

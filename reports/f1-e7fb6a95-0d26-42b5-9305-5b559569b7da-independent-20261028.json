@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "test": "T27",
+  "input": "ACTUAL_OLIST_V2",
+  "actions": "SIMULATED_SOFTWARE_WAREHOUSE",
+  "hardware": "BLOCKED_UNTIL_T29",
+  "datasetRunId": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+  "trial": "independent-20261028",
+  "manifestHash": "045f68b607813ed2bdfeb6c5e1afe40d038ed67042a96483221ef0492d505e31",
+  "planSha256": "cc423c49f1c43b3d6a05a89c57eb8b3356578d3b51aa5f2cc5d602b499c0d33f",
+  "taskCount": 1000,
+  "itemCount": 1134,
+  "uniqueEvents": 2134,
+  "deliveriesThisInvocation": 2350,
+  "droppedResponsesThisInvocation": 100,
+  "localPending": 0,
+  "elapsedSeconds": 400.252974355,
+  "codeCommit": "8afc8b98c6689b1cae76ef5ad92eb6fb83f843e7",
+  "lockfileSha256": "4cf789861217e64c793a9ddbe73f5b4b608d0a92486fd4c730431f4e5c68ab1e",
+  "replayScriptSha256": "e5d91addec3f7f81f349d42965affe65b52590a6c128cf73c5990351378bdb77",
+  "at": "2026-10-28T04:52:40.468Z"
+}

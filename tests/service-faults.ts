@@ -40,7 +40,7 @@ try {
   docker('start','--wait','mysql');await ready(200,'up');
   const recovered=await fetch(root+'/api/v1/device/events',{method:'POST',headers:{Authorization:'Bearer '+a.token,'Content-Type':'application/json'},body:JSON.stringify({batchId:randomUUID(),events:[pending]})});const receipt=await recovered.json();assert.equal(receipt.results[0].result,'APPLIED');local.accept(receipt.results[0]);assert.equal(local.syncStatus().pendingCount,0);
   results.push({test:'T23/T31',status:'PASS',evidence:'MySQL stopped: ready503, no success ACK, SQLite restart preserves scan; after restart real HTTP sync agrees'});
-  writeFileSync('reports/service-faults.json',JSON.stringify({at:new Date().toISOString(),data:'SYNTHETIC fixtures',hardware:'BLOCKED',results},null,2)+'\n');console.log(JSON.stringify(results));
+  writeFileSync(process.env.SERVICE_FAULT_REPORT||'reports/service-faults.json',JSON.stringify({at:new Date().toISOString(),data:'SYNTHETIC fixtures',hardware:'BLOCKED',results},null,2)+'\n');console.log(JSON.stringify(results));
 }finally {
   // Always restore availability; never remove containers or volumes.
   docker('start','--wait','mysql','redis');if(worker)await worker.close();local?.close();await queue.close();server.kill('SIGTERM');await Promise.race([once(server,'exit'),new Promise(r=>setTimeout(r,3000))]);if(server.exitCode===null)server.kill('SIGKILL');await db.close(true);

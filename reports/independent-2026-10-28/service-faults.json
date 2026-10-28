@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-28T04:40:05.920Z",
+  "data": "SYNTHETIC fixtures",
+  "hardware": "BLOCKED",
+  "results": [
+    {
+      "test": "T20",
+      "status": "PASS",
+      "evidence": "Redis stopped; source page committed and real HTTP event ACK after MySQL commit; ready degraded"
+    },
+    {
+      "test": "T21",
+      "status": "PASS",
+      "evidence": "Redis restarted; DB outbox dispatched through real BullMQ worker and exactly one task created"
+    },
+    {
+      "test": "T23/T31",
+      "status": "PASS",
+      "evidence": "MySQL stopped: ready503, no success ACK, SQLite restart preserves scan; after restart real HTTP sync agrees"
+    }
+  ]
+}
