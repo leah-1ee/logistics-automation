@@ -66,6 +66,7 @@ def main():
  manifest['importConfigHash']=hashlib.sha256(b'csv-stream-v1;row-count-qty;raw-preserved').hexdigest()
  # Source rows remain untouched; order serving uses a stable indexed virtual sort.
  db.execute('CREATE INDEX order_sort ON orders(sort_time,source_key,position)')
+ db.execute('CREATE INDEX order_source_key ON orders(source_key)')
  manifest['orphanItemRows']=db.execute("SELECT COUNT(*) FROM items i WHERE NOT EXISTS(SELECT 1 FROM orders o WHERE o.source_key=i.order_id)").fetchone()[0]
  db.execute('INSERT INTO meta VALUES(?,?)',('manifest',json.dumps(manifest)));db.commit()
  db.execute('PRAGMA wal_checkpoint(TRUNCATE)');db.execute('PRAGMA journal_mode=DELETE');db.close()

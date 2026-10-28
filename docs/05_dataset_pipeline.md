@@ -38,6 +38,11 @@ datasetVersion, downloadedAt, sourceUrl, licenseNotice, fileNames, fileSha256, f
 누락/잘못된 sourceItemId는 source 계약에서 null로 전달하고 DATA_HOLD로 분류하며,
 정확한 원문 값은 불변 CSV와 준비 인덱스 source_rows에서 복원합니다.
 
+원본 규모 검증 보완(2026-10-28): 부모 주문 대사는 source_key 전용 인덱스를 사용합니다.
+중량·치수의 결측/비양수/비정상 숫자는 상품 품질 flag로 보존하고, 상품 ID·수량이
+유효한 작업을 그 사유만으로 제외하지 않습니다. 최초 대사가 전수 반복 탐색하던
+미완료 준비 인덱스는 보존하고, 새 출력 파일로 재준비했습니다.
+
 ## 4. 필드 매핑
 
 | 원본 | 내부 사용 | 규칙 |

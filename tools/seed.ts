@@ -30,11 +30,13 @@ try {
       });
       writeFileSync('manifests/scenario-'+runId+'.json',JSON.stringify({...replay.scenario,scenarioHash:replay.scenarioHash},null,2)+'\n');
     }finally{replay.close();}
+    let productsImported=0,sellersImported=0;
     for(const row of source.prepare('SELECT * FROM products').iterate() as Iterable<any>) {
       const p=JSON.parse(row.payload);
       await transaction(db,async tx=>{await tx.execute('INSERT INTO products VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE product_id=product_id',[runId,row.id,p.product_category_name||null,row.payload]);});
+      if(++productsImported%5000===0)console.log('File-loaded product master records',productsImported);
     }
-    for(const row of source.prepare('SELECT * FROM sellers').iterate() as Iterable<any>) await transaction(db,async tx=>{await tx.execute('INSERT INTO sellers VALUES(?,?) ON DUPLICATE KEY UPDATE seller_id=seller_id',[runId,row.id]);});
-    console.log('Registered dataset and file-loaded masters',runId,manifest.synthetic?'SYNTHETIC':'ACTUAL OLIST');
+    for(const row of source.prepare('SELECT * FROM sellers').iterate() as Iterable<any>){await transaction(db,async tx=>{await tx.execute('INSERT INTO sellers VALUES(?,?) ON DUPLICATE KEY UPDATE seller_id=seller_id',[runId,row.id]);});sellersImported++;}
+    console.log('Registered dataset and file-loaded masters',runId,manifest.synthetic?'SYNTHETIC':'ACTUAL OLIST',{productsImported,sellersImported});
   } finally{source.close();}
 } finally{await db.close(true);}

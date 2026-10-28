@@ -26,7 +26,16 @@ export class Source {
       const t=Date.parse(row.sort_time.replace(' ','T')+'Z');
       const available=anchor+Math.max(0,Number.isFinite(t)?Math.floor((t-origin)/this.scenario.replaySpeed):0);
       const sourceItems=this.db.prepare('SELECT i.*,p.payload FROM items i LEFT JOIN products p ON p.id=i.product_id WHERE i.order_id=? ORDER BY CAST(i.source_item_id AS INTEGER),i.rowid').all(raw.order_id) as any[];
-      return {sourceRecordId:row.source_key,sourceOrderId:raw.order_id||null,sourceStatus:raw.order_status||null,sourcePurchasedAtRaw:raw.order_purchase_timestamp||null,sourceApprovedAtRaw:raw.order_approved_at||null,sourceAvailableAt:new Date(available).toISOString(),qualityFlags:[],
+      const qualityFlags=new Set<string>();
+      for(const item of sourceItems)if(item.payload){
+        const product=JSON.parse(item.payload);
+        for(const field of ['product_weight_g','product_length_cm','product_height_cm','product_width_cm']){
+          const value=product[field];
+          if(value===undefined||value===null||value==='')qualityFlags.add(field.toUpperCase()+'_MISSING');
+          else if(!Number.isFinite(Number(value))||Number(value)<=0)qualityFlags.add(field.toUpperCase()+'_INVALID');
+        }
+      }
+      return {sourceRecordId:row.source_key,sourceOrderId:raw.order_id||null,sourceStatus:raw.order_status||null,sourcePurchasedAtRaw:raw.order_purchase_timestamp||null,sourceApprovedAtRaw:raw.order_approved_at||null,sourceAvailableAt:new Date(available).toISOString(),qualityFlags:[...qualityFlags].sort(),
         items:sourceItems.map(i=>({sourceItemId:Number.isInteger(Number(i.source_item_id))&&Number(i.source_item_id)>0?Number(i.source_item_id):null,productId:i.product_id||null,sellerId:i.seller_id||null,shipByRaw:i.ship_by||null,category:i.payload?JSON.parse(i.payload).product_category_name||null:null}))};
     });
     // Fixed page boundaries ensure every non-empty cursor response is reproducible.

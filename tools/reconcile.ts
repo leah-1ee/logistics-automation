@@ -16,6 +16,8 @@ try{
   const [raw]=await c.execute('SELECT COUNT(*) n FROM raw_orders WHERE run_id=?',[runId]);
   const statuses=await c.execute('SELECT status,COUNT(*) n FROM orders WHERE run_id=? GROUP BY status',[runId]);
   const counts=Object.fromEntries(statuses.map((r:any)=>[r.status,Number(r.n)]));
+  const classificationReasons=await c.execute("SELECT o.status,r.reason,COUNT(*) recordCount FROM orders o JOIN JSON_TABLE(o.hold_reasons,'$[*]' COLUMNS(reason VARCHAR(128) PATH '$')) r ON TRUE WHERE o.run_id=? GROUP BY o.status,r.reason ORDER BY o.status,r.reason",[runId]);
+  const qualityFlags=await c.execute("SELECT f.flag,COUNT(*) recordCount FROM orders o JOIN JSON_TABLE(o.quality_flags,'$[*]' COLUMNS(flag VARCHAR(128) PATH '$')) f ON TRUE WHERE o.run_id=? GROUP BY f.flag ORDER BY f.flag",[runId]);
   const [tasks]=await c.execute('SELECT COUNT(*) n FROM tasks WHERE run_id=?',[runId]);
   const [unfinished]=await c.execute("SELECT COUNT(*) n FROM outbox_jobs WHERE run_id=? AND status<>'DONE'",[runId]);
   const [master]=await c.execute('SELECT COUNT(*) n FROM products WHERE run_id=?',[runId]);
@@ -42,6 +44,6 @@ try{
   }
   const reports=await c.execute('SELECT * FROM report_daily WHERE run_id=?',[runId]);
   for(const r of reports){const [actual]=await c.execute("SELECT COUNT(DISTINCT t.id) tasks,COALESCE(SUM(i.applied_qty),0) items FROM tasks t JOIN task_items i ON i.task_id=t.id WHERE t.run_id=? AND t.business_date=? AND t.status='CONFIRMED'",[runId,r.business_date]);if(Number(actual.tasks)!==r.task_count||Number(actual.items)!==r.item_count)errors.push('REPORT_MISMATCH:'+r.business_date);}
-  const report={at:new Date().toISOString(),datasetRunId:runId,synthetic:!!manifest.synthetic,manifest,expectedRawOrders:expected,rawOrders:Number(raw.n),classification:counts,tasks:Number(tasks.n),unfinishedJobs:Number(unfinished.n),products:Number(master.n),quantityChecks,orphanItemRows:JSON.parse((prepared.prepare("SELECT value FROM meta WHERE key='manifest'").get() as any).value).orphanItemRows,status:errors.length?'FAIL':'PASS',errors};
+  const report={at:new Date().toISOString(),datasetRunId:runId,synthetic:!!manifest.synthetic,manifest,expectedRawOrders:expected,rawOrders:Number(raw.n),classification:counts,classificationReasons,qualityFlags,tasks:Number(tasks.n),unfinishedJobs:Number(unfinished.n),products:Number(master.n),quantityChecks,orphanItemRows:JSON.parse((prepared.prepare("SELECT value FROM meta WHERE key='manifest'").get() as any).value).orphanItemRows,status:errors.length?'FAIL':'PASS',errors};
   prepared.close();const output=JSON.stringify(report,null,2)+'\n';writeFileSync('reports/reconciliation-'+runId+'-'+report.at.replace(/[:.]/g,'-')+'.json',output);writeFileSync('reports/reconciliation-'+runId+'.json',output);console.log(JSON.stringify(report));if(errors.length)process.exitCode=1;
 }finally{await db.close(true);}
