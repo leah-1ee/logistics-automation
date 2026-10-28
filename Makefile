@@ -9,7 +9,7 @@ fixture:
 	@test -f .env || python3 tools/init-env.py
 	python3 tools/fixture-env.py
 	@test -f data/fixtures/olist_orders_dataset.csv || python3 tools/make-fixture.py
-	@test -f data/prepared/fixture.sqlite || python3 tools/prepare-data.py --raw data/fixtures --out data/prepared/fixture.sqlite --manifest manifests/fixture.json --synthetic
+	@test -f data/prepared/fixture.sqlite || python3 tools/prepare-data.py --raw data/fixtures --out data/prepared/fixture.sqlite --manifest data/prepared/fixture-manifest.json --synthetic
 dev-fixture: fixture
 	$(COMPOSE_FIXTURE) build api
 	$(COMPOSE_FIXTURE) up -d --wait mysql redis
