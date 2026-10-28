@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-28T04:39:57.247354+00:00",
+  "scope": "Read-only hardware observations; no QR scan, reboot or power-loss validation",
+  "board": {
+    "model": null,
+    "isRaspberryPi": false,
+    "architecture": "x86_64",
+    "kernel": "6.18.54.1-microsoft-standard-WSL2",
+    "os": {
+      "NAME": "Ubuntu",
+      "VERSION_ID": "22.04",
+      "VERSION_CODENAME": "jammy"
+    }
+  },
+  "runtime": {
+    "node": null,
+    "browsers": {
+      "chromium": null,
+      "chromium-browser": null
+    }
+  },
+  "storage": {
+    "freeBytes": 1011634327552,
+    "totalBytes": 1081101176832
+  },
+  "usb": [],
+  "video": [],
+  "T08": "NOT_RUN",
+  "T29": "NOT_RUN",
+  "status": "BLOCKED_NOT_THE_PI"
+}

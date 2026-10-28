@@ -1,6 +1,9 @@
 # 실제 장비 검증 — BLOCKED
 
-기준일: 2026-10-28 Asia/Seoul. Raspberry Pi·모니터·웹캠·SD 미연결.
+기준일: 2026-10-28 Asia/Seoul. 예정 카메라: 사용자 지정 Logitech C270.
+사용자가 Pi SSH 접속 가능을 알렸고 지정 호스트의 SSH 서버에 실제로 도달했다.
+현재 자동 키 인증은 거부되어 공개키 등록을 기다린다. Pi 모델/OS/SD와 C270 인식은 아직 미확인이다.
+WSL에서 비디오 장치를 찾지 못한 결과를 Pi의 장비 상태로 해석하지 않는다.
 아래는 실행 절차이며 실행 결과가 아니다. WSL의 SQLite/프로세스 시험이나
 QR 문자열 encode/decode를 실제 웹캠·보드 시험의 PASS로 옮기지 않는다.
 
@@ -10,15 +13,32 @@ QR 문자열 encode/decode를 실제 웹캠·보드 시험의 PASS로 옮기지 
 브라우저 버전과 Node 버전을 기록한다. Node24 ARM64와 해당 OS의 호환성을 확인한다.
 새 OS/Node/패키지는 크기와 저장 공간을 먼저 확인하고, 개별1GB 초과 또는 크기 미확인은 승인 후 받는다.
 
-개발 API는 127.0.0.1:3000에만 바인딩되어 있어 Pi에서 개발 PC의 LAN 주소로 직접 접근할 수 없다.
-이미 SSH로 접근 가능하고 그 호스트에서 API loopback에 접속할 수 있다면 Pi에서 다음 터널을 사용한다.
-SSH 설치·방화벽·Windows/WSL 경로 변경은 실제 호스트를 확인한 뒤 별도로 진행한다.
+현재 사용자에게 안내한 한 단계는 프로젝트 전용 공개키 등록이다.
+개인키와 known_hosts는 Git 제외된 var/에만 두며 실제 SSH 주소를 보고서에 커밋하지 않는다.
 
 ```bash
-ssh -N -L 3000:127.0.0.1:3000 <사용자>@<API_loopback에_접근_가능한_호스트>
+ssh-copy-id -i "$PWD/var/pi-verify-ed25519.pub" -o "UserKnownHostsFile=$PWD/var/pi-known_hosts" <사용자>@<Pi주소>
 ```
 
-Pi의 별도 비공개 환경 파일에 SERVER_URL=http://127.0.0.1:3000,
+인증 후 담당 에이전트가 다음 읽기 전용 점검을 수행한다. 촬영/설치/재부팅은 하지 않는다.
+
+```bash
+ssh -i var/pi-verify-ed25519 -o UserKnownHostsFile=var/pi-known_hosts <사용자>@<Pi주소> python3 - < tools/probe-hardware.py
+```
+
+출력은 Pi 모델/OS/아키텍처·USB 제품명/ID·V4L2 캡처 노드/권한·Node/Chromium 버전이다.
+프로브 자체는 실제 QR·재부팅을 PASS로 판정하지 않는다. C270 연결이 안 보이면 그때
+사용자에게 USB 연결을 한 단계로 안내하고 같은 관측을 다시 수행한다.
+Logitech 공식 제품 설명의720p/30fps는 제품 사양이며 해당 Pi에서의 실제 동작 결과가 아니다.
+
+개발 API는127.0.0.1:3000에만 바인딩된다. PC→Pi SSH가 있으므로 PC에 새 SSH 서버를
+설치하는 대신 PC/WSL에서 Pi loopback33000으로 역방향 터널을 만든다. 먼저 포트 점유를 확인한다.
+
+```bash
+ssh -i var/pi-verify-ed25519 -o UserKnownHostsFile=var/pi-known_hosts -o ExitOnForwardFailure=yes -o ServerAliveInterval=15 -N -R 127.0.0.1:33000:127.0.0.1:3000 <사용자>@<Pi주소>
+```
+
+Pi의 별도 비공개 환경 파일에 SERVER_URL=http://127.0.0.1:33000,
 DEVICE_ID/DEVICE_TOKEN, 시험할 DATASET_RUN_ID, DEVICE_DB, LOCAL_ORIGIN을 설정한다.
 토큰은 Git/QR/화면 캡처에 넣지 않는다. 기존 SQLite를 삭제하거나 다른 단말 ID로 덮어쓰지 않는다.
 Node 경로·사용자·WorkingDirectory·EnvironmentFile을 확인해 deploy/logistics-device.service를 적용한다.
@@ -46,3 +66,12 @@ Node 경로·사용자·WorkingDirectory·EnvironmentFile을 확인해 deploy/lo
 시험마다 시각·작업/단말 ID·코드 commit·원본/scenario 해시·DB/SQLite 결과·영상 경로를 기록한다.
 영상과 증거에서 토큰·개인정보·원본 행이 노출되지 않게 검토한다.
 모든 필수 gate가 통과하기 전 전체 MVP 완료·mvp-v1 tag·08 확장은 보류한다.
+
+
+공식 참고(2026-10-28 확인):
+- [Raspberry Pi 원격 접속·SSH](https://www.raspberrypi.com/documentation/computers/remote-access.html)
+- [Logitech C270 제품 설명](https://www.logitech.com/en-us/shop/p/c270-hd-webcam.960-000694)
+
+소프트웨어 경계 보완: 권한 허용 대기 중 중지/작업 변경, 늦은 스트림, 반복 콜백을
+모의 카메라3시험으로 확인했다. 단말 목록의201번째 이후 작업 페이지 이동도 구현했다.
+C270 실제 프레임 인식, 브라우저 카메라 선택·권한, Pi/SD 복원 시험은 여전히 BLOCKED다.

@@ -1,0 +1,12 @@
+FROM logistics-mvp-app:0.1.0
+USER root
+COPY package-lock.json /tmp/required-package-lock.json
+RUN cmp package-lock.json /tmp/required-package-lock.json
+COPY tsconfig.json ./
+COPY src ./src
+COPY tools ./tools
+COPY web ./web
+COPY docs ./docs
+COPY migrations ./migrations
+RUN npm run build
+USER node

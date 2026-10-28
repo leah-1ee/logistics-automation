@@ -1,0 +1,85 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.offline
+#1 transferring dockerfile: 344B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/logistics-mvp-app:0.1.0
+#2 DONE 0.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 93B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 DONE 0.0s
+
+#5 [ 1/10] FROM docker.io/library/logistics-mvp-app:0.1.0@sha256:18f93c0c0dee898d1ac35a505f09456e1cd0e0492712a7a4059c2e80972cc416
+#5 resolve docker.io/library/logistics-mvp-app:0.1.0@sha256:18f93c0c0dee898d1ac35a505f09456e1cd0e0492712a7a4059c2e80972cc416 0.0s done
+#5 ...
+
+#4 [internal] load build context
+#4 transferring context: 97.14kB done
+#4 DONE 0.1s
+
+#5 [ 1/10] FROM docker.io/library/logistics-mvp-app:0.1.0@sha256:18f93c0c0dee898d1ac35a505f09456e1cd0e0492712a7a4059c2e80972cc416
+#5 DONE 0.5s
+
+#6 [ 2/10] COPY package-lock.json /tmp/required-package-lock.json
+#6 DONE 0.1s
+
+#7 [ 3/10] RUN cmp package-lock.json /tmp/required-package-lock.json
+#7 DONE 0.2s
+
+#8 [ 4/10] COPY tsconfig.json ./
+#8 DONE 0.2s
+
+#9 [ 5/10] COPY src ./src
+#9 DONE 0.2s
+
+#10 [ 6/10] COPY tools ./tools
+#10 DONE 0.2s
+
+#11 [ 7/10] COPY web ./web
+#11 DONE 0.2s
+
+#12 [ 8/10] COPY docs ./docs
+#12 DONE 0.1s
+
+#13 [ 9/10] COPY migrations ./migrations
+#13 DONE 0.2s
+
+#14 [10/10] RUN npm run build
+#14 0.334 
+#14 0.334 > logistics-operations-mvp@0.1.0 build
+#14 0.334 > tsc && vite build --config web/vite.config.ts
+#14 0.334 
+#14 4.012 vite v8.3.5 building client environment for production...
+#14 4.033 transforming...
+#14 4.132 ✓ 255 modules transformed.
+#14 4.236 rendering chunks...
+#14 4.356 computing gzip size...
+#14 4.369 dist/web/index.html                   0.36 kB │ gzip:   0.28 kB
+#14 4.369 dist/web/assets/index-CZNWTZIc.css    2.31 kB │ gzip:   0.93 kB
+#14 4.369 dist/web/assets/index-COILC8H8.js   713.52 kB │ gzip: 198.77 kB
+#14 4.369 
+#14 4.370 ✓ built in 356ms
+#14 4.371 [plugin builtin:vite-reporter] 
+#14 4.371 (!) Some chunks are larger than 500 kB after minification. Consider:
+#14 4.371 - Using dynamic import() to code-split the application
+#14 4.371 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+#14 4.371 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#14 DONE 4.4s
+
+#15 exporting to image
+#15 exporting layers
+#15 exporting layers 1.4s done
+#15 exporting manifest sha256:22c57d263f8420459ab5f53ace8444c88095be483280621adfe9f1f45f7ebb1c 0.0s done
+#15 exporting config sha256:1d80c1a5d2f159a6c78d031453e74c152bf0b30539221e29cb35436056f82752 0.0s done
+#15 exporting attestation manifest sha256:e559a37facc8f4461d07fa8e81af663371eb36257f4dada898cdad3d97cde023 0.0s done
+#15 exporting manifest list sha256:9a4c91326774050ba87329647bb7cc64c587d4b1beca3b12bec645ce83845752
+#15 exporting manifest list sha256:9a4c91326774050ba87329647bb7cc64c587d4b1beca3b12bec645ce83845752 0.0s done
+#15 naming to docker.io/library/logistics-mvp-app:independent done
+#15 unpacking to docker.io/library/logistics-mvp-app:independent
+#15 unpacking to docker.io/library/logistics-mvp-app:independent 0.3s done
+#15 DONE 2.0s
