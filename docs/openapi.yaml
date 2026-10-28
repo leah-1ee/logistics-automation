@@ -969,7 +969,7 @@ paths:
     get:
       operationId: device_tasks
       summary: 인증된 단말의 배정 스냅샷
-      description: ''
+      description: 서버 CONFIRMED 작업은 새 다운로드에서 제외한다. 기존 로컬 스냅샷·이벤트는 보존하며 ACK 유실 COMPLETE는 이벤트 재전송으로 복구한다.
       tags:
       - device
       security:

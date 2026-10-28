@@ -110,7 +110,7 @@ export function apiHandlers(db:Db) {
     },
     reports_daily:async req=>dailyReport(db,req.query.datasetRunId,req.query.businessDate),
     reports_csv:async req=>{const r=await dailyReport(db,req.query.datasetRunId,req.query.businessDate);return 'datasetRunId,businessDate,taskCount,itemCount,productId,quantity,computedAt,rebuildPending\r\n'+(r.products.length?r.products:[{productId:'',quantity:0}]).map((p:any)=>[r.datasetRunId,r.businessDate,r.taskCount,r.itemCount,p.productId,p.quantity,r.computedAt,r.rebuildPending].join(',')).join('\r\n')+'\r\n';},
-    device_tasks:async req=>list(req,'tasks',async(c,id)=>parseJson((await c.execute('SELECT snapshot FROM tasks WHERE id=?',[id]))[0].snapshot),[],'device_id=? AND snapshot IS NOT NULL',[req.deviceId]),
+    device_tasks:async req=>list(req,'tasks',async(c,id)=>parseJson((await c.execute('SELECT snapshot FROM tasks WHERE id=?',[id]))[0].snapshot),[],"device_id=? AND snapshot IS NOT NULL AND status<>'CONFIRMED'",[req.deviceId]),
     device_events:async req=>applyBatch(db,req.deviceId,req.body),
     device_status:async req=>{await connection(db).execute('UPDATE devices SET last_seen_at=?,last_report=?,report_received_at=? WHERE id=?',[now(),JSON.stringify(req.body),now(),req.deviceId]);return {accepted:true,requestId:randomUUID()};}
   };

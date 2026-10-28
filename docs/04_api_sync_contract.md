@@ -54,6 +54,9 @@ HTTP 필드·타입은 [openapi.yaml](openapi.yaml), 예시는 [examples.json](e
 taskId, datasetRunId, externalOrderId, assignmentVersion, deviceId, requiredItems, snapshotHash, assignedAt을 내려줍니다. requiredItems의 productId와 requiredQty는 배정 후 불변입니다.
 
 다운로드는 스냅샷 저장·해시 확인이 끝난 뒤 사용 가능으로 표시합니다. 같은 taskId/version 재다운로드가 로컬 이벤트·진행 수량을 초기화하지 않아야 합니다. 같은 version에 다른 hash가 오면 덮어쓰지 않고 차단합니다.
+서버에서 CONFIRMED인 작업은 새 스냅샷 목록에서 제외합니다. 목록에서 빠졌다고
+기존 로컬 스냅샷·이벤트를 삭제하지 않습니다. ACK를 잃은 COMPLETE는 보존된
+이벤트를 같은 ID로 재전송하여 DUPLICATE receipt로 서버 확정을 복구합니다.
 
 임의 상품명은 원본 사실로 만들지 않습니다. Olist의 productId·카테고리와 짧은 표시용 ID를 사용합니다.
 
