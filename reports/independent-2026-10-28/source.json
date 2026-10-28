@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "at": "2026-10-28T04:28:02.644Z",
+  "scope": "Independent direct CSV oracle and read-only MySQL snapshot; no Source/normalize/reconcile/LocalStore imports",
+  "input": "ACTUAL_OLIST",
+  "datasetRunId": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+  "codeCommit": "5f7cbfb46c031fe562aa95130918202230a20cc3",
+  "fileChecks": 4,
+  "sourceOrders": 99441,
+  "sourceItems": 112650,
+  "sourceProducts": 32951,
+  "sourceSellers": 3095,
+  "orderChecks": 99441,
+  "taskChecks": 96596,
+  "quantityChecks": 98840,
+  "eventChecks": 2117,
+  "confirmed": 1000,
+  "classifications": {
+    "TASK_CREATED": 96596,
+    "DATA_HOLD": 789,
+    "UNSUPPORTED": 2056
+  },
+  "unfinishedJobs": 0,
+  "reports": [
+    {
+      "date": "2026-10-28",
+      "tasks": 1000,
+      "items": 1117
+    }
+  ],
+  "errors": {}
+}

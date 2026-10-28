@@ -1,0 +1,27 @@
+TAP version 13
+# Subtest: T28 both auditors reject isolated raw hash and normalized quantity corruption
+not ok 1 - T28 both auditors reject isolated raw hash and normalized quantity corruption
+  ---
+  duration_ms: 794.746885
+  type: 'test'
+  location: '/home/leah/logistics-automation/tests/integration/source-integrity.test.ts:1:694'
+  failureType: 'testCodeFailure'
+  error: "ENOENT: no such file or directory, open '/tmp/logistics-independent-nPFk7d/independent.json'"
+  code: 'ENOENT'
+  stack: |-
+    readFileSync (node:fs:483:20)
+    check (/home/leah/logistics-automation/tests/integration/source-integrity.test.ts:20:29)
+    TestContext.<anonymous> (/home/leah/logistics-automation/tests/integration/source-integrity.test.ts:31:18)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1842.626729

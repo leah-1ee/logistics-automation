@@ -1,0 +1,47 @@
+TAP version 13
+# Subtest: full reconciliation independently checks original rows and rejects coherent server corruption
+ok 1 - full reconciliation independently checks original rows and rejects coherent server corruption
+  ---
+  duration_ms: 2794.733093
+  type: 'test'
+  ...
+# Subtest: T28 both auditors reject isolated raw hash and normalized quantity corruption
+not ok 2 - T28 both auditors reject isolated raw hash and normalized quantity corruption
+  ---
+  duration_ms: 129.277668
+  type: 'test'
+  location: '/home/leah/logistics-automation/tests/integration/source-integrity.test.ts:1:719'
+  failureType: 'testCodeFailure'
+  error: 'Deadlock found when trying to get lock; try restarting transaction'
+  code: 'ER_LOCK_DEADLOCK'
+  stack: |-
+    Packet.asError (/home/leah/logistics-automation/node_modules/mysql2/lib/packets/packet.js:930:17)
+    Query.execute (/home/leah/logistics-automation/node_modules/mysql2/lib/commands/command.js:29:26)
+    PoolConnection.handlePacket (/home/leah/logistics-automation/node_modules/mysql2/lib/base/connection.js:616:34)
+    PacketParser.onPacket (/home/leah/logistics-automation/node_modules/mysql2/lib/base/connection.js:148:12)
+    PacketParser.executeStart (/home/leah/logistics-automation/node_modules/mysql2/lib/packet_parser.js:86:16)
+    Socket.<anonymous> (/home/leah/logistics-automation/node_modules/mysql2/lib/base/connection.js:156:25)
+    Socket.emit (node:events:514:28)
+    addChunk (node:internal/streams/readable:569:12)
+    readableAddChunkPushByteMode (node:internal/streams/readable:520:3)
+    Readable.push (node:internal/streams/readable:400:5)
+    MysqlConnection.executeQuery (file:///home/leah/logistics-automation/node_modules/kysely/dist/dialect/mysql/mysql-driver.js:145:41)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async file:///home/leah/logistics-automation/node_modules/kysely/dist/query-executor/query-executor-base.js:39:24
+    async #run (file:///home/leah/logistics-automation/node_modules/kysely/dist/driver/single-connection-provider.js:24:16)
+    async DefaultQueryExecutor.executeQuery (file:///home/leah/logistics-automation/node_modules/kysely/dist/query-executor/query-executor-base.js:38:28)
+    async ControlledTransaction.executeQuery (file:///home/leah/logistics-automation/node_modules/kysely/dist/kysely.js:535:16)
+    async executeQuery (file:///home/leah/logistics-automation/node_modules/@mikro-orm/sql/AbstractSqlConnection.js:266:25)
+    async MySqlConnection.executeQuery (file:///home/leah/logistics-automation/node_modules/@mikro-orm/core/connections/Connection.js:210:25)
+    async <anonymous> (/home/leah/logistics-automation/src/ingestion/ingest.ts:38:7)
+    async <anonymous> (/home/leah/logistics-automation/src/server/db.ts:19:52)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3640.937083

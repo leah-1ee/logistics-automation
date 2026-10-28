@@ -1,0 +1,50 @@
+{
+  "at": "2026-10-28T05:03:29.797714+00:00",
+  "codeCommit": "d1deda0049e46ce8ccf3d925721b93dbfa8a0df0",
+  "scope": "post-fix local Compose service/image availability; not hardware or performance PASS",
+  "services": [
+    {
+      "name": "logistics-mvp-api-1",
+      "imageId": "sha256:9a4c91326774050ba87329647bb7cc64c587d4b1beca3b12bec645ce83845752",
+      "status": "running"
+    },
+    {
+      "name": "logistics-mvp-worker-1",
+      "imageId": "sha256:9e5d8dbf37277c1639b1bf922035bc491e746398eaba920f2f03726e10304017",
+      "status": "running"
+    },
+    {
+      "name": "logistics-mvp-source-1",
+      "imageId": "sha256:9e5d8dbf37277c1639b1bf922035bc491e746398eaba920f2f03726e10304017",
+      "status": "running"
+    },
+    {
+      "name": "logistics-mvp-mysql-1",
+      "imageId": "sha256:2068651a18ac6048578647ea57b940ca2daed3f504ebe7fba6a93beeb39aaa1f",
+      "status": "running"
+    },
+    {
+      "name": "logistics-mvp-redis-1",
+      "imageId": "sha256:1cf73a2f04808e55a8bd2f5706c2aa0ebb0f71938f93deb7af79f48311cd5cb9",
+      "status": "running"
+    }
+  ],
+  "health": {
+    "http": 200,
+    "body": {
+      "status": "ok",
+      "database": "not_checked",
+      "redis": "not_checked",
+      "version": "0.1.0"
+    }
+  },
+  "ready": {
+    "http": 200,
+    "body": {
+      "status": "ok",
+      "database": "up",
+      "redis": "up",
+      "version": "0.1.0"
+    }
+  }
+}

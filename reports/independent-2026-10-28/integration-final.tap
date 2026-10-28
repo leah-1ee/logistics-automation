@@ -1,0 +1,136 @@
+TAP version 13
+# Subtest: T14/T16 HTTP success waits for COMMIT; concurrent duplicate deliveries apply once
+ok 1 - T14/T16 HTTP success waits for COMMIT; concurrent duplicate deliveries apply once
+  ---
+  duration_ms: 681.299559
+  type: 'test'
+  ...
+# Subtest: T23 failed COMMIT gives no successful receipt and preserves local pending input
+ok 2 - T23 failed COMMIT gives no successful receipt and preserves local pending input
+  ---
+  duration_ms: 444.119386
+  type: 'test'
+  ...
+# Subtest: MySQL enforces quantities, state enum and assigned ownership independently of HTTP
+ok 3 - MySQL enforces quantities, state enum and assigned ownership independently of HTTP
+  ---
+  duration_ms: 220.710008
+  type: 'test'
+  ...
+# Subtest: T02/T12/T22 actual SIGKILL around MySQL and SQLite commit boundaries
+ok 4 - T02/T12/T22 actual SIGKILL around MySQL and SQLite commit boundaries
+  ---
+  duration_ms: 16120.329505
+  type: 'test'
+  ...
+# Subtest: T14/T18 real HTTP connection loss from killed API after first event commit
+ok 5 - T14/T18 real HTTP connection loss from killed API after first event commit
+  ---
+  duration_ms: 1711.852889
+  type: 'test'
+  ...
+# Subtest: T10/T15/T16 server reversal, double reversal, sequence reuse and over quantity hold
+ok 6 - T10/T15/T16 server reversal, double reversal, sequence reuse and over quantity hold
+  ---
+  duration_ms: 527.945147
+  type: 'test'
+  ...
+# Subtest: T30 old revision job is superseded after a source conflict and audited correction
+ok 7 - T30 old revision job is superseded after a source conflict and audited correction
+  ---
+  duration_ms: 271.339571
+  type: 'test'
+  ...
+# Subtest: T24 later completion on an already rebuilt day gets a distinct durable report job
+ok 8 - T24 later completion on an already rebuilt day gets a distinct durable report job
+  ---
+  duration_ms: 533.639353
+  type: 'test'
+  ...
+# Subtest: T26/T31 real Nest HTTP roles, bounded pages, stale observation, CSV, input rejection
+ok 9 - T26/T31 real Nest HTTP roles, bounded pages, stale observation, CSV, input rejection
+  ---
+  duration_ms: 1528.396483
+  type: 'test'
+  ...
+# Subtest: T01/T02/T03/T04/T32 MySQL page replay, rollback, checkpoint and conflict evidence
+ok 10 - T01/T02/T03/T04/T32 MySQL page replay, rollback, checkpoint and conflict evidence
+  ---
+  duration_ms: 666.788501
+  type: 'test'
+  ...
+# Subtest: T08/T11/T26 local HTTP loopback/origin gates and durable QR action contract
+ok 11 - T08/T11/T26 local HTTP loopback/origin gates and durable QR action contract
+  ---
+  duration_ms: 1644.816918
+  type: 'test'
+  ...
+# Subtest: file master chunks are idempotent and a failed chunk is atomic
+ok 12 - file master chunks are idempotent and a failed chunk is atomic
+  ---
+  duration_ms: 186.960133
+  type: 'test'
+  ...
+# Subtest: T30/T33 correction revision, immutable raw, superseded job and bounded job failures
+ok 13 - T30/T33 correction revision, immutable raw, superseded job and bounded job failures
+  ---
+  duration_ms: 573.764945
+  type: 'test'
+  ...
+# Subtest: T24/T25 reporting recomputes only confirmed tasks and deduplicates completion
+ok 14 - T24/T25 reporting recomputes only confirmed tasks and deduplicates completion
+  ---
+  duration_ms: 253.610635
+  type: 'test'
+  ...
+# Subtest: full reconciliation independently checks original rows and rejects coherent server corruption
+ok 15 - full reconciliation independently checks original rows and rejects coherent server corruption
+  ---
+  duration_ms: 3013.766242
+  type: 'test'
+  ...
+# Subtest: T21 DB expired outbox reconstructs missing Redis delivery; BullMQ worker applies once
+ok 16 - T21 DB expired outbox reconstructs missing Redis delivery; BullMQ worker applies once
+  ---
+  duration_ms: 297.854491
+  type: 'test'
+  ...
+# Subtest: T25 DB session timezone cannot shift committedAt or confirmed business date
+ok 17 - T25 DB session timezone cannot shift committedAt or confirmed business date
+  ---
+  duration_ms: 551.19663
+  type: 'test'
+  ...
+# Subtest: T28 both auditors reject isolated raw hash and normalized quantity corruption
+ok 18 - T28 both auditors reject isolated raw hash and normalized quantity corruption
+  ---
+  duration_ms: 3636.040308
+  type: 'test'
+  ...
+# Subtest: T14~T18/T25 real MySQL ACK loss, dedupe before status, ordering, fencing, partial batch
+ok 19 - T14~T18/T25 real MySQL ACK loss, dedupe before status, ordering, fencing, partial batch
+  ---
+  duration_ms: 592.356195
+  type: 'test'
+  ...
+# Subtest: T11/T19 business rejection consumes seq and holds only its own task
+ok 20 - T11/T19 business rejection consumes seq and holds only its own task
+  ---
+  duration_ms: 378.179885
+  type: 'test'
+  ...
+# Subtest: T05/T06/T07/T22 real MySQL task job replay, rollback and immutable assignment
+ok 21 - T05/T06/T07/T22 real MySQL task job replay, rollback and immutable assignment
+  ---
+  duration_ms: 368.667103
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 58002.920587

@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "at": "2026-10-28T04:51:24.020Z",
+  "scope": "real prepared-Olist source HTTP, two identical pages and negative cursor boundaries; no raw rows saved",
+  "datasetRunId": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+  "count": 200,
+  "pageSha256": "5bb7677120eac5f79cc78131d371faedb63445b9cdd051bdb7115f90e88546b0",
+  "repeatedPageIdentical": true,
+  "mismatchedRunStatus": 409,
+  "mismatchedLimitStatus": 409,
+  "malformedCursorStatus": 400
+}

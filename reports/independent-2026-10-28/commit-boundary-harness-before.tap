@@ -1,0 +1,30 @@
+TAP version 13
+# You have tried to call .then(), .catch(), or invoked await on the result of query that is not a promise, which is a programming error. Try calling con.promise().query(), or require('mysql2/promise') instead of 'mysql2' for a promise-compatible version of the query interface. To learn how to use async/await or Promises check out documentation at https://sidorares.github.io/node-mysql2/docs\#using-promise-wrapper, or the mysql2 documentation at https://sidorares.github.io/node-mysql2/docs/documentation/promise-wrapper
+# Subtest: T14/T16 HTTP success waits for COMMIT; concurrent duplicate deliveries apply once
+not ok 1 - T14/T16 HTTP success waits for COMMIT; concurrent duplicate deliveries apply once
+  ---
+  duration_ms: 382.226423
+  type: 'test'
+  location: '/home/leah/logistics-automation/tests/integration/commit-boundary.test.ts:1:1380'
+  failureType: 'unhandledRejection'
+  error: "You have tried to call .then(), .catch(), or invoked await on the result of query that is not a promise, which is a programming error. Try calling con.promise().query(), or require('mysql2/promise') instead of 'mysql2' for a promise-compatible version of the query interface. To learn how to use async/await or Promises check out documentation at https://sidorares.github.io/node-mysql2/docs#using-promise-wrapper, or the mysql2 documentation at https://sidorares.github.io/node-mysql2/docs/documentation/promise-wrapper"
+  code: 'ERR_TEST_FAILURE'
+  stack: |-
+    Query.then (/home/leah/logistics-automation/node_modules/mysql2/lib/commands/query.js:52:11)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+  ...
+# Subtest: T23 failed COMMIT gives no successful receipt and preserves local pending input
+ok 2 - T23 failed COMMIT gives no successful receipt and preserves local pending input
+  ---
+  duration_ms: 326.974582
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6600.358417

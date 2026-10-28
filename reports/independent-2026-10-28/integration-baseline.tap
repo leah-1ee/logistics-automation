@@ -1,0 +1,112 @@
+TAP version 13
+# Subtest: MySQL enforces quantities, state enum and assigned ownership independently of HTTP
+ok 1 - MySQL enforces quantities, state enum and assigned ownership independently of HTTP
+  ---
+  duration_ms: 220.866526
+  type: 'test'
+  ...
+# Subtest: T02/T12/T22 actual SIGKILL around MySQL and SQLite commit boundaries
+ok 2 - T02/T12/T22 actual SIGKILL around MySQL and SQLite commit boundaries
+  ---
+  duration_ms: 15864.103114
+  type: 'test'
+  ...
+# Subtest: T14/T18 real HTTP connection loss from killed API after first event commit
+ok 3 - T14/T18 real HTTP connection loss from killed API after first event commit
+  ---
+  duration_ms: 1545.95168
+  type: 'test'
+  ...
+# Subtest: T10/T15/T16 server reversal, double reversal, sequence reuse and over quantity hold
+ok 4 - T10/T15/T16 server reversal, double reversal, sequence reuse and over quantity hold
+  ---
+  duration_ms: 524.861453
+  type: 'test'
+  ...
+# Subtest: T30 old revision job is superseded after a source conflict and audited correction
+ok 5 - T30 old revision job is superseded after a source conflict and audited correction
+  ---
+  duration_ms: 172.918337
+  type: 'test'
+  ...
+# Subtest: T24 later completion on an already rebuilt day gets a distinct durable report job
+ok 6 - T24 later completion on an already rebuilt day gets a distinct durable report job
+  ---
+  duration_ms: 528.0447
+  type: 'test'
+  ...
+# Subtest: T26/T31 real Nest HTTP roles, bounded pages, stale observation, CSV, input rejection
+ok 7 - T26/T31 real Nest HTTP roles, bounded pages, stale observation, CSV, input rejection
+  ---
+  duration_ms: 1701.768713
+  type: 'test'
+  ...
+# Subtest: T01/T02/T03/T04/T32 MySQL page replay, rollback, checkpoint and conflict evidence
+ok 8 - T01/T02/T03/T04/T32 MySQL page replay, rollback, checkpoint and conflict evidence
+  ---
+  duration_ms: 473.241711
+  type: 'test'
+  ...
+# Subtest: T08/T11/T26 local HTTP loopback/origin gates and durable QR action contract
+ok 9 - T08/T11/T26 local HTTP loopback/origin gates and durable QR action contract
+  ---
+  duration_ms: 1141.528726
+  type: 'test'
+  ...
+# Subtest: file master chunks are idempotent and a failed chunk is atomic
+ok 10 - file master chunks are idempotent and a failed chunk is atomic
+  ---
+  duration_ms: 159.808314
+  type: 'test'
+  ...
+# Subtest: T30/T33 correction revision, immutable raw, superseded job and bounded job failures
+ok 11 - T30/T33 correction revision, immutable raw, superseded job and bounded job failures
+  ---
+  duration_ms: 562.855282
+  type: 'test'
+  ...
+# Subtest: T24/T25 reporting recomputes only confirmed tasks and deduplicates completion
+ok 12 - T24/T25 reporting recomputes only confirmed tasks and deduplicates completion
+  ---
+  duration_ms: 252.822105
+  type: 'test'
+  ...
+# Subtest: full reconciliation independently checks original rows and rejects coherent server corruption
+ok 13 - full reconciliation independently checks original rows and rejects coherent server corruption
+  ---
+  duration_ms: 3133.219204
+  type: 'test'
+  ...
+# Subtest: T21 DB expired outbox reconstructs missing Redis delivery; BullMQ worker applies once
+ok 14 - T21 DB expired outbox reconstructs missing Redis delivery; BullMQ worker applies once
+  ---
+  duration_ms: 295.676054
+  type: 'test'
+  ...
+# Subtest: T14~T18/T25 real MySQL ACK loss, dedupe before status, ordering, fencing, partial batch
+ok 15 - T14~T18/T25 real MySQL ACK loss, dedupe before status, ordering, fencing, partial batch
+  ---
+  duration_ms: 708.69917
+  type: 'test'
+  ...
+# Subtest: T11/T19 business rejection consumes seq and holds only its own task
+ok 16 - T11/T19 business rejection consumes seq and holds only its own task
+  ---
+  duration_ms: 339.080601
+  type: 'test'
+  ...
+# Subtest: T05/T06/T07/T22 real MySQL task job replay, rollback and immutable assignment
+ok 17 - T05/T06/T07/T22 real MySQL task job replay, rollback and immutable assignment
+  ---
+  duration_ms: 336.070264
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 44536.620023

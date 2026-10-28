@@ -135,7 +135,8 @@ SQLite WAL·synchronous=FULL, 이벤트/상태/seq 동시 커밋, 부팅 시 pro
 
 ## 현재 한계
 
-하드웨어·브라우저 수동 시연·영상·독립 검증 세션은 미완료입니다.
+독립 CSV 오라클·새 장애/경계 시험·추가 실제1,000건 재생을 수행하고 결함5건을 수정했습니다.
+하드웨어·브라우저 수동 시연·영상은 미완료입니다.
 실제 Olist F1/F2와 최종 전체 대사는 PASS입니다. F1의 스캔·배정은 모의 업무 입력이며
 실제 장비의 현장 시험을 뜻하지 않습니다. 결과와 재현 명령은 시험표에 연결했습니다.
 실험 환경은 [환경 기록](reports/environment.md)을 보세요. 합성 재생의 초당 처리량을
@@ -149,3 +150,22 @@ SQLite WAL·synchronous=FULL, 이벤트/상태/seq 동시 커밋, 부팅 시 pro
 검사 범위는 reachable 이력·tracked/추가 후보의 알려진 비밀값/패턴·금지 경로이며,
 임의의 모든 개인정보를 자동으로 식별한다는 보장은 아닙니다. `.env*`, 원본, SQLite,
 node_modules, `.tools`, dist는 Git에서 제외됩니다. 원격 가시성은 PRIVATE로 확인했습니다.
+
+
+## 독립 재검증과 오프라인 빌드
+
+최신 판정은 [요구사항별 재검증](reports/independent-2026-10-28/verification.md)을 보세요.
+실제 C270/Pi와 화면 수용 기준은 실행 증거가 생기기 전 BLOCKED/NOT_RUN으로 유지합니다.
+기존 F1을 덮어쓰지 않는 별도 재생은 `F1_TRIAL=independent-20261028` 환경 값으로
+`tools/replay-actual.ts`를 실행합니다. 같은 trial은 저장한 plan과 로컬 사건을 재사용합니다.
+
+핫스팟에서 이미 로컬 앱 이미지와 동일 lockfile이 있을 때만 다음 증분 빌드를 쓸 수 있습니다.
+패키지는 다운로드하지 않으며 기존 이미지의 lockfile이 다르면 중단합니다.
+최초 환경은 기존 Dockerfile/Compose 준비 절차가 필요합니다.
+
+```bash
+docker build --network=none --pull=false -f deploy/Dockerfile.offline -t logistics-mvp-app:independent .
+```
+
+새 단말 다운로드는 서버 CONFIRMED 작업을 제외하지만 기존 로컬 사건은 삭제하지 않습니다.
+ACK 유실 COMPLETE는 기존 SQLite에서 같은 ID로 재전송해 확정을 복구합니다.

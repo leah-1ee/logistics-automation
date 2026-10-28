@@ -1,0 +1,129 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 415B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24.22.1-bookworm-slim@sha256:2dd9a4f758e173b65fee15388f7706af6fb01ef50cf7a2c0538711d67a6981ae
+#2 DONE 1.7s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 93B done
+#3 DONE 0.0s
+
+#4 [ 1/11] FROM docker.io/library/node:24.22.1-bookworm-slim@sha256:2dd9a4f758e173b65fee15388f7706af6fb01ef50cf7a2c0538711d67a6981ae
+#4 resolve docker.io/library/node:24.22.1-bookworm-slim@sha256:2dd9a4f758e173b65fee15388f7706af6fb01ef50cf7a2c0538711d67a6981ae 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 100.67kB 0.0s done
+#5 DONE 0.0s
+
+#6 [ 2/11] WORKDIR /app
+#6 CACHED
+
+#7 [ 3/11] COPY package.json package-lock.json .npmrc ./
+#7 CACHED
+
+#8 [ 4/11] RUN npm ci --ignore-scripts
+#8 72.12 npm error code EAI_AGAIN
+#8 72.12 npm error syscall getaddrinfo
+#8 72.12 npm error errno EAI_AGAIN
+#8 72.12 npm error request to https://registry.npmjs.org/yaml/-/yaml-2.9.1.tgz failed, reason: getaddrinfo EAI_AGAIN registry.npmjs.org
+#8 72.13 npm error A complete log of this run can be found in: /root/.npm/_logs/2026-10-28T04_43_25_176Z-debug-0.log
+#8 ERROR: process "/bin/sh -c npm ci --ignore-scripts" did not complete successfully: exit code: 1
+------
+ > [ 4/11] RUN npm ci --ignore-scripts:
+72.12 npm error code EAI_AGAIN
+72.12 npm error syscall getaddrinfo
+72.12 npm error errno EAI_AGAIN
+72.12 npm error request to https://registry.npmjs.org/yaml/-/yaml-2.9.1.tgz failed, reason: getaddrinfo EAI_AGAIN registry.npmjs.org
+72.13 npm error A complete log of this run can be found in: /root/.npm/_logs/2026-10-28T04_43_25_176Z-debug-0.log
+------
+Dockerfile:4
+--------------------
+   2 |     WORKDIR /app
+   3 |     COPY package.json package-lock.json .npmrc ./
+   4 | >>> RUN npm ci --ignore-scripts
+   5 |     COPY tsconfig.json ./
+   6 |     COPY src ./src
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c npm ci --ignore-scripts" did not complete successfully: exit code: 1
+75455 v0.38.1 /usr/local/lib/docker/cli-plugins/docker-buildx buildx build --network=none -t logistics-mvp-app:0.1.0 .
+github.com/docker/buildx/commands.runBuildWithOptions
+	github.com/docker/buildx/commands/build.go:506
+github.com/docker/buildx/commands.runBuild
+	github.com/docker/buildx/commands/build.go:421
+github.com/docker/buildx/commands.buildCmd.func1
+	github.com/docker/buildx/commands/build.go:542
+github.com/docker/cli/cli-plugins/plugin.RunPlugin.func1.1.2
+	github.com/docker/cli@v29.8.2+incompatible/cli-plugins/plugin/plugin.go:68
+github.com/spf13/cobra.(*Command).execute
+	github.com/spf13/cobra@v1.10.2/command.go:1015
+github.com/spf13/cobra.(*Command).ExecuteC
+	github.com/spf13/cobra@v1.10.2/command.go:1148
+github.com/spf13/cobra.(*Command).Execute
+	github.com/spf13/cobra@v1.10.2/command.go:1071
+github.com/docker/cli/cli-plugins/plugin.RunPlugin
+	github.com/docker/cli@v29.8.2+incompatible/cli-plugins/plugin/plugin.go:83
+main.runPlugin
+	github.com/docker/buildx/cmd/buildx/main.go:66
+main.run
+	github.com/docker/buildx/cmd/buildx/main.go:80
+main.main
+	github.com/docker/buildx/cmd/buildx/main.go:90
+runtime.main
+	runtime/proc.go:290
+runtime.goexit
+	runtime/asm_amd64.s:1771
+
+119  /usr/local/bin/dockerd --config-file /run/config/docker/daemon.json
+github.com/moby/buildkit/executor/runcexecutor.exitError
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/executor/runcexecutor/executor.go:457
+github.com/moby/buildkit/executor/runcexecutor.(*runcExecutor).Run
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/executor/runcexecutor/executor.go:405
+github.com/moby/buildkit/solver/llbsolver/ops.(*ExecOp).Exec
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/solver/llbsolver/ops/exec.go:521
+github.com/moby/buildkit/solver.(*sharedOp).Exec.func2
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/solver/jobs.go:1272
+github.com/moby/buildkit/util/flightcontrol.(*call[...]).run
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/util/flightcontrol/flightcontrol.go:122
+sync.(*Once).doSlow
+	/usr/local/go/src/sync/once.go:78
+sync.(*Once).Do
+	/usr/local/go/src/sync/once.go:69
+runtime.goexit
+	/usr/local/go/src/runtime/asm_amd64.s:1771
+
+75455 v0.38.1 /usr/local/lib/docker/cli-plugins/docker-buildx buildx build --network=none -t logistics-mvp-app:0.1.0 .
+google.golang.org/grpc.(*ClientConn).Invoke
+	google.golang.org/grpc@v1.84.0/call.go:39
+github.com/moby/buildkit/api/services/control.(*controlClient).Solve
+	github.com/moby/buildkit@v0.34.0/api/services/control/control_grpc.pb.go:88
+github.com/moby/buildkit/client.(*Client).solve.func2
+	github.com/moby/buildkit@v0.34.0/client/solve.go:356
+golang.org/x/sync/errgroup.(*Group).Go.func1
+	golang.org/x/sync@v0.23.0/errgroup/errgroup.go:93
+runtime.goexit
+	runtime/asm_amd64.s:1771
+
+119  /usr/local/bin/dockerd --config-file /run/config/docker/daemon.json
+github.com/moby/buildkit/solver.(*edge).execOp
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/solver/edge.go:979
+github.com/moby/buildkit/solver/internal/pipe.NewWithFunction[...].func2
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/solver/internal/pipe/pipe.go:78
+runtime.goexit
+	/usr/local/go/src/runtime/asm_amd64.s:1771
+
+75455 v0.38.1 /usr/local/lib/docker/cli-plugins/docker-buildx buildx build --network=none -t logistics-mvp-app:0.1.0 .
+github.com/moby/buildkit/client.(*Client).solve.func2
+	github.com/moby/buildkit@v0.34.0/client/solve.go:358
+golang.org/x/sync/errgroup.(*Group).Go.func1
+	golang.org/x/sync@v0.23.0/errgroup/errgroup.go:93
+
+119  /usr/local/bin/dockerd --config-file /run/config/docker/daemon.json
+github.com/moby/buildkit/solver/llbsolver/ops.(*ExecOp).Exec
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/solver/llbsolver/ops/exec.go:552
+github.com/moby/buildkit/solver.(*sharedOp).Exec.func2
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/solver/jobs.go:1272
+
