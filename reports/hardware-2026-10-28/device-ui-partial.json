@@ -1,0 +1,16 @@
+{
+  "scope": "ACTUAL_PI_BROWSER_PARTIAL_ACCEPTANCE",
+  "heading": "출고 작업",
+  "completeDisabled": true,
+  "localStatus": "DOWNLOADED",
+  "syncStatus": "SYNCED",
+  "nextSeq": 1,
+  "appliedTotal": 0,
+  "requiredTotal": 2,
+  "states": [
+    "로컬: DOWNLOADED",
+    "동기화: SYNCED"
+  ],
+  "liveCameraQR": "NOT_RUN",
+  "reboot": "NOT_RUN"
+}

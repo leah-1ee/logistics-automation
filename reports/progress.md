@@ -232,3 +232,23 @@ lockfile 일치를 검사해 네트워크 없는 증분 빌드로 수정 API를 
 ssh-copy-id가 ~/.ssh 임시 폴더 부재로 실패하여 해당 디렉터리만0700으로 만들었다.
 프로젝트 전용 개인키/known_hosts는 ignored var/에만 보관하고 공개키 재등록을 안내했다.
 아직 Pi 모델/OS/USB/C270/실제 QR/재부팅 PASS는 없으며 인증 후 한 단계씩 진행한다.
+
+## 2026-10-28 — 실제 Pi 설치·C270 촬영 및 사진 방식 준비
+
+공개키 등록·전송/실행 승인을 받은 뒤 Pi5/Debian13 arm64/C270을 실제 확인했다.
+공식 Node24.22.1 ARM64 약31MB의 크기·SHA256을 확인하고 사용자 폴더에 설치했다.
+단말 전용 환경0600·systemd 사용자 서비스·loopback 역방향 터널을 구성했다.
+원본 데이터나 DB/관리자 토큰은 Pi에 보내지 않았다. 실제 적격 작업1개/필요수량2를
+내려받았으며 실제 Chromium 화면에서 수량0의 완료 버튼 비활성화를 확인했다.
+
+물리 HDMI 연결이 어려워 사용자가 VNC 관찰을 선택했다. HDMI는 NOT_RUN이다.
+실시간 카메라 시도는 TIMEOUT이며 성공 사건은0이다. 사용자가 QR 창을 계속 유지하기
+어려워 사진 방식을 요청하여 기존 fswebcam으로1280×720 사진273,273bytes를 저장했다.
+최초 사진에는 QR이 프레임 밖이라 해독 FAIL이다. 사진은 ignored var/에만 저장했다.
+tools/verify-camera-photo.mjs는 새 촬영/저장 사진을 진단하며 업무 이벤트는 만들지 않는다.
+실제 Pi에서 합성 정상 사진 해독 PASS/exit0, 실제 QR 없는 사진 FAIL/exit1을 확인했다.
+실제 카메라 입력·재부팅 gate를 사진/합성 검사 PASS로 대신하지 않았다.
+
+현재 단말 SQLite는 DOWNLOADED/SYNCED·수량0/2·nextSeq1이다. 서버 터널만 차단하고
+SSH/VNC·서비스는 유지했다. 다음 물리 단계는 QR 전체가 담기게 카메라 방향을 조정하는
+것이다. T08/T29·M-E01/M-E07은 BLOCKED 유지; 상세 증거는 hardware-validation.md 참조.

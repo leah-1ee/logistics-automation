@@ -1,0 +1,236 @@
+{
+  "at": "2026-10-28T05:16:05.775146+00:00",
+  "scope": "Read-only hardware observations; no QR scan, reboot or power-loss validation",
+  "board": {
+    "model": "Raspberry Pi 5 Model B Rev 1.1",
+    "isRaspberryPi": true,
+    "architecture": "aarch64",
+    "kernel": "6.18.50+rpt-rpi-2712",
+    "os": {
+      "NAME": "Debian GNU/Linux",
+      "VERSION_ID": "13",
+      "VERSION_CODENAME": "trixie"
+    }
+  },
+  "runtime": {
+    "node": null,
+    "browsers": {
+      "chromium": "Chromium 154.0.8037.92 built on Debian GNU/Linux 13 (trixie)",
+      "chromium-browser": null
+    }
+  },
+  "storage": {
+    "freeBytes": 52426416128,
+    "totalBytes": 62220636160
+  },
+  "usb": [
+    {
+      "vendorId": "046d",
+      "productId": "0825",
+      "manufacturer": null,
+      "product": "C270 HD WEBCAM"
+    },
+    {
+      "vendorId": "1d6b",
+      "productId": "0002",
+      "manufacturer": "Linux 6.18.50+rpt-rpi-2712 xhci-hcd",
+      "product": "xHCI Host Controller"
+    },
+    {
+      "vendorId": "1d6b",
+      "productId": "0003",
+      "manufacturer": "Linux 6.18.50+rpt-rpi-2712 xhci-hcd",
+      "product": "xHCI Host Controller"
+    },
+    {
+      "vendorId": "1d6b",
+      "productId": "0002",
+      "manufacturer": "Linux 6.18.50+rpt-rpi-2712 xhci-hcd",
+      "product": "xHCI Host Controller"
+    },
+    {
+      "vendorId": "1d6b",
+      "productId": "0003",
+      "manufacturer": "Linux 6.18.50+rpt-rpi-2712 xhci-hcd",
+      "product": "xHCI Host Controller"
+    }
+  ],
+  "video": [
+    {
+      "node": "/dev/video0",
+      "name": "C270 HD WEBCAM",
+      "driver": "uvcvideo",
+      "card": "C270 HD WEBCAM",
+      "videoCapture": true,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video1",
+      "name": "C270 HD WEBCAM",
+      "driver": "uvcvideo",
+      "card": "C270 HD WEBCAM",
+      "videoCapture": false,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video19",
+      "name": "rpi-hevc-dec",
+      "driver": "rpi-hevc-dec",
+      "card": "rpi-hevc-dec",
+      "videoCapture": false,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video20",
+      "name": "pispbe-input",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": false,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video21",
+      "name": "pispbe-tdn_input",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": false,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video22",
+      "name": "pispbe-stitch_input",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": false,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video23",
+      "name": "pispbe-output0",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": true,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video24",
+      "name": "pispbe-output1",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": true,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video25",
+      "name": "pispbe-tdn_output",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": true,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video26",
+      "name": "pispbe-stitch_output",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": true,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video27",
+      "name": "pispbe-config",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": false,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video28",
+      "name": "pispbe-input",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": false,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video29",
+      "name": "pispbe-tdn_input",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": false,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video30",
+      "name": "pispbe-stitch_input",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": false,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video31",
+      "name": "pispbe-output0",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": true,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video32",
+      "name": "pispbe-output1",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": true,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video33",
+      "name": "pispbe-tdn_output",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": true,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video34",
+      "name": "pispbe-stitch_output",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": true,
+      "streaming": true,
+      "query": "OBSERVED"
+    },
+    {
+      "node": "/dev/video35",
+      "name": "pispbe-config",
+      "driver": "pispbe",
+      "card": "pispbe",
+      "videoCapture": false,
+      "streaming": true,
+      "query": "OBSERVED"
+    }
+  ],
+  "T08": "NOT_RUN",
+  "T29": "NOT_RUN",
+  "status": "OBSERVATIONS_ONLY",
+  "physicalDisplay": "NOT_RUN_HDMI_NOT_CONNECTED",
+  "observationDisplay": "VNC Viewer (user selected)"
+}

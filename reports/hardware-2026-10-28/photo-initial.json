@@ -1,0 +1,14 @@
+{
+  "observedAt": "2026-10-28T07:10:08.160Z",
+  "input": "SAVED_IMAGE",
+  "imagePath": "var/c270-qr.jpg",
+  "width": 1280,
+  "height": 720,
+  "bytes": 273273,
+  "sha256": "9756ff09f467deda63bf1b53e8b6fd35c29e71c07edfffca29d6faff19120a46",
+  "decode": "FAIL",
+  "businessEventsCreated": 0,
+  "scope": "Photo diagnostic; not a live browser camera acceptance test",
+  "decodeError": "NotFoundException"
+}
+

@@ -1,10 +1,14 @@
-# 실제 장비 검증 — BLOCKED
+# 실제 장비 검증 — 진행 중, 필수 gate BLOCKED
 
 기준일: 2026-10-28 Asia/Seoul. 예정 카메라: 사용자 지정 Logitech C270.
-사용자가 Pi SSH 접속 가능을 알렸고 지정 호스트의 SSH 서버에 실제로 도달했다.
-현재 자동 키 인증은 거부되어 공개키 등록을 기다린다. Pi 모델/OS/SD와 C270 인식은 아직 미확인이다.
+사용자 공개키 등록과 코드·Node·단말 토큰 전송 승인을 받은 뒤 실제 Pi에 접속·설치했다.
+Raspberry Pi 5 Model B Rev 1.1 / Debian13 arm64 / Chromium154 / Node24.22.1이며,
+C270 USB046d:0825와 실제 캡처 노드 /dev/video0(uvcvideo)를 확인했다.
+물리 HDMI는 연결할 수 없어 NOT_RUN이고, 사용자가 선택한 VNC로 화면을 관찰한다.
+사용자 서비스·내장 SQLite·로컬 health200·실제 작업 스냅샷 다운로드는 확인했으나,
+실제 QR 인식·오프라인 완료·재부팅 복원·서버 확정 전체 흐름은 아직 통과하지 않았다.
 WSL에서 비디오 장치를 찾지 못한 결과를 Pi의 장비 상태로 해석하지 않는다.
-아래는 실행 절차이며 실행 결과가 아니다. WSL의 SQLite/프로세스 시험이나
+아래 절차의 미실행 항목은 실행 결과가 아니다. WSL의 SQLite/프로세스 시험이나
 QR 문자열 encode/decode를 실제 웹캠·보드 시험의 PASS로 옮기지 않는다.
 
 ## 연결 전 기록
@@ -13,14 +17,14 @@ QR 문자열 encode/decode를 실제 웹캠·보드 시험의 PASS로 옮기지 
 브라우저 버전과 Node 버전을 기록한다. Node24 ARM64와 해당 OS의 호환성을 확인한다.
 새 OS/Node/패키지는 크기와 저장 공간을 먼저 확인하고, 개별1GB 초과 또는 크기 미확인은 승인 후 받는다.
 
-현재 사용자에게 안내한 한 단계는 프로젝트 전용 공개키 등록이다.
+프로젝트 전용 공개키 등록은 완료했다. 아래 명령은 연결 재현용이다.
 개인키와 known_hosts는 Git 제외된 var/에만 두며 실제 SSH 주소를 보고서에 커밋하지 않는다.
 
 ```bash
 ssh-copy-id -i "$PWD/var/pi-verify-ed25519.pub" -o "UserKnownHostsFile=$PWD/var/pi-known_hosts" <사용자>@<Pi주소>
 ```
 
-인증 후 담당 에이전트가 다음 읽기 전용 점검을 수행한다. 촬영/설치/재부팅은 하지 않는다.
+다음 읽기 전용 프로브는 실행했다. 프로브 자체는 촬영/설치/재부팅을 하지 않는다.
 
 ```bash
 ssh -i var/pi-verify-ed25519 -o UserKnownHostsFile=var/pi-known_hosts <사용자>@<Pi주소> python3 - < tools/probe-hardware.py
@@ -74,4 +78,38 @@ Node 경로·사용자·WorkingDirectory·EnvironmentFile을 확인해 deploy/lo
 
 소프트웨어 경계 보완: 권한 허용 대기 중 중지/작업 변경, 늦은 스트림, 반복 콜백을
 모의 카메라3시험으로 확인했다. 단말 목록의201번째 이후 작업 페이지 이동도 구현했다.
-C270 실제 프레임 인식, 브라우저 카메라 선택·권한, Pi/SD 복원 시험은 여전히 BLOCKED다.
+C270 실제 프레임 QR 인식, 브라우저 카메라 입력, Pi 재부팅 복원 시험은 여전히 BLOCKED다.
+
+## 사진을 이용한 중간 진단 (2026-10-28)
+
+사용자가 QR 화면을 계속 유지하기 어려워 사진 방식의 검증을 요청했다.
+설치되어 있던 fswebcam/ffmpeg/ffprobe로 실제 C270 사진1280×720을 Pi의 Git 제외
+var/에 권한0600으로 저장했다. 최초 사진273,273bytes에서는 QR이 프레임 밖이었고
+ZXing은 NotFoundException을 반환했다. 촬영 자체 PASS와 QR 해독 FAIL을 구분한다.
+기존 브라우저 읽기도 TIMEOUT/camera:null이므로 인식 성공 증거로 쓰지 않는다.
+
+- [실제 USB/V4L2 관측](hardware-2026-10-28/preflight.json)
+- [Node 공식 다운로드 지문](hardware-2026-10-28/node-download.json)
+- [Pi 런타임 설치 확인](hardware-2026-10-28/runtime-install.json)
+- [실시간 읽기 시간 초과](hardware-2026-10-28/first-optical-scan.json)
+- [저장 사진 해독 실패](hardware-2026-10-28/photo-initial.json)
+- [합성 정상 사진/실제 QR 없는 사진 진단 도구 시험](hardware-2026-10-28/photo-tool-checks.json)
+- [실제 Pi 화면: 수량 부족 시 완료 비활성화](hardware-2026-10-28/device-ui-partial.json)
+
+사진 원본·원본 상품 QR·토큰·SSH 주소·키는 커밋하지 않는다. 저장 사진을 다시 해독한
+결과는 SAVED_IMAGE이며 실제 브라우저 웹캠 입력 시험의 PASS로 대신하지 않는다.
+진단 도구는 스캔 API를 호출하지 않으며 event/state/seq를 변경하지 않는다.
+첫 읽기 뒤 실제 SQLite는 DOWNLOADED/SYNCED, 수량0/2, nextSeq1로 유지되었다.
+서버 loopback 터널만 중단해 두었고 SSH/VNC와 로컬 단말 서비스는 유지한다.
+
+추가 다운로드 없이 Pi 프로젝트 폴더에서 다음처럼 재현한다. 매 촬영은 새 폴더를
+생성하고 기존 사진을 덮어쓰지 않는다. 출력에는 해독한 QR 문자열을 포함하지 않는다.
+
+```bash
+node tools/verify-camera-photo.mjs --capture --device /dev/video0 --db var/device.sqlite --task-id <작업_UUID>
+node tools/verify-camera-photo.mjs --image var/camera-photos/<촬영폴더>/frame.jpg --db var/device.sqlite --task-id <작업_UUID>
+```
+
+QR이 담긴 사진 한 장을 해독한 뒤 사용자는 QR 창을 내릴 수 있다. 그 사진의 반복
+해독은 사진 기반 시험으로 기록하고 실제 카메라 오류 QR/실시간 입력 시험은 별도 유지한다.
+현재 다음 물리 단계는 C270 방향을 조정해 QR 전체를 프레임에 담는 것이다.

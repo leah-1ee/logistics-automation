@@ -1,0 +1,10 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "status": "TIMEOUT",
+      "camera": null,
+      "alert": null
+    }
+  }
+}

@@ -31,6 +31,7 @@
 [로컬 ACK·원래 F1 보존](independent-2026-10-28/f1-local.json).
 
 실제 Pi/C270 점검은 [장비 절차](hardware-validation.md)를 따른다.
-현재 사용자 제공 SSH 서버에는 도달했으나 인증 등록이 진행 중이다.
+SSH 인증·Pi5/Node 설치·C270 인식·실제 사진 촬영은 확인했다.
+첫 사진에는 QR이 담기지 않아 해독 FAIL이며 실제 QR·재부팅 gate는 아직 BLOCKED다.
 WSL 파일 SQLite·SIGKILL·모의 카메라 결과를 실제 Pi/SD/웹캠 PASS로 기록하지 않는다.
 실제 브라우저·현장 영상·Pi 재부팅이 끝나기 전 mvp-v1 태그나08확장은 실행하지 않는다.

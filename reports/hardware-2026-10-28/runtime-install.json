@@ -1,0 +1,1 @@
+{"node": "v24.22.1", "architecture": "arm64", "sqliteBuiltin": "PASS", "productionInstall": "PASS", "configMode": "0o600", "projectRoot": "/home/pi/logistics-automation-verification"}

@@ -1,0 +1,11 @@
+{
+  "scope": "SYNTHETIC_IMAGE_TOOL_TEST_NOT_CAMERA",
+  "positiveDecode": "PASS",
+  "projectProductQR": true,
+  "businessEventsCreated": 0,
+  "positiveExitCode": 0,
+  "negativeInput": "Actual C270 photo without visible QR",
+  "negativeDecode": "FAIL",
+  "negativeExitCode": 1,
+  "negativeEvidence": "photo-initial.json"
+}

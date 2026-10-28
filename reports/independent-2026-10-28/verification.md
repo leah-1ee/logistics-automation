@@ -36,7 +36,7 @@ NOT_RUN은 결함이 없다는 뜻이 아니다.
 | M-W04 | PASS | source-final.json 스냅샷 hash/수량·snapshot-lifecycle-after.tap ACK 유실 복구 |
 | M-W05 | PASS | integration-verified.tap/tasks·sync: 재배정·다른 단말/버전 거부 |
 | M-W06 | PASS | integration-verified.tap/operations·http: 보류/이벤트/메모 조회·감사 API |
-| M-E01 | BLOCKED | 실제 Pi/C270 인증·카메라 QR 입력 미검증; 모의 camera3시험으로 대체하지 않음 |
+| M-E01 | BLOCKED | Pi5/C270 연결·사진 촬영 확인, 첫 사진 QR 해독 실패; 실제 입력 미통과 |
 | M-E02 | NOT_RUN | 로컬/API의 오류·수량·seq 차단은 PASS; 실제 경고 화면/입력 경로는 미실행 |
 | M-E03 | PASS | 새 F1 2,134고유 이벤트 및 local/event-rules: 상품1개·UUID·연속 seq |
 | M-E04 | PASS | integration-verified.tap/event-rules, unit-final.tap/local: 특정 스캔/재취소·음수 차단 |
@@ -123,7 +123,10 @@ DB 시험 동시성은1이다. 병렬 시험의 deadlock과 초기 fixture drain
 ## 남은 실제 수용 조건
 
 [장비 절차](../hardware-validation.md)에 따라 SSH 인증 후 Pi 모델/OS/SD와 C270을 확인한다.
-현재 SSH 전송 계층에는 도달했지만 키 인증이 거부되어 등록을 진행 중이다.
+SSH 인증과 Pi5/Node 설치·C270 인식·실제 촬영은 완료했다. 최초 사진에는 QR이
+담기지 않아 해독 FAIL이며, 실시간 읽기 TIMEOUT도 통과 증거로 쓰지 않는다.
+사용자 요청에 따라 한 장 촬영 뒤 사진 기반 반복 진단을 준비했다. 이 진단은 업무
+이벤트를 만들지 않으며 실시간 브라우저 QR 및 재부팅 gate를 대신하지 않는다.
 WSL의 USB 부재/모의 카메라/프로세스 SIGKILL을 실제 Pi QR·재부팅·SD 시험으로 표시하지 않는다.
 실제 브라우저 조작·현장 시연 영상·전원 차단/SD 물리 장애는 실행하지 않았다.
 하드웨어 인증/연결 뒤 사용자 행동을 한 단계씩 안내하고 실제 결과로 표를 갱신한다.

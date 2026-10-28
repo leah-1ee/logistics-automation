@@ -1,0 +1,9 @@
+{
+  "filename": "node-v24.22.1-linux-arm64.tar.xz",
+  "url": "https://nodejs.org/dist/v24.22.1/node-v24.22.1-linux-arm64.tar.xz",
+  "bytes": 30978868,
+  "sha256": "dbabf7a1cbf947e6059ffad2c27b80041db97dea1e553b62afdee7f13fca336e",
+  "expectedSha256": "dbabf7a1cbf947e6059ffad2c27b80041db97dea1e553b62afdee7f13fca336e",
+  "unpackedFileBytes": 198254896,
+  "status": "PASS"
+}
