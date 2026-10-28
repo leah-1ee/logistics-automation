@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { type Db, type Tx, transaction, connection } from '../server/db.js';
 import { hash, now, parseJson, Problem, validate } from '../shared/contracts.js';
 import { normalize } from './normalize.js';
+import { setTimeout as delay } from 'node:timers/promises';
 export async function enqueue(tx:Tx,runId:string,type:string,aggregateId:string,dedupe:string,payload:any) {
   await tx.execute('INSERT INTO outbox_jobs(id,run_id,type,aggregate_id,dedupe_key,payload,status,available_at) VALUES(?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE id=id',
     [randomUUID(),runId,type,aggregateId,dedupe,JSON.stringify(payload),'PENDING',now()]);
@@ -51,10 +52,10 @@ export async function collect(db:Db,runId:string,sourceUrl:string,signal?:AbortS
   while(!signal?.aborted) {
     const state=await ingestionStatus(db,runId);if(state.status==='DONE')return state;
     const url=new URL('/source/v1/orders',sourceUrl);url.searchParams.set('datasetRunId',runId);url.searchParams.set('limit','200');if(state.cursor)url.searchParams.set('cursor',state.cursor);
-    const res=await fetch(url,{signal:signal||AbortSignal.timeout(15000)});
+    const res=await fetch(url,{signal:signal?AbortSignal.any([signal,AbortSignal.timeout(15000)]):AbortSignal.timeout(15000)});
     if(!res.ok)throw new Problem('SOURCE_HTTP_'+res.status,503);
     const page=await res.json();validate('SourcePage',page);
     await ingestPage(db,runId,page,state.cursor);
-    if(!page.items.length&&!page.exhausted) await new Promise(r=>setTimeout(r,Math.max(100,Math.min(page.nextPollAfterMs,60000))));
+    if(!page.items.length&&!page.exhausted) await delay(Math.max(100,Math.min(page.nextPollAfterMs,60000)),undefined,{signal});
   }
 }

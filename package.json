@@ -10,7 +10,7 @@
     "build": "tsc && vite build --config web/vite.config.ts",
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test tests/*.test.ts",
-    "test:integration": "node --import tsx --test --test-concurrency=1 tests/integration/*.test.ts",
+    "test:integration": "node --import tsx --env-file=.env.test --test --test-concurrency=1 tests/integration/*.test.ts",
     "start": "node --env-file=.env dist/src/server/main.js",
     "dev": "node --import tsx --env-file=.env src/server/main.ts",
     "worker": "node --import tsx --env-file=.env src/server/worker-main.ts",
@@ -21,7 +21,12 @@
     "prepare:data": "node --import tsx --env-file=.env tools/prepare-data.ts",
     "ingest": "node --import tsx --env-file=.env tools/ingest.ts",
     "reconcile": "node --import tsx --env-file=.env tools/reconcile.ts",
-    "verify:documents": "node --import tsx tools/check-documents.ts"
+    "verify:documents": "node --import tsx tools/check-documents.ts",
+    "verify:services": "node --import tsx --env-file=.env.test tests/service-faults.ts",
+    "verify:synthetic": "node --import tsx --env-file=.env.test tests/replay-synthetic.ts",
+    "init:test-db": "node --env-file=.env tools/init-test-db.mjs",
+    "qr:labels": "node --import tsx --env-file=.env tools/qr-labels.ts",
+    "verify:actual": "node --import tsx --env-file=.env tools/replay-actual.ts"
   },
   "dependencies": {
     "@nestjs/common": "12.2.0",
@@ -39,7 +44,8 @@
     "react-dom": "19.3.1",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2",
-    "yaml": "2.9.1"
+    "yaml": "2.9.1",
+    "@zxing/library": "0.23.0"
   },
   "devDependencies": {
     "@types/node": "24.10.0",

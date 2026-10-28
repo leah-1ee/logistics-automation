@@ -17,9 +17,16 @@ def digest(path):
   for block in iter(lambda:f.read(1024*1024), b''): h.update(block)
  return h.hexdigest()
 def main():
- p=argparse.ArgumentParser();p.add_argument('--raw',required=True);p.add_argument('--out',required=True);p.add_argument('--manifest',required=True);p.add_argument('--synthetic',action='store_true');a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--raw',required=True);p.add_argument('--out',required=True);p.add_argument('--manifest',required=True);p.add_argument('--synthetic',action='store_true');p.add_argument('--downloaded-at');a=p.parse_args()
  raw=Path(a.raw);out=Path(a.out);out.parent.mkdir(parents=True,exist_ok=True)
  if out.exists() or Path(a.manifest).exists(): raise SystemExit('Existing output/manifest refused; use a new version path.')
+ provenance=json.loads((raw/'download.json').read_text()) if (raw/'download.json').exists() else {}
+ downloaded_at=None
+ if not a.synthetic:
+  downloaded_at=a.downloaded_at or provenance.get('downloadedAt')
+  try:
+   parsed_time=datetime.fromisoformat(downloaded_at.replace('Z','+00:00'));assert parsed_time.tzinfo is not None
+  except (AttributeError,ValueError,AssertionError):raise SystemExit('Record actual downloadedAt with an offset in download.json, or use --downloaded-at. Preparation time is not download time.')
  for name,(file,required) in FILES.items():
   with open(raw/file,newline='',encoding='utf-8-sig') as f:
    headers=next(csv.reader(f));assert all(k in headers for k in required),(file,required,headers)
@@ -35,7 +42,7 @@ def main():
  CREATE TABLE meta(key TEXT PRIMARY KEY,value TEXT);
  ''')
  manifest={'datasetVersion':'synthetic-fixture-v1' if a.synthetic else 'olist-v2','synthetic':a.synthetic,
-  'downloadedAt':datetime.now(timezone.utc).isoformat(), 'sourceUrl':'generated:test-fixture' if a.synthetic else 'https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce',
+  'downloadedAt':downloaded_at,'preparedAt':datetime.now(timezone.utc).isoformat(),'downloadProvenance':provenance, 'sourceUrl':'generated:test-fixture' if a.synthetic else 'https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce',
   'licenseNotice':'Synthetic fixture; no actual Olist rows' if a.synthetic else 'CC BY-NC-SA 4.0 — Olist / Kaggle; preserve attribution; no raw redistribution in Git', 'files':[]}
  for kind,(file,required) in FILES.items():
   path=raw/file;filehash=digest(path);count=0;keys=set()
@@ -45,7 +52,7 @@ def main():
    fingerprint=hashlib.sha256(json.dumps(reader.fieldnames,separators=(',',':')).encode()).hexdigest()
    for count,row in enumerate(reader,1):
     sourcekey=row.get({'orders':'order_id','items':'order_id','products':'product_id','sellers':'seller_id'}[kind],'')
-    keys.add(sourcekey);body=json.dumps(row,ensure_ascii=False,separators=(',',':'))
+    keys.add(sourcekey+':'+row.get('order_item_id','') if kind=='items' else sourcekey);body=json.dumps(row,ensure_ascii=False,separators=(',',':'))
     db.execute('INSERT INTO source_rows VALUES(?,?,?,?,?)',(kind,count,filehash,sourcekey,body))
     if kind=='items': db.execute('INSERT INTO items VALUES(?,?,?,?,?)',tuple(row.get(k,'') for k in ['order_id','order_item_id','product_id','seller_id','shipping_limit_date']))
     elif kind=='products':
@@ -54,13 +61,14 @@ def main():
      db.execute('INSERT OR IGNORE INTO products VALUES(?,?)',(sourcekey,body))
     elif kind=='sellers': db.execute('INSERT OR IGNORE INTO sellers VALUES(?)',(sourcekey,))
     else: db.execute('INSERT INTO orders(source_key,sort_time,payload) VALUES(?,?,?)',(sourcekey or filehash+':'+str(count),row.get('order_approved_at') or row.get('order_purchase_timestamp') or '',body))
-  db.commit();manifest['files'].append({'fileName':file,'fileSha256':filehash,'fileBytes':path.stat().st_size,'rowCount':count,'distinctKeyCount':len(keys),'schemaFingerprint':fingerprint})
+  db.commit();manifest['files'].append({'fileName':file,'fileSha256':filehash,'fileBytes':path.stat().st_size,'rowCount':count,'distinctKeyCount':len(keys),'keyDefinition':'order_id+order_item_id' if kind=='items' else required[0],'schemaFingerprint':fingerprint})
   print(kind,count)
  manifest['importConfigHash']=hashlib.sha256(b'csv-stream-v1;row-count-qty;raw-preserved').hexdigest()
  # Source rows remain untouched; order serving uses a stable indexed virtual sort.
  db.execute('CREATE INDEX order_sort ON orders(sort_time,source_key,position)')
  manifest['orphanItemRows']=db.execute("SELECT COUNT(*) FROM items i WHERE NOT EXISTS(SELECT 1 FROM orders o WHERE o.source_key=i.order_id)").fetchone()[0]
- db.execute('INSERT INTO meta VALUES(?,?)',('manifest',json.dumps(manifest)));db.commit();db.close()
+ db.execute('INSERT INTO meta VALUES(?,?)',('manifest',json.dumps(manifest)));db.commit()
+ db.execute('PRAGMA wal_checkpoint(TRUNCATE)');db.execute('PRAGMA journal_mode=DELETE');db.close()
  Path(a.manifest).parent.mkdir(parents=True,exist_ok=True);Path(a.manifest).write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
  print('Prepared',out,'manifest',a.manifest)
 if __name__=='__main__': main()

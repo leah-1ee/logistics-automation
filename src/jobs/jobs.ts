@@ -45,8 +45,8 @@ export async function processJob(db:Db,id:string,fault?:(stage:string)=>void) {
     throw error;
   }
 }
-export async function dispatch(db:Db,queue:Queue,leaseMs=Number(process.env.OUTBOX_LEASE_MS||30000)) {
-  const jobs=await connection(db).execute("SELECT id FROM outbox_jobs WHERE (status='PENDING' AND available_at<=?) OR (status='DISPATCHED' AND lease_until<=?) ORDER BY available_at LIMIT 100",[now(),now()]);
+export async function dispatch(db:Db,queue:Queue,leaseMs=Number(process.env.OUTBOX_LEASE_MS||30000),runId?:string) {
+  const jobs=await connection(db).execute("SELECT id FROM outbox_jobs WHERE ((status='PENDING' AND available_at<=?) OR (status='DISPATCHED' AND lease_until<=?))"+(runId?' AND run_id=?':'')+' ORDER BY available_at LIMIT 100',[now(),now(),...(runId?[runId]:[])]);
   for(const {id} of jobs)await transaction(db,async tx=>{
     const [job]=await tx.execute('SELECT * FROM outbox_jobs WHERE id=? FOR UPDATE',[id]);
     if(!job||['DONE','FAILED'].includes(job.status))return;

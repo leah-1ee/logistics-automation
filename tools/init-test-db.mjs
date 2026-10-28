@@ -1,0 +1,11 @@
+import { readFileSync,writeFileSync,existsSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+const user=process.env.MYSQL_USER;
+if(!/^[a-zA-Z0-9_]+$/.test(user||''))throw new Error('Invalid development database user');
+const sql=`CREATE DATABASE IF NOT EXISTS logistics_test; GRANT ALL PRIVILEGES ON logistics_test.* TO '${user}'@'%';\n`;
+const r=spawnSync('docker',['compose','exec','-T','mysql','sh','-c','MYSQL_PWD="$MYSQL_ROOT_PASSWORD" exec mysql -uroot'],{input:sql,encoding:'utf8'});
+if(r.status!==0)throw new Error(r.stderr||'Test DB provisioning failed');
+const content=readFileSync('.env','utf8').replace(/^MYSQL_DATABASE=.*$/m,'MYSQL_DATABASE=logistics_test');
+if(!existsSync('.env.test'))writeFileSync('.env.test',content,{mode:0o600,flag:'wx'});
+else if(!readFileSync('.env.test','utf8').includes('MYSQL_DATABASE=logistics_test'))throw new Error('Existing .env.test uses unexpected DB; refusing overwrite');
+console.log('Provisioned separate logistics_test DB; original DB and test history retained.');

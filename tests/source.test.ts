@@ -10,6 +10,8 @@ test('S1 source cursor is repeatable, bound to run, waits instead of false EOF',
   assert.equal(spawnSync('python3',['tools/prepare-data.py','--raw','data/fixtures','--out',path,'--manifest',manifest,'--synthetic']).status,0);
   const s=new Source(path,'11111111-1111-4111-8111-111111111111');
   try {
+    const f1=spawnSync(process.execPath,['--import','tsx','tools/replay-actual.ts'],{env:{...process.env,PREPARED_DB:path},encoding:'utf8'});
+    assert.equal(f1.status,2);assert.match(f1.stderr,/synthetic input refused/);
     const waiting=s.page(undefined,2,new Date('2026-10-26T00:00:00Z'));assert.equal(waiting.exhausted,false);assert.equal(waiting.items.length,0);
     const p=s.page(undefined,2,new Date('2026-10-28T00:00:00Z'));
     assert.deepEqual(s.page(undefined,2,new Date('2026-10-28T00:00:00Z')),p);

@@ -1,7 +1,8 @@
 name: logistics-mvp
 x-app: &app
+  image: logistics-mvp-app:0.1.0
   build: .
-  env_file: .env
+  env_file: ${APP_ENV_FILE:-.env}
   environment: &appenv
     MYSQL_HOST: mysql
     MYSQL_PORT: 3306
@@ -11,6 +12,7 @@ x-app: &app
     API_HOST: 0.0.0.0
   volumes:
     - ./data:/app/data:ro
+    - ./manifests:/app/manifests
   restart: unless-stopped
 services:
   mysql:

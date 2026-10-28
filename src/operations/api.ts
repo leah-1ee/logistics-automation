@@ -58,7 +58,8 @@ export async function dailyReport(db:Db,runId:string,date:string) {
 }
 export function apiHandlers(db:Db) {
   const running=new Map<string,Promise<any>>();
-  const launch=(run:string)=>{if(!running.has(run)){const work=collect(db,run,process.env.SOURCE_URL!).catch(async(e:any)=>{console.error('Ingestion paused',run,e.code||e.message);await connection(db).execute("UPDATE source_checkpoints SET status='FAILED' WHERE run_id=? AND status<>'DONE'",[run]);}).finally(()=>running.delete(run));running.set(run,work);}};
+  const abort=new AbortController();
+  const launch=(run:string)=>{if(!running.has(run)){const work=collect(db,run,process.env.SOURCE_URL!,abort.signal).catch(async(e:any)=>{console.error('Ingestion paused',run,e.code||e.message);await connection(db).execute('UPDATE source_checkpoints SET status=? WHERE run_id=? AND status<>?', [abort.signal.aborted?'PAUSED':'FAILED',run,'DONE']);}).finally(()=>running.delete(run));running.set(run,work);}};
   const list=async(req:any,table:string,view:(tx:Tx,id:string)=>Promise<any>,filterKeys:string[],whereExtra='',extraParams:any[]=[])=>{
     const limit=pageLimit(req.query.limit),conditions=['run_id=?'],params:any[]=[req.query.datasetRunId];
     for(const key of filterKeys)if(key!=='query'&&req.query[key]){conditions.push((key==='deviceId'?'device_id':key)+'=?');params.push(req.query[key]);}
@@ -77,6 +78,7 @@ export function apiHandlers(db:Db) {
       const result=await adminRequest(db,req.actorId,'ingestion:'+run,req.body,async tx=>{
         const [cp]=await tx.execute('SELECT * FROM source_checkpoints WHERE run_id=? FOR UPDATE',[run]);if(!cp)throw new Problem('RUN_NOT_REGISTERED',404);
         if(cp.status!=='DONE')await tx.execute("UPDATE source_checkpoints SET status='RUNNING' WHERE run_id=?",[run]);
+        await audit(tx,req.actorId,'START_INGESTION',run,'Operator requested registered dataset ingestion',{status:cp.status},{status:cp.status==='DONE'?'DONE':'RUNNING',requestId:req.body.requestId});
         return {...await ingestionStatus(db,run),status:cp.status==='DONE'?'DONE':'RUNNING'};
       });launch(run);return result;
     },
@@ -87,9 +89,11 @@ export function apiHandlers(db:Db) {
     tasks_list:async req=>list(req,'tasks',taskView,['status','deviceId']),
     tasks_get:async(_req,p)=>{
       const c=connection(db);const task=await taskView(c,p.taskId);
-      const events=(await c.execute('SELECT result FROM device_events WHERE task_id=? ORDER BY seq',[p.taskId])).map((e:any)=>parseJson(e.result));
+      const records=await c.execute('SELECT result,event_body FROM device_events WHERE task_id=? ORDER BY seq',[p.taskId]);
+      const events=records.map((e:any)=>parseJson(e.result)),eventBodies=records.map((e:any)=>parseJson(e.event_body));
+      const syncIncidents=await c.execute("SELECT actor_id deviceId,reason code,at observedAt,before_after evidence FROM audit_logs WHERE target_id=? AND action='SYNC_BLOCKED' ORDER BY at,id",[p.taskId]);
       const notes=(await c.execute("SELECT id,actor_id actorId,reason,at createdAt FROM audit_logs WHERE target_id=? AND action='TASK_NOTE' ORDER BY at,id",[p.taskId]));
-      return {task,events,notes};
+      return {task,events,notes,eventBodies,syncIncidents:syncIncidents.map((i:any)=>({...i,evidence:parseJson(i.evidence)}))};
     },
     tasks_assign:async(req,p)=>assign(db,req.actorId,p.taskId,req.body),
     tasks_note:async(req,p)=>adminRequest(db,req.actorId,'note:'+p.taskId,req.body,async tx=>{
@@ -108,5 +112,5 @@ export function apiHandlers(db:Db) {
     device_events:async req=>applyBatch(db,req.deviceId,req.body),
     device_status:async req=>{await connection(db).execute('UPDATE devices SET last_seen_at=?,last_report=?,report_received_at=? WHERE id=?',[now(),JSON.stringify(req.body),now(),req.deviceId]);return {accepted:true,requestId:randomUUID()};}
   };
-  return {handlers,async close(){await Promise.allSettled([...running.values()]);}};
+  return {handlers,async close(){abort.abort();await Promise.allSettled([...running.values()]);}};
 }

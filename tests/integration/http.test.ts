@@ -18,6 +18,7 @@ test('T26/T31 real Nest HTTP roles, bounded pages, stale observation, CSV, input
     assert.equal((await get('orders?datasetRunId='+runId)).status,401);
     assert.equal((await get('orders?datasetRunId='+runId,token)).status,403);
     assert.equal((await get('device/tasks?datasetRunId='+runId,process.env.ADMIN_TOKEN)).status,403);
+    const snapshots=await (await get('device/tasks?datasetRunId='+runId,token)).json();assert.equal(snapshots.items[0].snapshotHash,snapshot.snapshotHash);
     assert.equal((await get('orders?datasetRunId='+runId+'&limit=201',process.env.ADMIN_TOKEN)).status,400);
     const orders=await (await get('orders?datasetRunId='+runId+'&query='+snapshot.externalOrderId,process.env.ADMIN_TOKEN)).json();assert.equal(orders.items.length,1);
     assert.equal((await post('device/events',{batchId:randomUUID(),events:[]},token)).status,400);

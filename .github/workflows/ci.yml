@@ -12,7 +12,11 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: python3 tools/init-env.py
+      - run: make fixture
       - run: docker compose up -d --wait mysql redis
       - run: npm run migrate
       - run: npm run seed
+        env: {PREPARED_DB: data/prepared/fixture.sqlite}
+      - run: npm run init:test-db
+      - run: node --import tsx --env-file=.env.test tools/migrate.ts
       - run: npm run test:integration

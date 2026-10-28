@@ -7,7 +7,7 @@ import { processJob } from '../../src/jobs/jobs.js';
 import { correct,orderDetail,retryJob,dailyReport,apiHandlers } from '../../src/operations/api.js';
 import { applyEvent } from '../../src/sync/events.js';
 import { register,sourcePage,raw,assigned } from './helpers.js';
-import { validate,parseJson } from '../../src/shared/contracts.js';
+import { validate,parseJson,Problem } from '../../src/shared/contracts.js';
 test('T30/T33 correction revision, immutable raw, superseded job and bounded job failures',async()=>{
   const db=await connectDb();try{
     const {runId}=await register(db);const source=structuredClone(raw);source.items[0].productId='f'.repeat(32);
@@ -28,7 +28,7 @@ test('T30/T33 correction revision, immutable raw, superseded job and bounded job
     const api=apiHandlers(db);const note=await api.handlers.tasks_note({actorId:'test-admin',body:{requestId:randomUUID(),reason:'hold reviewed; no force completion'}},{taskId:tasks[0].id});validate('Note',note);
     const details=await api.handlers.tasks_get({}, {taskId:tasks[0].id});assert.equal(details.notes[0].reason,note.reason);await api.close();
     const permanentRun=await register(db);await ingestPage(db,permanentRun.runId,sourcePage(permanentRun.runId),null);const [pj]=await connection(db).execute('SELECT * FROM outbox_jobs WHERE run_id=?',[permanentRun.runId]);
-    await connection(db).execute("UPDATE outbox_jobs SET type='INVALID_TYPE' WHERE id=?",[pj.id]);await assert.rejects(processJob(db,pj.id));
+    await assert.rejects(processJob(db,pj.id,()=>{throw new Problem('PERMANENT_INPUT_ERROR');}));
     await assert.rejects(retryJob(db,'test-admin',pj.id,{requestId:randomUUID(),reason:'must not bypass permanent domain error'}));
   }finally{await db.close(true);}
 });

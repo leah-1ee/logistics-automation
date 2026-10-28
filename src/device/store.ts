@@ -108,6 +108,6 @@ export class LocalStore {
   }
   retryMeta(id:string):any {const r=this.db.prepare('SELECT value FROM sync_meta WHERE key=?').get('retry:'+id) as any;return r?JSON.parse(r.value):null;}
   setRetry(id:string,attempt:number,code:string,delay:number) {this.atomic(()=>{this.db.prepare('INSERT INTO sync_meta VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value').run('retry:'+id,JSON.stringify({attempt,code,nextAt:Date.now()+delay}));this.rebuild(id);});}
-  retryNow() {this.atomic(()=>{this.db.prepare("DELETE FROM sync_meta WHERE key LIKE 'retry:%'").run();for(const r of this.db.prepare('SELECT task_id FROM task_snapshots').all() as any[])this.rebuild(r.task_id);});}
+  retryNow() {this.atomic(()=>{this.db.prepare("DELETE FROM sync_meta WHERE key LIKE 'retry:%' OR (key LIKE 'blocked:%' AND value='AUTHENTICATION_REQUIRED')").run();for(const r of this.db.prepare('SELECT task_id FROM task_snapshots').all() as any[])this.rebuild(r.task_id);});}
   close(){this.db.close();}
 }

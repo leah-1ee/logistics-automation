@@ -32,6 +32,12 @@ datasetVersion, downloadedAt, sourceUrl, licenseNotice, fileNames, fileSha256, f
 
 같은 manifest로 두 번 실행한 정규화 결과와 작업 수가 같아야 합니다. 원본 해시가 다르면 다른 datasetVersion으로 취급합니다.
 
+구현 보완: 주문 상품 distinct key는 order_id+order_item_id이며 주문 distinct 수와 별도입니다.
+초기 합성 fixture manifest의 order_items distinctKeyCount=10은 order_id 기준의 10주문을
+뜻하며 행 수 30과 구분합니다. 이후 준비 도구는 keyDefinition과 복합 key 수를 기록합니다.
+누락/잘못된 sourceItemId는 source 계약에서 null로 전달하고 DATA_HOLD로 분류하며,
+정확한 원문 값은 불변 CSV와 준비 인덱스 source_rows에서 복원합니다.
+
 ## 4. 필드 매핑
 
 | 원본 | 내부 사용 | 규칙 |

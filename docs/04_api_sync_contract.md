@@ -147,4 +147,10 @@ seq·확정·집계를 바꾸지 않습니다. 기존 eventId 중복 검사는 �
 로컬 보존 이력·취소 대상·차단 사유는 GET /local/v1/tasks/{taskId}/history로 조회합니다.
 GET /local/v1/health는 프로세스와 SQLite 상태를 확인합니다.
 
+IngestionStart의 HTTP 계약에는 reason 필드가 없으므로 이 명령은 고정된
+수집 시작/재개 사유와 actor/requestId를 감사 기록에 남깁니다. 다른 운영 변경은
+계약의 사용자 사유를 보존합니다. BLOCKED는 업무 수량/seq를 바꾸지 않으며,
+별도 DEVICE 감사 증적과 작업 상세 syncIncidents에 차단 근거를 보존합니다.
+작업 상세 eventBodies는 receipt와 함께 원래 스캔/취소/완료 입력을 표시합니다.
+
 단말 시계가 틀릴 수 있어 MVP 집계는 서버 확정 기준입니다. '현장 작업일 기준 집계'는 시계 신뢰 정책을 포함해 E2에서 추가합니다.

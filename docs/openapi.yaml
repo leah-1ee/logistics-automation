@@ -1906,6 +1906,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Note'
+        eventBodies:
+          type: array
+          items: {$ref: '#/components/schemas/DeviceEvent'}
+        syncIncidents:
+          type: array
+          items: {type: object, additionalProperties: true}
       required:
       - task
       - events
@@ -2471,7 +2477,7 @@ components:
       type: object
       properties:
         sourceItemId:
-          type: integer
+          type: [integer, 'null']
           minimum: 1
         productId:
           type:

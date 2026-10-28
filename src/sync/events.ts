@@ -10,8 +10,12 @@ export async function applyEvent(db:Db,authenticatedDevice:string,event:Event,af
     if(!device?.enabled)throw new Problem('FORBIDDEN',403);
     const [task]=await tx.execute('SELECT * FROM tasks WHERE id=? FOR UPDATE',[event.taskId]);
     const base={eventId:event.eventId,taskId:event.taskId};
-    const blocked=(code:string)=>({...base,result:'BLOCKED',code,retryable:false});
     const digest=hash(event);
+    const blocked=async(code:string)=>{
+      const [seen]=await tx.execute("SELECT id FROM audit_logs WHERE actor_type='DEVICE' AND actor_id=? AND action='SYNC_BLOCKED' AND target_id=? AND reason=? AND JSON_UNQUOTE(JSON_EXTRACT(before_after,'$.canonicalHash'))=? LIMIT 1",[authenticatedDevice,event.taskId,code,digest]);
+      if(!seen)await tx.execute('INSERT INTO audit_logs VALUES(?,?,?,?,?,?,?,?)',[crypto.randomUUID(),'DEVICE',authenticatedDevice,'SYNC_BLOCKED',event.taskId,code,JSON.stringify({event,canonicalHash:digest}),new Date().toISOString()]);
+      return {...base,result:'BLOCKED',code,retryable:false};
+    };
     const [existing]=await tx.execute('SELECT * FROM device_events WHERE device_id=? AND event_id=?',[authenticatedDevice,event.eventId]);
     if(existing) {
       if(existing.canonical_hash!==digest)return blocked('EVENT_ID_REUSED');

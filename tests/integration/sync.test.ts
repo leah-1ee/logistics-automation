@@ -21,6 +21,7 @@ test('T14~T18/T25 real MySQL ACK loss, dedupe before status, ordering, fencing, 
     await assert.rejects(applyEvent(db,deviceId,a,()=>{throw new Error('response lost after commit');}));
     const dup=await applyEvent(db,deviceId,a);assert.equal(dup.result,'DUPLICATE');
     assert.equal((await applyEvent(db,deviceId,{...a,type:'SCAN_ITEM',payload:{productId:'b'.repeat(32),quantity:1}})).code,'EVENT_ID_REUSED');
+    assert.equal((await connection(db).execute("SELECT id FROM audit_logs WHERE target_id=? AND reason='EVENT_ID_REUSED'",[snapshot.taskId])).length,1);
     assert.equal((await applyEvent(db,deviceId,{...b,eventId:randomUUID(),assignmentVersion:2})).result,'BLOCKED');
     const {deviceId:other}=await register(db);assert.equal((await applyEvent(db,other,{...b,deviceId:other})).result,'BLOCKED');
     const batch={batchId:randomUUID(),events:[b,c,end]};
