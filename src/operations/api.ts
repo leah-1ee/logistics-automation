@@ -77,6 +77,8 @@ export function apiHandlers(db:Db) {
       const run=req.body.datasetRunId;
       const result=await adminRequest(db,req.actorId,'ingestion:'+run,req.body,async tx=>{
         const [cp]=await tx.execute('SELECT * FROM source_checkpoints WHERE run_id=? FOR UPDATE',[run]);if(!cp)throw new Problem('RUN_NOT_REGISTERED',404);
+        const [dataset]=await tx.execute('SELECT status FROM dataset_runs WHERE id=?',[run]);
+        if(dataset?.status!=='REGISTERED')throw new Problem('PRODUCT_MASTER_NOT_READY');
         if(cp.status!=='DONE')await tx.execute("UPDATE source_checkpoints SET status='RUNNING' WHERE run_id=?",[run]);
         await audit(tx,req.actorId,'START_INGESTION',run,'Operator requested registered dataset ingestion',{status:cp.status},{status:cp.status==='DONE'?'DONE':'RUNNING',requestId:req.body.requestId});
         return {...await ingestionStatus(db,run),status:cp.status==='DONE'?'DONE':'RUNNING'};

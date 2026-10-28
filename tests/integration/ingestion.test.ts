@@ -13,6 +13,10 @@ test('T01/T02/T03/T04/T32 MySQL page replay, rollback, checkpoint and conflict e
       assert.equal((await ingestionStatus(db,runId)).receivedCount,1);
     }
     const {runId}=await register(db);const page=sourcePage(runId,[raw],false);
+    await connection(db).execute("UPDATE dataset_runs SET status='PREPARING' WHERE id=?",[runId]);
+    await assert.rejects(ingestPage(db,runId,page,null),{code:'PRODUCT_MASTER_NOT_READY'});
+    assert.equal((await ingestionStatus(db,runId)).receivedCount,0);
+    await connection(db).execute("UPDATE dataset_runs SET status='REGISTERED' WHERE id=?",[runId]);
     await ingestPage(db,runId,page,null);
     const changed=structuredClone(raw);changed.items[0].productId='b'.repeat(32);
     await ingestPage(db,runId,sourcePage(runId,[changed]),'next');

@@ -18,7 +18,7 @@ try {
     await transaction(db,async tx=>{
       const [old]=await tx.execute('SELECT manifest FROM dataset_runs WHERE id=? FOR UPDATE',[runId]);
       if(old&&hash(parseJson(old.manifest))!==hash(manifest))throw new Error('Run manifest changed; register a new run ID');
-      await tx.execute('INSERT INTO dataset_runs VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE id=id',[runId,manifest.datasetVersion,JSON.stringify(manifest),'REGISTERED',now()]);
+      await tx.execute('INSERT INTO dataset_runs VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE id=id',[runId,manifest.datasetVersion,JSON.stringify(manifest),'PREPARING',now()]);
       await tx.execute('INSERT INTO source_checkpoints VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE run_id=run_id',[runId,'olist',null,'PAUSED',now()]);
     });
     const replay=new Source(path,runId);
@@ -37,6 +37,7 @@ try {
       if(++productsImported%5000===0)console.log('File-loaded product master records',productsImported);
     }
     for(const row of source.prepare('SELECT * FROM sellers').iterate() as Iterable<any>){await transaction(db,async tx=>{await tx.execute('INSERT INTO sellers VALUES(?,?) ON DUPLICATE KEY UPDATE seller_id=seller_id',[runId,row.id]);});sellersImported++;}
+    await transaction(db,async tx=>{await tx.execute("UPDATE dataset_runs SET status='REGISTERED' WHERE id=?",[runId]);});
     console.log('Registered dataset and file-loaded masters',runId,manifest.synthetic?'SYNTHETIC':'ACTUAL OLIST',{productsImported,sellersImported});
   } finally{source.close();}
 } finally{await db.close(true);}

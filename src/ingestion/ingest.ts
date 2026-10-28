@@ -15,6 +15,8 @@ export async function ingestPage(db:Db,runId:string,page:any,expectedCursor:stri
     if(!cp)throw new Problem('RUN_NOT_REGISTERED',404);
     if(cp.cursor_token!==expectedCursor)return false;
     if(cp.status==='DONE')return false;
+    const [dataset]=await tx.execute('SELECT status FROM dataset_runs WHERE id=?',[runId]);
+    if(dataset?.status!=='REGISTERED')throw new Problem('PRODUCT_MASTER_NOT_READY',409);
     const products=new Set<string>((await tx.execute('SELECT product_id FROM products WHERE run_id=?',[runId])).map((r:any)=>r.product_id));
     const sellers=new Set<string>((await tx.execute('SELECT seller_id FROM sellers WHERE run_id=?',[runId])).map((r:any)=>r.seller_id));
     fault?.('before');

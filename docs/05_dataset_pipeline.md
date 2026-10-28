@@ -42,6 +42,9 @@ datasetVersion, downloadedAt, sourceUrl, licenseNotice, fileNames, fileSha256, f
 중량·치수의 결측/비양수/비정상 숫자는 상품 품질 flag로 보존하고, 상품 ID·수량이
 유효한 작업을 그 사유만으로 제외하지 않습니다. 최초 대사가 전수 반복 탐색하던
 미완료 준비 인덱스는 보존하고, 새 출력 파일로 재준비했습니다.
+master 파일 초기 적재 중 dataset run은 PREPARING이며 주문 수집을 거부합니다.
+master 적재가 끝나 REGISTERED로 바뀐 뒤부터 수집할 수 있어, 초기화 중의 일시적인
+상품/판매자 부재가 영구 DATA_HOLD 분류로 남지 않도록 합니다.
 
 ## 4. 필드 매핑
 
