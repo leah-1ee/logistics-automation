@@ -1,6 +1,7 @@
 import React,{useState,useEffect,useRef} from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserQRCodeReader } from '@zxing/browser';
+import { OneShotCamera } from './camera.js';
 import './style.css';
 async function request(path:string,body?:any,token?:string) {
   const r=await fetch(path,{method:body===undefined?'GET':'POST',headers:{...(body===undefined?{}:{'Content-Type':'application/json'}),...(token?{Authorization:'Bearer '+token}:{})},...(body===undefined?{}:{body:JSON.stringify(body)})});
@@ -8,21 +9,30 @@ async function request(path:string,body?:any,token?:string) {
 }
 function Device() {
   const [tasks,setTasks]=useState<any[]>([]),[current,setCurrent]=useState<any>(null),[history,setHistory]=useState<any[]>([]),[sync,setSync]=useState<any>(null),[error,setError]=useState(''),[qr,setQr]=useState(''),[camera,setCamera]=useState(false);
-  const video=useRef<HTMLVideoElement>(null),control=useRef<any>(null),active=useRef<string|null>(null);
-  const refresh=async()=>{try{const list=await request('/local/v1/tasks?limit=200');setTasks(list.items);setSync(await request('/local/v1/sync/status'));if(active.current){setCurrent(await request('/local/v1/tasks/'+active.current));const h=await request('/local/v1/tasks/'+active.current+'/history');setHistory(h.events);if(h.syncError)setError(h.syncError);}}catch(e:any){setError(e.message);}};
-  useEffect(()=>{void refresh();const t=setInterval(()=>void refresh(),2000);return()=>{clearInterval(t);control.current?.stop();};},[]);
-  const act=async(action:string,body:any)=>{try{setError('');await request('/local/v1/tasks/'+active.current+'/'+action,body);await refresh();}catch(e:any){setError(e.message);}};
-  const open=(task:any)=>{control.current?.stop();setCamera(false);active.current=task.snapshot.taskId;setCurrent(task);setError('');void refresh();};
-  const scanCamera=async()=>{try{setError('');setCamera(true);const reader=new BrowserQRCodeReader();control.current=await reader.decodeFromVideoDevice(undefined,video.current!,(result,_err,controls)=>{if(result){controls.stop();setCamera(false);void act('scans',{qrText:result.getText()});}});}catch(e:any){setError('웹캠 접근 실패: '+e.message);setCamera(false);}};
+  const video=useRef<HTMLVideoElement>(null),cameraReader=useRef(new OneShotCamera()),active=useRef<string|null>(null),pageCursor=useRef<string|null>(null);
+  const [next,setNext]=useState<string|null>(null);
+  const refresh=async()=>{const cursor=pageCursor.current,taskId=active.current;try{
+    const list=await request('/local/v1/tasks?'+new URLSearchParams({limit:'200',...(cursor?{cursor}:{})}));
+    if(pageCursor.current===cursor){setTasks(list.items);setNext(list.nextCursor);}
+    setSync(await request('/local/v1/sync/status'));
+    if(taskId){const task=await request('/local/v1/tasks/'+taskId),h=await request('/local/v1/tasks/'+taskId+'/history');if(active.current===taskId){setCurrent(task);setHistory(h.events);if(h.syncError)setError(h.syncError);}}
+  }catch(e:any){setError(e.message);}};
+  useEffect(()=>{void refresh();const t=setInterval(()=>void refresh(),2000);return()=>{clearInterval(t);cameraReader.current.stop();};},[]);
+  const act=async(action:string,body:any,taskId=active.current)=>{try{setError('');await request('/local/v1/tasks/'+taskId+'/'+action,body);await refresh();}catch(e:any){setError(e.message);}};
+  const open=(task:any)=>{cameraReader.current.stop();setCamera(false);active.current=task.snapshot.taskId;setCurrent(task);setHistory([]);setError('');void refresh();};
+  const scanCamera=async()=>{const taskId=active.current;if(!taskId)return;try{setError('');setCamera(true);const reader=new BrowserQRCodeReader();
+    await cameraReader.current.read(taskId,receive=>reader.decodeFromVideoDevice(undefined,video.current!,(result,_err,controls)=>{if(result)receive(result.getText(),controls);}),
+      (id,text)=>{void act('scans',{qrText:text},id);},()=>setCamera(false));
+  }catch(e:any){setError('웹캠 접근 실패: '+e.message);setCamera(false);}};
   const locked=current&&['LOCAL_COMPLETED','SERVER_CONFIRMED'].includes(current.localStatus);
   const canComplete=current&&!locked&&current.items.every((i:any)=>i.appliedQty===i.requiredQty);
   const reversed=new Set(history.filter(h=>h.event.type==='REVERSE_SCAN').map(h=>h.event.payload.targetEventId));
   return <><header><div><small>LOPS · 현장 단말</small><h1>출고 작업</h1></div><span className="badge">미확인 {sync?.pendingCount??'—'}건 · 차단 {sync?.blockedTaskCount??'—'}작업</span></header>
     <p className="notice">모의 창고 출고 기록 · 실제 재고 및 택배 발송과 무관합니다. 웹캠·Raspberry Pi 하드웨어 검증: BLOCKED</p>
-    {error&&<p role="alert" className="error">{error}</p>}<div className="layout"><aside><h2>내려받은 작업</h2>{tasks.length===0&&<p>배정된 작업을 서버에서 내려받으면 여기에 표시됩니다.</p>}{tasks.map(t=><button key={t.snapshot.taskId} className="task" onClick={()=>open(t)}>{t.snapshot.externalOrderId.slice(0,12)}<small>{t.localStatus} · {t.syncStatus}</small></button>)}</aside>
+    {error&&<p role="alert" className="error">{error}</p>}<div className="layout"><aside><h2>내려받은 작업</h2>{tasks.length===0&&<p>배정된 작업을 서버에서 내려받으면 여기에 표시됩니다.</p>}{tasks.map(t=><button key={t.snapshot.taskId} className="task" onClick={()=>open(t)}>{t.snapshot.externalOrderId.slice(0,12)}<small>{t.localStatus} · {t.syncStatus}</small></button>)}<div className="actions"><button disabled={!pageCursor.current} onClick={()=>{pageCursor.current=null;void refresh();}}>처음 200건</button><button disabled={!next} onClick={()=>{pageCursor.current=next;void refresh();}}>다음 200건</button></div></aside>
     <main>{current?<><h2>주문 {current.snapshot.externalOrderId.slice(0,12)}</h2><div className="states"><span className="badge">로컬: {current.localStatus}</span><span className="badge">동기화: {current.syncStatus}</span></div>
     <table><thead><tr><th>상품 ID</th><th>처리 / 필요</th></tr></thead><tbody>{current.items.map((i:any)=><tr key={i.productId}><td title={i.productId}>{i.displayLabel}</td><td>{i.appliedQty} / {i.requiredQty}</td></tr>)}</tbody></table>
-    <video ref={video} hidden={!camera} muted playsInline/><div className="actions"><button disabled={locked||camera||current.syncStatus==='BLOCKED'} onClick={()=>void scanCamera()}>웹캠으로 QR 1개 읽기</button>{camera&&<button onClick={()=>{control.current?.stop();setCamera(false);}}>카메라 중지</button>}<button disabled={!canComplete||current.syncStatus==='BLOCKED'} onClick={()=>void act('complete',{})}>로컬 완료 기록</button></div>
+    <video ref={video} hidden={!camera} muted playsInline/><div className="actions"><button disabled={locked||camera||current.syncStatus==='BLOCKED'} onClick={()=>void scanCamera()}>웹캠으로 QR 1개 읽기</button>{camera&&<button onClick={()=>{cameraReader.current.stop();setCamera(false);}}>카메라 중지</button>}<button disabled={!canComplete||current.syncStatus==='BLOCKED'} onClick={()=>void act('complete',{})}>로컬 완료 기록</button></div>
     <p>완료 후 서버의 COMPLETE receipt가 확인되어야 SERVER_CONFIRMED로 표시됩니다.</p>
     <details><summary>소프트웨어 입력 검증</summary><form onSubmit={e=>{e.preventDefault();void act('scans',{qrText:qr});setQr('');}}><input aria-label="QR 문자열" value={qr} onChange={e=>setQr(e.target.value)} placeholder="LOPS1:PRODUCT:…"/><button disabled={locked}>입력</button></form></details>
     <h3>보존된 입력 이력</h3>{history.map(h=><div className="event" key={h.event.eventId}><span>#{h.event.seq} {h.event.type} · {h.status}</span>{h.event.type==='SCAN_ITEM'&&!reversed.has(h.event.eventId)&&<button disabled={locked||current.syncStatus==='BLOCKED'} onClick={()=>void act('reversals',{targetEventId:h.event.eventId})}>이 스캔 취소</button>}</div>)}</>:<p>왼쪽에서 작업을 선택하세요.</p>}</main></div><footer><button onClick={()=>void request('/local/v1/sync/retry',{}).then(refresh).catch(e=>setError(e.message))}>일시 오류 동기화 재시도</button><span>마지막 확인: {sync?.lastSuccessAt||'없음'}</span></footer></>;
