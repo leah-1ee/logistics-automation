@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-28T00:55:41.599Z",
+  "httpStatus": 202,
+  "result": {
+    "id": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+    "datasetRunId": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+    "status": "RUNNING",
+    "cursor": "eyJydW4iOiJlN2ZiNmE5NS0wZDI2LTQyYjUtOTMwNS01YjU1OTU2OWI3ZGEiLCJzY2VuYXJpbyI6IjNkZGE3NmM2ZDJkZmU0YzY4ZGU1NmIyNWJhOWI5YmUzNzc0NTVkMDk5NDRhYTE5NjZjMWYwNjU2MGFlZjM4MjUiLCJsaW1pdCI6MjAwLCJvZmZzZXQiOjE4ODAwfQ",
+    "receivedCount": 18800,
+    "readyCount": 18157,
+    "holdCount": 267,
+    "unsupportedCount": 376
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-28T00:45:41.710Z",
+  "httpStatus": 202,
+  "result": {
+    "id": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+    "datasetRunId": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+    "status": "RUNNING",
+    "cursor": null,
+    "receivedCount": 0,
+    "readyCount": 0,
+    "holdCount": 0,
+    "unsupportedCount": 0
+  }
+}

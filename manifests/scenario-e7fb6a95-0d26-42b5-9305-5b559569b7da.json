@@ -1,0 +1,12 @@
+{
+  "datasetRunId": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+  "simulationClockAnchor": "2026-10-27T00:00:00Z",
+  "originalClockInterpretation": "naive virtual clock, not actual UTC",
+  "replaySpeed": 1000000,
+  "orderingRule": "approved||purchased,orderId,row",
+  "filterVersion": "v1",
+  "adapterVersion": "v1",
+  "seed": 42,
+  "faultPlanHash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "scenarioHash": "3dda76c6d2dfe4c68de56b25ba9b9be377455d09944aa1966c1f06560aef3825"
+}

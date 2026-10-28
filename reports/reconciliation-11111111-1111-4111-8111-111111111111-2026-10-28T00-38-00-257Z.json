@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-28T00:38:00.257Z",
+  "datasetRunId": "11111111-1111-4111-8111-111111111111",
+  "synthetic": true,
+  "manifest": {
+    "files": [
+      {
+        "fileName": "olist_orders_dataset.csv",
+        "rowCount": 10,
+        "fileBytes": 906,
+        "fileSha256": "3cecb44248a54710eac54aa727b749d0acf9468fffe6c9147c2c2dcb26b7dbe6",
+        "distinctKeyCount": 10,
+        "schemaFingerprint": "76ea567299370274891ea62932c203cf5dc69fa35bd1c8fbeab1db9ae3498f9b"
+      },
+      {
+        "fileName": "olist_order_items_dataset.csv",
+        "rowCount": 30,
+        "fileBytes": 3725,
+        "fileSha256": "260b1a75338fa85dbdebb8eeecf6dfc829a0f1c9c4ccce809b257e3de9e56d27",
+        "distinctKeyCount": 10,
+        "schemaFingerprint": "51c676a8b19c97ff8c949963cfef8dda8d9b490d8de16746773b863e98cdba22"
+      },
+      {
+        "fileName": "olist_products_dataset.csv",
+        "rowCount": 2,
+        "fileBytes": 212,
+        "fileSha256": "119795cc0303015611131feca8f0e4f704e8758085c0739feead211071fb46be",
+        "distinctKeyCount": 2,
+        "schemaFingerprint": "a9c4c272d3924c7e916028ef6e79588fce4956f08870161174770c2dc3066a98"
+      },
+      {
+        "fileName": "olist_sellers_dataset.csv",
+        "rowCount": 1,
+        "fileBytes": 45,
+        "fileSha256": "2b27d6d8e952047ddd3d31be592cbd664856ad66a01b76e6c2b03e4829b71685",
+        "distinctKeyCount": 1,
+        "schemaFingerprint": "e0692ea3106da83982e01753669974fa330ebedff2c8aac6b70ba78a089d8e7e"
+      }
+    ],
+    "sourceUrl": "generated:test-fixture",
+    "synthetic": true,
+    "downloadedAt": "2026-10-27T04:55:23.792092+00:00",
+    "licenseNotice": "Synthetic fixture; no actual Olist rows",
+    "datasetVersion": "synthetic-fixture-v1",
+    "orphanItemRows": 0,
+    "importConfigHash": "697c6ae0617d279aeae1a61e95529a0a8fef5677b96b666def4a24b05d981a66"
+  },
+  "expectedRawOrders": 10,
+  "rawOrders": 10,
+  "classification": {
+    "TASK_CREATED": 10
+  },
+  "classificationReasons": [],
+  "qualityFlags": [],
+  "tasks": 10,
+  "unfinishedJobs": 0,
+  "products": 2,
+  "quantityChecks": 20,
+  "orphanItemRows": 0,
+  "status": "PASS",
+  "errors": []
+}

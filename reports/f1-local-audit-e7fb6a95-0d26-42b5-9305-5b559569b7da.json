@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "at": "2026-10-28T03:26:44.780192+00:00",
+  "scope": "read-only local SQLite observations after actual-input/simulated-action F1; server hashes and report totals verified separately by F1 and final reconciliation",
+  "datasetRunId": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+  "taskCount": 1000,
+  "requiredQuantity": 1117,
+  "appliedQuantity": 1117,
+  "eventStates": {
+    "ACKED": 2117
+  },
+  "receiptResults": {
+    "DUPLICATE": 215,
+    "APPLIED": 1902
+  },
+  "persistedResponseLossMarkers": 100,
+  "method": "Python sqlite3 read-only SELECT status,receipt FROM local_events; SELECT state FROM local_task_state; COUNT sync_meta f1-dropped prefix; assertions against F1 report"
+}

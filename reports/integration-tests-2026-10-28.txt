@@ -1,0 +1,29 @@
+
+> logistics-operations-mvp@0.1.0 test:integration
+> node --import tsx --env-file=.env.test --test --test-concurrency=1 tests/integration/*.test.ts
+
+✔ MySQL enforces quantities, state enum and assigned ownership independently of HTTP (206.546797ms)
+✔ T02/T12/T22 actual SIGKILL around MySQL and SQLite commit boundaries (10505.192907ms)
+✔ T14/T18 real HTTP connection loss from killed API after first event commit (1159.243576ms)
+✔ T10/T15/T16 server reversal, double reversal, sequence reuse and over quantity hold (407.887524ms)
+✔ T30 old revision job is superseded after a source conflict and audited correction (217.73564ms)
+✔ T24 later completion on an already rebuilt day gets a distinct durable report job (502.870624ms)
+✔ T26/T31 real Nest HTTP roles, bounded pages, stale observation, CSV, input rejection (1039.141674ms)
+✔ T01/T02/T03/T04/T32 MySQL page replay, rollback, checkpoint and conflict evidence (442.546282ms)
+✔ T08/T11/T26 local HTTP loopback/origin gates and durable QR action contract (893.80266ms)
+✔ file master chunks are idempotent and a failed chunk is atomic (129.660799ms)
+✔ T30/T33 correction revision, immutable raw, superseded job and bounded job failures (441.645741ms)
+✔ T24/T25 reporting recomputes only confirmed tasks and deduplicates completion (195.027131ms)
+✔ full reconciliation independently checks original rows and rejects coherent server corruption (2167.991347ms)
+✔ T21 DB expired outbox reconstructs missing Redis delivery; BullMQ worker applies once (236.404487ms)
+✔ T14~T18/T25 real MySQL ACK loss, dedupe before status, ordering, fencing, partial batch (647.878337ms)
+✔ T11/T19 business rejection consumes seq and holds only its own task (305.709721ms)
+✔ T05/T06/T07/T22 real MySQL task job replay, rollback and immutable assignment (189.472294ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 32275.870158

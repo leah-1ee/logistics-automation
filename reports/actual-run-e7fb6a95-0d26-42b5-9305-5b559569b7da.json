@@ -1,0 +1,31 @@
+{
+  "datasetRunId": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+  "input": "ACTUAL_OLIST_V2",
+  "actions": "SIMULATED_SOFTWARE_WAREHOUSE",
+  "hardware": "BLOCKED",
+  "status": "PASS",
+  "startedAt": "2026-10-28T03:19:17.416Z",
+  "T28": "PASS",
+  "T27": "PASS",
+  "finalReconciliation": "PASS",
+  "progress": {
+    "ingestion": {
+      "id": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+      "datasetRunId": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+      "status": "DONE",
+      "receivedCount": 99441,
+      "readyCount": 96596,
+      "holdCount": 789,
+      "unsupportedCount": 2056
+    },
+    "jobs": [
+      {
+        "status": "DONE",
+        "n": 96596
+      }
+    ]
+  },
+  "completedAt": "2026-10-28T03:25:52.411Z",
+  "reconciliation": "PASS",
+  "updatedAt": "2026-10-28T03:25:52.412Z"
+}

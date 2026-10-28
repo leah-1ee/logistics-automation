@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "scope": "SUPPLEMENTARY_SYNTHETIC_SOFTWARE_ONLY",
+  "officialT27": "BLOCKED_ACTUAL_OLIST_REQUIRED",
+  "officialT28": "BLOCKED_ACTUAL_OLIST_REQUIRED",
+  "hardware": "BLOCKED",
+  "datasetRunId": "016a907d-e348-4a87-a8d7-2a1d06d5ea7e",
+  "seed": 42,
+  "taskCount": 1000,
+  "itemCount": 3000,
+  "uniqueEvents": 4000,
+  "deliveries": 4400,
+  "duplicateReceipts": 400,
+  "duplicateEffects": 0,
+  "lostAcknowledgedEvents": 0,
+  "localPending": 0,
+  "elapsedSeconds": 271.640524716,
+  "peakRssBytes": 221442048,
+  "codeCommit": "756f21d4d3f8dcd0cf7567163ad81af502ce77e7",
+  "lockfileSha256": "4cf789861217e64c793a9ddbe73f5b4b608d0a92486fd4c730431f4e5c68ab1e",
+  "at": "2026-10-28T00:34:22.398Z",
+  "limitations": "Fixture domain replay uses actual MySQL/SQLite, no webcam; not a production throughput test or actual Olist F1."
+}

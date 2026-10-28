@@ -1,0 +1,68 @@
+{
+  "observedAt": "2026-10-28T03:21:13.595803+00:00",
+  "scope": "actual Olist F1 execution; one resource sample, not peak or controlled benchmark",
+  "services": [
+    {
+      "name": "logistics-mvp-api-1",
+      "imageId": "sha256:6a18454e0af05f4a6ce69a54841232140047bdb07805d2edcd12afd9f1afad34",
+      "status": "running"
+    },
+    {
+      "name": "logistics-mvp-worker-1",
+      "imageId": "sha256:9e5d8dbf37277c1639b1bf922035bc491e746398eaba920f2f03726e10304017",
+      "status": "running"
+    },
+    {
+      "name": "logistics-mvp-source-1",
+      "imageId": "sha256:9e5d8dbf37277c1639b1bf922035bc491e746398eaba920f2f03726e10304017",
+      "status": "running"
+    },
+    {
+      "name": "logistics-mvp-mysql-1",
+      "imageId": "sha256:2068651a18ac6048578647ea57b940ca2daed3f504ebe7fba6a93beeb39aaa1f",
+      "status": "running"
+    },
+    {
+      "name": "logistics-mvp-redis-1",
+      "imageId": "sha256:1cf73a2f04808e55a8bd2f5706c2aa0ebb0f71938f93deb7af79f48311cd5cb9",
+      "status": "running"
+    }
+  ],
+  "resourceSamples": [
+    {
+      "Name": "logistics-mvp-api-1",
+      "CPUPerc": "6.58%",
+      "MemUsage": "94.17MiB / 15.4GiB",
+      "MemPerc": "0.60%",
+      "PIDs": "11"
+    },
+    {
+      "Name": "logistics-mvp-worker-1",
+      "CPUPerc": "9.93%",
+      "MemUsage": "169.9MiB / 15.4GiB",
+      "MemPerc": "1.08%",
+      "PIDs": "11"
+    },
+    {
+      "Name": "logistics-mvp-source-1",
+      "CPUPerc": "0.00%",
+      "MemUsage": "70.46MiB / 15.4GiB",
+      "MemPerc": "0.45%",
+      "PIDs": "7"
+    },
+    {
+      "Name": "logistics-mvp-mysql-1",
+      "CPUPerc": "16.34%",
+      "MemUsage": "927.4MiB / 15.4GiB",
+      "MemPerc": "5.88%",
+      "PIDs": "51"
+    },
+    {
+      "Name": "logistics-mvp-redis-1",
+      "CPUPerc": "0.93%",
+      "MemUsage": "9.352MiB / 15.4GiB",
+      "MemPerc": "0.06%",
+      "PIDs": "7"
+    }
+  ]
+}

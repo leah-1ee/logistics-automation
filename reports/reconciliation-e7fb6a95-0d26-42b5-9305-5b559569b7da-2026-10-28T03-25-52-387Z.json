@@ -1,0 +1,161 @@
+{
+  "at": "2026-10-28T03:25:52.387Z",
+  "datasetRunId": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+  "synthetic": false,
+  "manifest": {
+    "files": [
+      {
+        "fileName": "olist_orders_dataset.csv",
+        "rowCount": 99441,
+        "fileBytes": 17654914,
+        "fileSha256": "8df58ef3d2d7e9944010f7beecd9b75367f5588ec6e3c91cec19ae3345ef9ecf",
+        "keyDefinition": "order_id",
+        "distinctKeyCount": 99441,
+        "schemaFingerprint": "0465189e63781c13c92d37ae90ec9354a57c3e5338b338660fc20f6b8285d3ce"
+      },
+      {
+        "fileName": "olist_order_items_dataset.csv",
+        "rowCount": 112650,
+        "fileBytes": 15438671,
+        "fileSha256": "0bc4d068c4fe38cbb01bd90e8746e3c613fe7b4baef75fab7b0e329701c3e279",
+        "keyDefinition": "order_id+order_item_id",
+        "distinctKeyCount": 112650,
+        "schemaFingerprint": "efbf94fb23f4b8090778c70fd9366ca1f2c22b373772bd1b4cab875b4474483b"
+      },
+      {
+        "fileName": "olist_products_dataset.csv",
+        "rowCount": 32951,
+        "fileBytes": 2379446,
+        "fileSha256": "3e6569628a17fbc75fd206ee357b59e20364b9afa90f5b6cd5b4d624c58aa9cc",
+        "keyDefinition": "product_id",
+        "distinctKeyCount": 32951,
+        "schemaFingerprint": "9496cc5568b870bb78eaa749508fa54aafc303d92eebe1c294de218e5e1b2f25"
+      },
+      {
+        "fileName": "olist_sellers_dataset.csv",
+        "rowCount": 3095,
+        "fileBytes": 174703,
+        "fileSha256": "1f643d2b950373b85735e7794b20986f528d7a000432e7c6f9bcbb44d0846a0e",
+        "keyDefinition": "seller_id",
+        "distinctKeyCount": 3095,
+        "schemaFingerprint": "1a7ca180d38404b63228125b5bd0fa360a9982852f8bd160ed072df417a7bfe6"
+      }
+    ],
+    "sourceUrl": "https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce",
+    "synthetic": false,
+    "preparedAt": "2026-10-28T00:37:03.450916+00:00",
+    "downloadedAt": "2026-10-28T00:32:21.581068+00:00",
+    "licenseNotice": "CC BY-NC-SA 4.0 — Olist / Kaggle; preserve attribution; no raw redistribution in Git",
+    "datasetVersion": "olist-v2",
+    "orphanItemRows": 0,
+    "importConfigHash": "697c6ae0617d279aeae1a61e95529a0a8fef5677b96b666def4a24b05d981a66",
+    "downloadProvenance": {
+      "sourceUrl": "https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce",
+      "transport": "HTTPS GET; bounded to verified size; ZIP CRC checked",
+      "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+      "downloadUrl": "https://www.kaggle.com/api/v1/datasets/download/olistbr/brazilian-ecommerce?datasetVersionNumber=2",
+      "archiveBytes": 44717580,
+      "downloadedAt": "2026-10-28T00:32:21.581068+00:00",
+      "archiveSha256": "967e41e04fc306fe604e2a693f488995a8b41e5047418f8a5c8e4abd6deca784",
+      "licenseNotice": "CC BY-NC-SA 4.0",
+      "datasetVersion": 2,
+      "fileObservedAt": "2026-10-28T00:34:07.212047+00:00",
+      "downloadStartedAt": "2026-10-28T00:32:14.844498+00:00",
+      "rawCommittedToGit": false,
+      "screenContentSize": "44717580 bytes"
+    }
+  },
+  "scenarioHash": "3dda76c6d2dfe4c68de56b25ba9b9be377455d09944aa1966c1f06560aef3825",
+  "codeCommit": "b6bb6989ba91112dd9e35025c109ee5987d91e71",
+  "lockfileSha256": "4cf789861217e64c793a9ddbe73f5b4b608d0a92486fd4c730431f4e5c68ab1e",
+  "migrations": [
+    {
+      "version": "001_initial.sql",
+      "sha256": "9150253e58612d761a59a49e1106d1d296be81e8254f89f442331ec141e726a9"
+    },
+    {
+      "version": "002_admin_serialization.sql",
+      "sha256": "6577db0b4d6b0fd667dbc1dea7340dd9c090ee5be4208bfaae5c40df9e678e23"
+    },
+    {
+      "version": "003_scenario_manifest.sql",
+      "sha256": "af717b3b555f2ce34895890ccb4f2823347ceeddbdd1e56220424af7fb908978"
+    },
+    {
+      "version": "004_domain_checks.sql",
+      "sha256": "62f88fb879b28c20789839ec0161618488cb518b4a37d5e2ac7a82b3a273d7b6"
+    }
+  ],
+  "rawFileHashesVerified": 4,
+  "expectedRawOrders": 99441,
+  "rawOrders": 99441,
+  "classification": {
+    "DATA_HOLD": 789,
+    "TASK_CREATED": 96596,
+    "UNSUPPORTED": 2056
+  },
+  "classificationReasons": [
+    {
+      "status": "DATA_HOLD",
+      "reason": "MISSING_OR_INVALID_APPROVAL",
+      "recordCount": 160
+    },
+    {
+      "status": "DATA_HOLD",
+      "reason": "NO_ITEMS",
+      "recordCount": 775
+    },
+    {
+      "status": "DATA_HOLD",
+      "reason": "UNSUPPORTED_SOURCE_STATUS",
+      "recordCount": 774
+    },
+    {
+      "status": "UNSUPPORTED",
+      "reason": "MULTIPLE_SELLERS",
+      "recordCount": 1278
+    },
+    {
+      "status": "UNSUPPORTED",
+      "reason": "UNSUPPORTED_SOURCE_STATUS",
+      "recordCount": 779
+    }
+  ],
+  "qualityFlags": [
+    {
+      "flag": "MISSING_CATEGORY",
+      "recordCount": 1451
+    },
+    {
+      "flag": "PRODUCT_HEIGHT_CM_MISSING",
+      "recordCount": 16
+    },
+    {
+      "flag": "PRODUCT_LENGTH_CM_MISSING",
+      "recordCount": 16
+    },
+    {
+      "flag": "PRODUCT_WEIGHT_G_INVALID",
+      "recordCount": 6
+    },
+    {
+      "flag": "PRODUCT_WEIGHT_G_MISSING",
+      "recordCount": 16
+    },
+    {
+      "flag": "PRODUCT_WIDTH_CM_MISSING",
+      "recordCount": 16
+    }
+  ],
+  "tasks": 96596,
+  "unfinishedJobs": 0,
+  "products": 32951,
+  "sellers": 3095,
+  "orderChecks": 99441,
+  "taskChecks": 96596,
+  "quantityChecks": 98840,
+  "orphanItemRows": 0,
+  "status": "PASS",
+  "errorCount": 0,
+  "errors": []
+}
