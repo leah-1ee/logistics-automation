@@ -3,6 +3,7 @@ import { connectDb, transaction } from '../src/server/db.js';
 import { now, sha256,hash,parseJson } from '../src/shared/contracts.js';
 import { Source } from '../src/source/source.js';
 import { writeFileSync } from 'node:fs';
+import { importMasters } from '../src/ingestion/masters.js';
 const db=await connectDb();const runId=process.env.DATASET_RUN_ID!;
 try {
   await transaction(db,async tx=>{
@@ -30,14 +31,8 @@ try {
       });
       writeFileSync('manifests/scenario-'+runId+'.json',JSON.stringify({...replay.scenario,scenarioHash:replay.scenarioHash},null,2)+'\n');
     }finally{replay.close();}
-    let productsImported=0,sellersImported=0;
-    for(const row of source.prepare('SELECT * FROM products').iterate() as Iterable<any>) {
-      const p=JSON.parse(row.payload);
-      await transaction(db,async tx=>{await tx.execute('INSERT INTO products VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE product_id=product_id',[runId,row.id,p.product_category_name||null,row.payload]);});
-      if(++productsImported%5000===0)console.log('File-loaded product master records',productsImported);
-    }
-    for(const row of source.prepare('SELECT * FROM sellers').iterate() as Iterable<any>){await transaction(db,async tx=>{await tx.execute('INSERT INTO sellers VALUES(?,?) ON DUPLICATE KEY UPDATE seller_id=seller_id',[runId,row.id]);});sellersImported++;}
+    const counts=await importMasters(db,runId,source.prepare('SELECT * FROM products').iterate(),source.prepare('SELECT * FROM sellers').iterate(),(kind,count)=>{if(count%5000===0)console.log('File-loaded master records',kind,count);});
     await transaction(db,async tx=>{await tx.execute("UPDATE dataset_runs SET status='REGISTERED' WHERE id=?",[runId]);});
-    console.log('Registered dataset and file-loaded masters',runId,manifest.synthetic?'SYNTHETIC':'ACTUAL OLIST',{productsImported,sellersImported});
+    console.log('Registered dataset and file-loaded masters',runId,manifest.synthetic?'SYNTHETIC':'ACTUAL OLIST',counts);
   } finally{source.close();}
 } finally{await db.close(true);}
