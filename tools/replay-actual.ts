@@ -24,6 +24,9 @@ try {
   let plan:any;
   if(existsSync(planPath))plan=JSON.parse(readFileSync(planPath,'utf8'));
   else {
+    const [checkpoint]=await c.execute("SELECT status FROM source_checkpoints WHERE run_id=? AND source='olist'",[runId]);
+    const [pending]=await c.execute("SELECT COUNT(*) n FROM outbox_jobs WHERE run_id=? AND type='CREATE_TASK' AND status<>'DONE'",[runId]);
+    if(checkpoint?.status!=='DONE'||Number(pending.n)!==0)throw new Error('F1 BLOCKED: ingestion and task generation must drain before deterministic selection');
     const tasks=await c.execute("SELECT t.id,o.source_order_id FROM tasks t JOIN orders o ON o.id=t.order_id WHERE t.run_id=? AND t.status='CREATED' ORDER BY o.source_order_id LIMIT 1000",[runId]);
     if(tasks.length!==1000)throw new Error('F1 BLOCKED: 1000 eligible unassigned actual orders required; do not relax filters');
     plan={datasetRunId:runId,deviceId,manifestHash:hash(manifest),seed:42,selection:'sourceOrderId lexical ascending',actions:'SIMULATED_WAREHOUSE_NOT_PHYSICAL',createdAt:now(),tasks:tasks.map((t:any,index:number)=>({taskId:t.id,sourceOrderId:t.source_order_id,requestId:randomUUID(),dropResponse:index%10===0}))};
