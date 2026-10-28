@@ -119,11 +119,14 @@ HOLD 이벤트의 내용 변경·강제 완료·재배정은 제공하지 않습
 
 ## 단말 정책
 
-Raspberry Pi는 Node24를 지원하는 64-bit OS, 모니터, USB 웹캠을 사용할 예정입니다.
-카메라 드라이버·Node ARM64 배포본 크기·OS 호환성은 실제 모델 확인 후 별도 검사합니다.
+실제 Pi5/Debian13 arm64·Node24.22.1·Logitech C270을 확인했습니다.
+사용자는 HDMI 대신 VNC 관찰을 선택했습니다. C270 사진 QR 해독과 정상 재부팅 복구는
+통과했으나 실시간 웹캠 버튼의 광학 QR 처리 전체 시연은 아직 BLOCKED입니다.
 [systemd 예시](deploy/logistics-device.service)를 실제 경로·환경 파일에 맞춰 설치합니다.
 장비 연결·네트워크 경로와 T08/T29 순서는 [장비 검증 절차](reports/hardware-validation.md)를 따릅니다.
 환경은 `SERVER_URL`, `DEVICE_ID`, `DEVICE_TOKEN`, `DATASET_RUN_ID`, `DEVICE_DB`, `LOCAL_ORIGIN`.
+Pi Chromium 장치 열거가 대기한 환경에서는 [전용 실행 스크립트](deploy/start-device-browser.sh)의
+V4L2 설정으로 실제 장치·영상을 확인했습니다. 일반 실행은 디버깅 포트를 열지 않습니다.
 기본 origin은 `http://127.0.0.1:3200`이며 웹캠 권한을 브라우저에서 허용해야 합니다.
 로컬 API의 변경 요청은 같은 origin만 허용하며 API 토큰은 QR에 넣지 않습니다.
 
@@ -135,8 +138,10 @@ SQLite WAL·synchronous=FULL, 이벤트/상태/seq 동시 커밋, 부팅 시 pro
 
 ## 현재 한계
 
-독립 CSV 오라클·새 장애/경계 시험·추가 실제1,000건 재생을 수행하고 결함5건을 수정했습니다.
-하드웨어·브라우저 수동 시연·영상은 미완료입니다.
+독립 CSV 오라클·장애/경계·추가 실제1,000건·실제 Pi/운영 UI 시험으로 결함7건을 수정했습니다.
+요구사항34 PASS/1 BLOCKED, T01~T34는32 PASS/2 BLOCKED입니다. 실시간 QR 최종 시연이 남았습니다.
+운영 화면은 실제 headless 브라우저로 검증했으며 수동 시연·영상·물리 HDMI는 미실행입니다.
+재현은 [운영 브라우저 검증](reports/browser-validation.md)을 참고하세요.
 실제 Olist F1/F2와 최종 전체 대사는 PASS입니다. F1의 스캔·배정은 모의 업무 입력이며
 실제 장비의 현장 시험을 뜻하지 않습니다. 결과와 재현 명령은 시험표에 연결했습니다.
 실험 환경은 [환경 기록](reports/environment.md)을 보세요. 합성 재생의 초당 처리량을

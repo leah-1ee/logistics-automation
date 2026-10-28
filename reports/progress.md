@@ -252,3 +252,28 @@ tools/verify-camera-photo.mjs는 새 촬영/저장 사진을 진단하며 업무
 현재 단말 SQLite는 DOWNLOADED/SYNCED·수량0/2·nextSeq1이다. 서버 터널만 차단하고
 SSH/VNC·서비스는 유지했다. 다음 물리 단계는 QR 전체가 담기게 카메라 방향을 조정하는
 것이다. T08/T29·M-E01/M-E07은 BLOCKED 유지; 상세 증거는 hardware-validation.md 참조.
+
+## 2026-10-28 — 사진 재사용·실제 Pi 재부팅·운영 UI 독립 검증
+
+실제 C270 정상 QR 사진1280×720/229,118bytes 해독·상품 일치 PASS. 사용자가 QR을
+계속 띄울 부담을 줄이도록 저장 사진을 반복 해독해 실제 Pi 폼에 입력했다. 오류 형식/
+다른 상품은 합성 문자열로 명시했다. 실제 광학 스캔으로 바꾸어 기록하지 않았다.
+
+사용자가 sudo 정상 재부팅을 실행했다. boot ID 변경, SQLite integrity ok, 스냅샷·
+5사건 hash/seq·수량2·취소/미전송 상태 복구를 확인했다. 서버 loopback 터널을 복구하고
+실제 UI 재시도로 동일 사건을 ACK/확정했다. 두 번째 UI 회귀 작업까지2작업/9사건/
+순수수량3·미전송0·단말/서버 hash 일치. 실제 run 전수 대사4,260사건/2,002확정/
+수량2,254/불일치0. 앞선 F1·원본·SQLite·실패 fixture는 보존했다.
+
+실제 Pi에서 IV-06 동기화 경고 잔류를 발견·수정했다. Chromium 장치 열거는 V4L2
+실행 설정으로 복구했고 C2701280×720 실제 스트림을 확인했다. 실시간 버튼의 QR 처리는
+프레임에 QR이 없어 성공 미확인이다. T08/T29/M-E01은 BLOCKED 유지한다.
+
+기존 Windows Chrome156 headless/격리 logistics_test에서 운영 화면을 실제 조작했다.
+IV-07 재시도 job 상세가 FAILED로 남는 결함을 수정했다. 최종9검사와 직접 DB 대조 PASS.
+하네스의 합성 DeviceStatusReport 필드 누락/Windows 출력 인코딩·CDP 연결 실패도 보존했다.
+새 단위17·계약·typecheck/build PASS. UI 수용9개 NOT_RUN은 실제 실행 증거로 갱신했고,
+실제 재부팅 조건 M-E07도 PASS가 되어 요구사항34 PASS/1 BLOCKED다. T표32 PASS/2 BLOCKED.
+
+[최신 요구사항/시험 표](verification.md), [장비 결과](hardware-validation.md),
+[운영 브라우저 재현](browser-validation.md). 전체 MVP 미완료이며 태그/08확장은 시작하지 않았다.

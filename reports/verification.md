@@ -1,37 +1,41 @@
-# MVP 검증 판정 — 독립 재검증 반영
+# MVP 검증 판정 — 독립 코드·실행·실제 장비 결과
 
-기준일:2026-10-28 (Asia/Seoul). **전체 MVP 미완료**.
+2026-10-28 Asia/Seoul. **전체 MVP 미완료**: 실시간 웹캠 QR 최종 시연이 남았다.
 
-최신 상세 판정은 [독립 재검증 요구사항·T01~T34 표](independent-2026-10-28/verification.md)와
-[발견 결함·수정/실패 이력](independent-2026-10-28/findings.md)에 기록했다.
-기존5f7cbfb의 PASS를 신뢰하는 대신 코드와 새 실행을 대조했다.
-초기 검증 보고서 원문은 Git5f7cbfb 이력에 보존되어 있다.
+[요구사항35개·T01~T34 상세표](independent-2026-10-28/verification.md)와
+[결함/실패 이력](independent-2026-10-28/findings.md)을 기준으로 판정한다.
+기존5f7cbfb의 PASS를 재사용하지 않고 새로 실행·대조했고, 이전 문서는 Git 이력에 보존했다.
 
-- 새 단위17개·DB/HTTP22개·계약 검사·build PASS.
-- T01~T34:32 PASS, 실제 웹캠 T08·Pi재시작/시연 T29 BLOCKED.
-- 요구사항35개:24 PASS, 화면 조작9개 NOT_RUN, 실제 장비2개 BLOCKED.
-  API/build PASS를 실제 브라우저 수용 조건으로 확대하지 않았다.
-- 실제 ZIP CRC/SHA256 및4CSV 지문 재확인 PASS.
-- 직접 CSV 오라클:99,441주문·112,650상품행·96,596작업·98,840수량항목 PASS.
-- 새 실제 주문1,000건 모의 업무:수량1,134·2,134사건·전달2,350·유실100회·
-  DUPLICATE216·미전송0. 이전 F1의 plan/SQLite/보고서 hash는 불변이다.
-- 누적 확정2,000작업/2,251수량의 상태·이벤트·서버/로컬 수량·일별/상품별 집계 일치.
+- 요구사항: **34 PASS / 1 BLOCKED / FAIL0 / NOT_RUN0**. 남은 항목은 M-E01의 실시간 QR 입력이다.
+- T01~T34: **32 PASS / 2 BLOCKED**. T08/T29의 광학 QR 버튼 경로를 사진 입력으로 대신하지 않았다.
+- 단위17개·DB/HTTP22개·계약29operations/44schemas/6known answers·build PASS.
+- 실제 Chrome156 headless 운영 화면9검사와 변경 결과 DB 대조 PASS.
+  API/build만으로 UI를 통과했다고 쓰지 않았다. 수동 조작/시연 영상은 별도 미실행이다.
+- 실제 Pi5/C270 사진 QR 해독·1280×720 브라우저 영상·정상 재부팅·SQLite 복원 PASS.
+  사진 해독→소프트웨어 폼 입력과 실시간 웹캠 버튼을 구분한다.
+- 실제 Pi 작업2건/순수수량3/9사건 모두 서버 확정, 미전송0·로컬/서버 hash 일치.
+- Olist ZIP CRC/SHA256·4CSV 확인, 원본99,441주문/112,650행/96,596작업/98,840수량항목 대사 PASS.
+- 새 F1 실제 주문1,000건 모의 업무:수량1,134/2,134사건/응답 유실100/DUPLICATE216/미전송0.
+  이전 F1 파일/plan/SQLite는 보존했다. 실제 Pi 스캔으로 표시하지 않았다.
+- 최종 실제 run 누적: **2,002확정/수량2,254/4,260사건**, 전수 대사 불일치0·미완료 job0.
+  운영 UI 시험은 별도 logistics_test의 명시적 합성 run으로 실제 Olist와 섞지 않았다.
 
-수정한 결함은 DB세션 시간대에 따른 확정 시각 오류, 늦은 카메라 콜백의 잘못된 작업 반영,
-단말201번째 이후 조회 부재, raw hash/정규화 수량 손상 false-PASS,
-확정 작업의 새 단말 미처리 재노출이다. 관련 실패/수정 후 시험을 별도로 보존했다.
+독립 검증 중 결함7건을 수정했다. DB 세션 시간대 확정 시각, 카메라 늦은 콜백,
+단말 페이지 이동, 대사의 손상 누락, 확정 스냅샷 재노출에 이어 실제 UI 검증에서
+동기화 경고 잔류와 job 재시도 상세 잔류를 발견·수정했다. 실패 전후 근거를 보존했다.
 
-증거:
-[단위](independent-2026-10-28/unit-final.tap),
-[최종 통합](independent-2026-10-28/integration-verified.tap),
-[실제 서비스 장애](independent-2026-10-28/service-faults.json),
-[직접 CSV 전수 대사](independent-2026-10-28/source-final.json),
-[기존 대사 도구 보강 결과](independent-2026-10-28/reconciliation-e7fb6a95-0d26-42b5-9305-5b559569b7da.json),
-[새 F1](f1-e7fb6a95-0d26-42b5-9305-5b559569b7da-independent-20261028.json),
-[로컬 ACK·원래 F1 보존](independent-2026-10-28/f1-local.json).
+주요 증거:
+[실제 Pi·사진·재부팅 결과](hardware-validation.md),
+[최종 브라우저](hardware-2026-10-28/admin-browser-final.json),
+[브라우저 변경 DB 대조](hardware-2026-10-28/admin-browser-db.json),
+[실제 Pi 정상 재부팅](hardware-2026-10-28/reboot.json),
+[단말/서버 사건 지문 대조](hardware-2026-10-28/local-server-checks.json),
+[최종 직접 CSV 전수 대사](hardware-2026-10-28/source-after-hardware.json),
+[최종 단위](hardware-2026-10-28/unit-final.tap),
+[DB/HTTP 통합](independent-2026-10-28/integration-verified.tap),
+[Redis/MySQL 실제 장애](independent-2026-10-28/service-faults.json),
+[새 F1 응답 유실](f1-e7fb6a95-0d26-42b5-9305-5b559569b7da-independent-20261028.json).
 
-실제 Pi/C270 점검은 [장비 절차](hardware-validation.md)를 따른다.
-SSH 인증·Pi5/Node 설치·C270 인식·실제 사진 촬영은 확인했다.
-첫 사진에는 QR이 담기지 않아 해독 FAIL이며 실제 QR·재부팅 gate는 아직 BLOCKED다.
-WSL 파일 SQLite·SIGKILL·모의 카메라 결과를 실제 Pi/SD/웹캠 PASS로 기록하지 않는다.
-실제 브라우저·현장 영상·Pi 재부팅이 끝나기 전 mvp-v1 태그나08확장은 실행하지 않는다.
+물리 HDMI는 사용자 선택 VNC로 관찰했으며 HDMI 자체는 NOT_RUN이다. 전원 차단·SD 손상도
+NOT_RUN이다. 이를 정상 재부팅 PASS로 확대하지 않는다. 사진·키·토큰·주소·원본 데이터는
+Git에 넣지 않았다. 실시간 광학 gate 완료 전 mvp-v1 태그·08확장은 실행하지 않는다.
