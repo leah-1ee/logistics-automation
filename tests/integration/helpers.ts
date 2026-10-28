@@ -19,6 +19,17 @@ export async function register(db:Db) {
   return {runId,deviceId,token};
 }
 export function sourcePage(runId:string,items:any[]=[raw],exhausted=true) {return {datasetRunId:runId,items,nextCursor:exhausted?null:'next',exhausted,nextPollAfterMs:0};}
+/** Test setup must observe DONE, not assume a scheduled job ran after one invocation. */
+export async function drainRunJobs(db:Db,runId:string){
+  const deadline=Date.now()+10000;
+  for(;;){
+    const jobs=await connection(db).execute("SELECT id,status FROM outbox_jobs WHERE run_id=? AND status<>'DONE'",[runId]);
+    if(!jobs.length)return;
+    if(jobs.some((j:any)=>j.status==='FAILED')||Date.now()>deadline)throw new Error('Fixture jobs did not drain');
+    for(const j of jobs)await processJob(db,j.id);
+    await new Promise(r=>setTimeout(r,25));
+  }
+}
 export async function assigned(db:Db) {
   const {runId,deviceId,token}=await register(db);await ingestPage(db,runId,sourcePage(runId),null);
   const [job]=await connection(db).execute('SELECT id FROM outbox_jobs WHERE run_id=?',[runId]);await processJob(db,job.id);

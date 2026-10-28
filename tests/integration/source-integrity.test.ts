@@ -11,6 +11,7 @@ import { importMasters } from '../../src/ingestion/masters.js';
 import { ingestPage } from '../../src/ingestion/ingest.js';
 import { processJob } from '../../src/jobs/jobs.js';
 import { now } from '../../src/shared/contracts.js';
+import { drainRunJobs } from './helpers.js';
 
 test('T28 both auditors reject isolated raw hash and normalized quantity corruption',async()=>{
   const db=await connectDb(),runId=randomUUID(),path='data/prepared/fixture.sqlite',out=mkdtempSync(tmpdir()+'/logistics-independent-');
@@ -29,7 +30,7 @@ test('T28 both auditors reject isolated raw hash and normalized quantity corrupt
     });
     await importMasters(db,runId,prepared.prepare('SELECT * FROM products').iterate(),prepared.prepare('SELECT * FROM sellers').iterate());
     await ingestPage(db,runId,source.page(undefined,200,new Date('2030-01-01T00:00:00Z')),null);
-    const c=connection(db);for(const j of await c.execute('SELECT id FROM outbox_jobs WHERE run_id=?',[runId]))await processJob(db,j.id);
+    const c=connection(db);await drainRunJobs(db,runId);
     assert.equal(check('audit-source').exit,0);assert.equal(check('reconcile').exit,0);
     const [row]=await c.execute('SELECT r.id raw_id,r.payload_hash,o.id order_id FROM raw_orders r JOIN orders o ON o.raw_order_id=r.id WHERE r.run_id=? LIMIT 1',[runId]);
     await c.execute('UPDATE raw_orders SET payload_hash=? WHERE id=?',['0'.repeat(64),row.raw_id]);

@@ -11,6 +11,7 @@ import { importMasters } from '../../src/ingestion/masters.js';
 import { ingestPage } from '../../src/ingestion/ingest.js';
 import { processJob } from '../../src/jobs/jobs.js';
 import { now,hash,parseJson } from '../../src/shared/contracts.js';
+import { drainRunJobs } from './helpers.js';
 test('full reconciliation independently checks original rows and rejects coherent server corruption',async()=>{
   const db=await connectDb(),runId=randomUUID(),path='data/prepared/fixture.sqlite',out=mkdtempSync(tmpdir()+'/logistics-reconcile-');
   const source=new Source(path,runId),prepared=new DatabaseSync(path,{readOnly:true});
@@ -26,7 +27,7 @@ test('full reconciliation independently checks original rows and rejects coheren
     });
     await importMasters(db,runId,prepared.prepare('SELECT * FROM products').iterate(),prepared.prepare('SELECT * FROM sellers').iterate());
     await ingestPage(db,runId,source.page(undefined,200,new Date('2030-01-01T00:00:00Z')),null);
-    const c=connection(db);for(const j of await c.execute('SELECT id FROM outbox_jobs WHERE run_id=?',[runId]))await processJob(db,j.id);
+    const c=connection(db);await drainRunJobs(db,runId);
     const good=check();assert.equal(good.exit,0);assert.equal(good.report.rawFileHashesVerified,4);assert.equal(good.report.orderChecks,10);assert.equal(good.report.taskChecks,10);
     const [row]=await c.execute('SELECT t.id,o.id order_id,r.id raw_id,r.payload FROM tasks t JOIN orders o ON o.id=t.order_id JOIN raw_orders r ON r.id=o.raw_order_id WHERE t.run_id=? LIMIT 1',[runId]);
     const body=parseJson(row.payload);body.items=body.items.slice(1);
