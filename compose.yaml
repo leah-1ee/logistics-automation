@@ -17,6 +17,7 @@ x-app: &app
 services:
   mysql:
     image: mysql:8.4@sha256:2068651a18ac6048578647ea57b940ca2daed3f504ebe7fba6a93beeb39aaa1f
+    command: ["--innodb-buffer-pool-size=${MYSQL_BUFFER_POOL_SIZE:-512M}"]
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
