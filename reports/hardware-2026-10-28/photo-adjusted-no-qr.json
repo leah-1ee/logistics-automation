@@ -1,0 +1,13 @@
+{
+  "observedAt": "2026-10-28T07:18:23.975Z",
+  "input": "ACTUAL_V4L2_CAPTURE",
+  "imagePath": "var/camera-photos/c270-ajrwcF/frame.jpg",
+  "width": 1280,
+  "height": 720,
+  "bytes": 371299,
+  "sha256": "8b483861540c74ca24bddc98d7b667c251a2c1dac5d7d2b9393aa075320d0d0e",
+  "decode": "FAIL",
+  "businessEventsCreated": 0,
+  "scope": "Photo diagnostic; not a live browser camera acceptance test",
+  "decodeError": "NotFoundException"
+}

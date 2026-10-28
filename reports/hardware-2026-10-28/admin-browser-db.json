@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "scope": "Direct DB checks after actual headless UI; SYNTHETIC fixture only",
+  "runId": "260bab8e-2adb-4c32-8efb-744f258e2ce4",
+  "assignments": 1,
+  "notes": 1,
+  "originalRawHashUnchanged": true,
+  "correctionRevision": 2,
+  "correctedQty": 3,
+  "transientRetryReset": true,
+  "permanentFailurePreserved": true,
+  "processedJobs": 2,
+  "jobInvocations": 4,
+  "tasksBefore": 51,
+  "tasksAfter": 53,
+  "uniqueTaskOrders": 53,
+  "confirmedReportTasks": 1,
+  "confirmedReportItems": 3
+}

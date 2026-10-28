@@ -1,0 +1,13 @@
+{
+  "observedAt": "2026-10-28T07:19:35.275Z",
+  "input": "ACTUAL_V4L2_CAPTURE",
+  "imagePath": "var/camera-photos/c270-lND62e/frame.jpg",
+  "width": 1280,
+  "height": 720,
+  "bytes": 238984,
+  "sha256": "5f59dd34365ba8e78c9192ba04eda28dc703c53ba2ad598a79133fa762c17962",
+  "decode": "FAIL",
+  "businessEventsCreated": 0,
+  "scope": "Photo diagnostic; not a live browser camera acceptance test",
+  "decodeError": "NotFoundException"
+}

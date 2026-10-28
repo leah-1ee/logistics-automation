@@ -1,0 +1,13 @@
+{
+  "observedAt": "2026-10-28T07:21:53.360Z",
+  "input": "ACTUAL_V4L2_CAPTURE",
+  "imagePath": "var/camera-photos/c270-JIniuH/frame.jpg",
+  "width": 1280,
+  "height": 720,
+  "bytes": 231042,
+  "sha256": "afa4fe3ef43e36cc99d4dfb47c5b6ddc10d9c29ee0dea246d92bafad8e9c67ad",
+  "decode": "FAIL",
+  "businessEventsCreated": 0,
+  "scope": "Photo diagnostic; not a live browser camera acceptance test",
+  "decodeError": "NotFoundException"
+}

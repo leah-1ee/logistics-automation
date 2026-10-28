@@ -1,0 +1,54 @@
+{
+  "status": "FAIL",
+  "scope": "Actual Windows headless browser, React events and HTTP; SYNTHETIC isolated test data",
+  "runId": "4883f88b-ccc5-4be5-8945-730c74771c67",
+  "apiPort": 3301,
+  "checks": [
+    {
+      "requirement": "M-A01",
+      "name": "orders list, page50+4, status filter, full-key search, raw/normalized detail",
+      "status": "PASS",
+      "evidence": {
+        "orders": 54,
+        "pages": [
+          50,
+          4
+        ],
+        "searchedRows": 1,
+        "requiredQty": 3
+      }
+    },
+    {
+      "requirement": "M-A02",
+      "name": "confirmed task shows quantity and retained event bodies",
+      "status": "PASS",
+      "evidence": {
+        "events": 4,
+        "appliedQty": 3
+      }
+    },
+    {
+      "requirement": "M-A03",
+      "name": "reason required; device selection, first assignment and disabled reassignment button",
+      "status": "PASS",
+      "evidence": {
+        "assignmentVersion": 1
+      }
+    },
+    {
+      "requirement": "M-A02",
+      "name": "operator note displayed after save",
+      "status": "PASS",
+      "evidence": {
+        "notes": 1
+      }
+    }
+  ],
+  "webSha256": "a46fa5e1c374560f7f7f2a76581b09b51f0647bca1ee0cacb3231f666a75a132",
+  "browser": "Chrome/156.0.8078.48",
+  "at": "2026-10-28T07:54:33.328647+00:00",
+  "failure": {
+    "type": "AssertionError",
+    "message": "UI condition timed out: JSON.parse(document.querySelector('pre.json').textContent).status==='PENDING'"
+  }
+}

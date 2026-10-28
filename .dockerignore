@@ -6,3 +6,5 @@ var
 node_modules
 reports
 dist
+**/__pycache__
+**/*.pyc

@@ -9,6 +9,8 @@ dist/
 coverage/
 *.sqlite*
 *.log
+__pycache__/
+*.pyc
 reports/olist-metadata.json
 reports/olist-download-page.html
 reports/olist-files.json

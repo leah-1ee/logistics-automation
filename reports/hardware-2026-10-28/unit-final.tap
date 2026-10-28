@@ -1,0 +1,112 @@
+TAP version 13
+# Subtest: clean fixture bootstrap preserves tracked reference manifest and is repeatable
+ok 1 - clean fixture bootstrap preserves tracked reference manifest and is repeatable
+  ---
+  duration_ms: 464.713149
+  type: 'test'
+  ...
+# Subtest: T08 software camera session ignores old frames and permission results after task switch
+ok 2 - T08 software camera session ignores old frames and permission results after task switch
+  ---
+  duration_ms: 3.912825
+  type: 'test'
+  ...
+# Subtest: T08 software camera stop during permission prompt cancels the late stream
+ok 3 - T08 software camera stop during permission prompt cancels the late stream
+  ---
+  duration_ms: 0.245627
+  type: 'test'
+  ...
+# Subtest: T08 synchronous decode callback is consumed once; active startup errors surface
+ok 4 - T08 synchronous decode callback is consumed once; active startup errors surface
+  ---
+  duration_ms: 0.630149
+  type: 'test'
+  ...
+# Subtest: S0 canonical known answers from preserved contract
+ok 5 - S0 canonical known answers from preserved contract
+  ---
+  duration_ms: 14.099394
+  type: 'test'
+  ...
+# Subtest: S0 schema forbids unknown fields, non-unit quantities, bad times
+ok 6 - S0 schema forbids unknown fields, non-unit quantities, bad times
+  ---
+  duration_ms: 0.402845
+  type: 'test'
+  ...
+# Subtest: S0 role authentication and server business timezone
+ok 7 - S0 role authentication and server business timezone
+  ---
+  duration_ms: 12.50378
+  type: 'test'
+  ...
+# Subtest: generated CSVs cannot be prepared as actual Olist; explicit synthetic preparation works
+ok 8 - generated CSVs cannot be prepared as actual Olist; explicit synthetic preparation works
+  ---
+  duration_ms: 405.630737
+  type: 'test'
+  ...
+# Subtest: T19/T33 device task isolation, bounded retries and Retry-After
+ok 9 - T19/T33 device task isolation, bounded retries and Retry-After
+  ---
+  duration_ms: 405.947315
+  type: 'test'
+  ...
+# Subtest: T26 local origin, host, remote address and missing mutation origin
+ok 10 - T26 local origin, host, remote address and missing mutation origin
+  ---
+  duration_ms: 0.513726
+  type: 'test'
+  ...
+# Subtest: T07~T13/T32 SQLite fixture download, validation, reversal, atomic rollback and restart
+ok 11 - T07~T13/T32 SQLite fixture download, validation, reversal, atomic rollback and restart
+  ---
+  duration_ms: 362.413486
+  type: 'test'
+  ...
+# Subtest: T34 late ACK preserves later unsent local projection and duplicate rejection stays blocked
+ok 12 - T34 late ACK preserves later unsent local projection and duplicate rejection stays blocked
+  ---
+  duration_ms: 114.161805
+  type: 'test'
+  ...
+# Subtest: T03/T04 fixture classification, row counts and missing-parent precedence
+ok 13 - T03/T04 fixture classification, row counts and missing-parent precedence
+  ---
+  duration_ms: 13.621934
+  type: 'test'
+  ...
+# Subtest: task QR labels contain only selected products and reject a different dataset run
+ok 14 - task QR labels contain only selected products and reject a different dataset run
+  ---
+  duration_ms: 885.659932
+  type: 'test'
+  ...
+# Subtest: T08 software QR encode/decode round trip; physical webcam not covered
+ok 15 - T08 software QR encode/decode round trip; physical webcam not covered
+  ---
+  duration_ms: 25.119289
+  type: 'test'
+  ...
+# Subtest: S1 source cursor is repeatable, bound to run, waits instead of false EOF
+ok 16 - S1 source cursor is repeatable, bound to run, waits instead of false EOF
+  ---
+  duration_ms: 909.522594
+  type: 'test'
+  ...
+# Subtest: actual verification waits for both source EOF and durable job completion
+ok 17 - actual verification waits for both source EOF and durable job completion
+  ---
+  duration_ms: 1.433563
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1363.387548

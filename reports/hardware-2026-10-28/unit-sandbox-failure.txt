@@ -1,0 +1,33 @@
+
+> logistics-operations-mvp@0.1.0 test
+> node --import tsx --test tests/*.test.ts
+
+✔ tests/bootstrap.test.ts (636.951849ms)
+✔ tests/camera.test.ts (146.938288ms)
+✔ tests/contracts.test.ts (515.045438ms)
+✔ tests/data-origin.test.ts (577.981434ms)
+✔ tests/device-sync.test.ts (997.829322ms)
+✔ tests/local.test.ts (1091.887093ms)
+✔ tests/normalization.test.ts (141.984629ms)
+✖ tests/qr-labels.test.ts (540.248824ms)
+✔ tests/qr.test.ts (509.038644ms)
+✖ tests/source.test.ts (1528.552009ms)
+✔ tests/verification-gate.test.ts (128.19517ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 9
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1555.581301
+
+✖ failing tests:
+
+test at tests/qr-labels.test.ts:1:1
+✖ tests/qr-labels.test.ts (540.248824ms)
+  'test failed'
+
+test at tests/source.test.ts:1:1
+✖ tests/source.test.ts (1528.552009ms)
+  'test failed'

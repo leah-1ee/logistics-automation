@@ -1,0 +1,22 @@
+{
+  "scope": "Actual Pi operational handoff; optical QR acceptance still BLOCKED",
+  "browserService": "active",
+  "browserRemoteDebuggingEnabled": false,
+  "deviceHealth": {
+    "status": "ok",
+    "database": "up",
+    "redis": "not_checked",
+    "version": "0.1.0"
+  },
+  "serverReady": {
+    "status": "ok",
+    "database": "up",
+    "redis": "up",
+    "version": "0.1.0"
+  },
+  "photosAndDatabaseRetained": true,
+  "retainedFiles": {
+    "photoExists": true,
+    "sqliteExists": true
+  }
+}

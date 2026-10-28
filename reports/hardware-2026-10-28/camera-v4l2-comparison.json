@@ -1,0 +1,26 @@
+{
+  "scope": "Actual Pi Chromium mediaDevices enumeration, same-connection permission override",
+  "before": {
+    "permission": "granted",
+    "devices": "TIMEOUT"
+  },
+  "after": {
+    "permission": "granted",
+    "devices": [
+      {
+        "kind": "audioinput",
+        "label": ""
+      },
+      {
+        "kind": "videoinput",
+        "label": "C270 HD WEBCAM"
+      },
+      {
+        "kind": "audiooutput",
+        "label": ""
+      }
+    ]
+  },
+  "configurationChange": "disable-features=WebRtcPipeWireCamera",
+  "claim": "Observed workaround on this Pi; not proof of every PipeWire failure cause"
+}

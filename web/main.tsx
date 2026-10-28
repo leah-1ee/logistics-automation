@@ -9,27 +9,28 @@ async function request(path:string,body?:any,token?:string) {
 }
 function Device() {
   const [tasks,setTasks]=useState<any[]>([]),[current,setCurrent]=useState<any>(null),[history,setHistory]=useState<any[]>([]),[sync,setSync]=useState<any>(null),[error,setError]=useState(''),[qr,setQr]=useState(''),[camera,setCamera]=useState(false);
+  const [syncError,setSyncError]=useState('');
   const video=useRef<HTMLVideoElement>(null),cameraReader=useRef(new OneShotCamera()),active=useRef<string|null>(null),pageCursor=useRef<string|null>(null);
   const [next,setNext]=useState<string|null>(null);
   const refresh=async()=>{const cursor=pageCursor.current,taskId=active.current;try{
     const list=await request('/local/v1/tasks?'+new URLSearchParams({limit:'200',...(cursor?{cursor}:{})}));
     if(pageCursor.current===cursor){setTasks(list.items);setNext(list.nextCursor);}
     setSync(await request('/local/v1/sync/status'));
-    if(taskId){const task=await request('/local/v1/tasks/'+taskId),h=await request('/local/v1/tasks/'+taskId+'/history');if(active.current===taskId){setCurrent(task);setHistory(h.events);if(h.syncError)setError(h.syncError);}}
+    if(taskId){const task=await request('/local/v1/tasks/'+taskId),h=await request('/local/v1/tasks/'+taskId+'/history');if(active.current===taskId){setCurrent(task);setHistory(h.events);setSyncError(h.syncError||'');}}
   }catch(e:any){setError(e.message);}};
   useEffect(()=>{void refresh();const t=setInterval(()=>void refresh(),2000);return()=>{clearInterval(t);cameraReader.current.stop();};},[]);
   const act=async(action:string,body:any,taskId=active.current)=>{try{setError('');await request('/local/v1/tasks/'+taskId+'/'+action,body);await refresh();}catch(e:any){setError(e.message);}};
-  const open=(task:any)=>{cameraReader.current.stop();setCamera(false);active.current=task.snapshot.taskId;setCurrent(task);setHistory([]);setError('');void refresh();};
+  const open=(task:any)=>{cameraReader.current.stop();setCamera(false);active.current=task.snapshot.taskId;setCurrent(task);setHistory([]);setError('');setSyncError('');void refresh();};
   const scanCamera=async()=>{const taskId=active.current;if(!taskId)return;try{setError('');setCamera(true);const reader=new BrowserQRCodeReader();
-    await cameraReader.current.read(taskId,receive=>reader.decodeFromVideoDevice(undefined,video.current!,(result,_err,controls)=>{if(result)receive(result.getText(),controls);}),
+    await cameraReader.current.read(taskId,receive=>reader.decodeFromConstraints({audio:false,video:{width:{ideal:1280},height:{ideal:720}}},video.current!,(result,_err,controls)=>{if(result)receive(result.getText(),controls);}),
       (id,text)=>{void act('scans',{qrText:text},id);},()=>setCamera(false));
   }catch(e:any){setError('웹캠 접근 실패: '+e.message);setCamera(false);}};
   const locked=current&&['LOCAL_COMPLETED','SERVER_CONFIRMED'].includes(current.localStatus);
   const canComplete=current&&!locked&&current.items.every((i:any)=>i.appliedQty===i.requiredQty);
   const reversed=new Set(history.filter(h=>h.event.type==='REVERSE_SCAN').map(h=>h.event.payload.targetEventId));
   return <><header><div><small>LOPS · 현장 단말</small><h1>출고 작업</h1></div><span className="badge">미확인 {sync?.pendingCount??'—'}건 · 차단 {sync?.blockedTaskCount??'—'}작업</span></header>
-    <p className="notice">모의 창고 출고 기록 · 실제 재고 및 택배 발송과 무관합니다. 웹캠·Raspberry Pi 하드웨어 검증: BLOCKED</p>
-    {error&&<p role="alert" className="error">{error}</p>}<div className="layout"><aside><h2>내려받은 작업</h2>{tasks.length===0&&<p>배정된 작업을 서버에서 내려받으면 여기에 표시됩니다.</p>}{tasks.map(t=><button key={t.snapshot.taskId} className="task" onClick={()=>open(t)}>{t.snapshot.externalOrderId.slice(0,12)}<small>{t.localStatus} · {t.syncStatus}</small></button>)}<div className="actions"><button disabled={!pageCursor.current} onClick={()=>{pageCursor.current=null;void refresh();}}>처음 200건</button><button disabled={!next} onClick={()=>{pageCursor.current=next;void refresh();}}>다음 200건</button></div></aside>
+    <p className="notice">모의 창고 출고 기록 · 실제 재고 및 택배 발송과 무관합니다.</p>
+    {(error||syncError)&&<p role="alert" className="error">{error||syncError}</p>}<div className="layout"><aside><h2>내려받은 작업</h2>{tasks.length===0&&<p>배정된 작업을 서버에서 내려받으면 여기에 표시됩니다.</p>}{tasks.map(t=><button key={t.snapshot.taskId} className="task" onClick={()=>open(t)}>{t.snapshot.externalOrderId.slice(0,12)}<small>{t.localStatus} · {t.syncStatus}</small></button>)}<div className="actions"><button disabled={!pageCursor.current} onClick={()=>{pageCursor.current=null;void refresh();}}>처음 200건</button><button disabled={!next} onClick={()=>{pageCursor.current=next;void refresh();}}>다음 200건</button></div></aside>
     <main>{current?<><h2>주문 {current.snapshot.externalOrderId.slice(0,12)}</h2><div className="states"><span className="badge">로컬: {current.localStatus}</span><span className="badge">동기화: {current.syncStatus}</span></div>
     <table><thead><tr><th>상품 ID</th><th>처리 / 필요</th></tr></thead><tbody>{current.items.map((i:any)=><tr key={i.productId}><td title={i.productId}>{i.displayLabel}</td><td>{i.appliedQty} / {i.requiredQty}</td></tr>)}</tbody></table>
     <video ref={video} hidden={!camera} muted playsInline/><div className="actions"><button disabled={locked||camera||current.syncStatus==='BLOCKED'} onClick={()=>void scanCamera()}>웹캠으로 QR 1개 읽기</button>{camera&&<button onClick={()=>{cameraReader.current.stop();setCamera(false);}}>카메라 중지</button>}<button disabled={!canComplete||current.syncStatus==='BLOCKED'} onClick={()=>void act('complete',{})}>로컬 완료 기록</button></div>
@@ -42,7 +43,7 @@ function Admin(){
   const call=(path:string,body?:any)=>request('/api/v1/'+path,body,token);
   const load=async(after:string|null=cursor)=>{try{setError('');if(tab==='reports'){setReport(await call('reports/daily?'+new URLSearchParams({datasetRunId:run,businessDate:date})));return;}const q=new URLSearchParams({limit:'50',...(tab==='devices'?{}:{datasetRunId:run}),...(after?{cursor:after}:{}),...(status&&tab!=='devices'?{status}:{}),...(query&&tab==='orders'?{query}:{})});const r=await call(tab+'?'+q);setItems(r.items);setNext(r.nextCursor);}catch(e:any){setError(e.message);}};
   useEffect(()=>{if(entered){setDetail(null);setCursor(null);void load(null);}},[tab,entered]);
-  const mutation=async(path:string,extra:any={})=>{try{if(!reason.trim())throw new Error('변경 사유를 입력하세요.');await call(path,{requestId:crypto.randomUUID(),reason,...extra});setReason('');await load(null);if(detail?.task)await open(detail.task);if(detail?.order)await open(detail.order);}catch(e:any){setError(e.message);}};
+  const mutation=async(path:string,extra:any={})=>{try{if(!reason.trim())throw new Error('변경 사유를 입력하세요.');const changed=await call(path,{requestId:crypto.randomUUID(),reason,...extra});setReason('');await load(null);if(tab==='jobs')setDetail(changed);if(detail?.task)await open(detail.task);if(detail?.order)await open(detail.order);}catch(e:any){setError(e.message);}};
   const open=async(item:any)=>{try{if(tab==='orders'||tab==='tasks'){const d=await call(tab+'/'+item.id);setDetail(d);if(d.order)setCorrection(d.items.map((i:any)=>({productId:i.productId,sellerId:d.raw.items[0]?.sellerId||'',requiredQty:i.requiredQty})));}else setDetail(item);}catch(e:any){setError(e.message);}};
   const csv=async()=>{try{const r=await fetch('/api/v1/reports/daily.csv?'+new URLSearchParams({datasetRunId:run,businessDate:date}),{headers:{Authorization:'Bearer '+token}});if(!r.ok)throw new Error('CSV_FAILED');const url=URL.createObjectURL(await r.blob()),a=document.createElement('a');a.href=url;a.download='daily-'+date+'.csv';a.click();URL.revokeObjectURL(url);}catch(e:any){setError(e.message);}};
   if(!entered)return <main className="login"><small>LOPS · 단일 운영자</small><h1>물류 운영</h1><p>로컬 환경의 운영자 토큰으로 접속합니다.</p><form onSubmit={e=>{e.preventDefault();setEntered(true);}}><input type="password" aria-label="운영자 토큰" value={token} autoComplete="off" onChange={e=>setToken(e.target.value)} required/><button>접속</button></form><p>토큰은 이 화면의 메모리에만 유지됩니다.</p></main>;

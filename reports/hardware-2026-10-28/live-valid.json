@@ -1,0 +1,57 @@
+{
+  "at": "2026-10-28T07:27:47.682Z",
+  "action": "scan-camera",
+  "source": "ACTUAL_C270_LIVE_BROWSER_CAMERA",
+  "before": {
+    "taskId": "0006f272-1097-4366-bffc-1cb272d0fd5b",
+    "localStatus": "IN_PROGRESS",
+    "syncStatus": "RETRYING",
+    "nextSeq": 2,
+    "appliedTotal": 1,
+    "requiredTotal": 2,
+    "completeDisabled": true,
+    "states": [
+      "로컬: IN_PROGRESS",
+      "동기화: RETRYING"
+    ],
+    "alert": "RETRY_BUDGET_EXHAUSTED",
+    "events": [
+      {
+        "seq": 1,
+        "type": "SCAN_ITEM",
+        "status": "PENDING",
+        "receiptResult": null
+      }
+    ],
+    "pending": 1
+  },
+  "after": {
+    "taskId": "0006f272-1097-4366-bffc-1cb272d0fd5b",
+    "localStatus": "IN_PROGRESS",
+    "syncStatus": "RETRYING",
+    "nextSeq": 2,
+    "appliedTotal": 1,
+    "requiredTotal": 2,
+    "completeDisabled": true,
+    "states": [
+      "로컬: IN_PROGRESS",
+      "동기화: RETRYING"
+    ],
+    "alert": "RETRY_BUDGET_EXHAUSTED",
+    "events": [
+      {
+        "seq": 1,
+        "type": "SCAN_ITEM",
+        "status": "PENDING",
+        "receiptResult": null
+      }
+    ],
+    "pending": 1
+  },
+  "camera": {
+    "label": "C270 HD WEBCAM",
+    "width": 640,
+    "height": 480
+  },
+  "displayedLabelCase": "valid"
+}

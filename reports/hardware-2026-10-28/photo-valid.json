@@ -1,0 +1,15 @@
+{
+  "observedAt": "2026-10-28T07:20:23.850Z",
+  "input": "ACTUAL_V4L2_CAPTURE",
+  "imagePath": "var/camera-photos/c270-4JFKN8/frame.jpg",
+  "width": 1280,
+  "height": 720,
+  "bytes": 229118,
+  "sha256": "dcfd3fef4095c8b86fa4ee923d450ff9d8d05c8cb71c6b24828b39dc7d249b06",
+  "decode": "PASS",
+  "businessEventsCreated": 0,
+  "scope": "Photo diagnostic; not a live browser camera acceptance test",
+  "projectProductQR": true,
+  "matchesSelectedProduct": true
+}
+

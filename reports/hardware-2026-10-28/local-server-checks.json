@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "checks": {
+    "photo-reboot": {
+      "serverConfirmed": true,
+      "localConfirmed": true,
+      "noPending": true,
+      "quantity": true,
+      "events": true
+    },
+    "ui-fix": {
+      "serverConfirmed": true,
+      "localConfirmed": true,
+      "noPending": true,
+      "quantity": true,
+      "events": true
+    }
+  }
+}

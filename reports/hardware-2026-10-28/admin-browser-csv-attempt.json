@@ -1,0 +1,83 @@
+{
+  "status": "FAIL",
+  "scope": "Actual Windows headless browser, React events and HTTP; SYNTHETIC isolated test data",
+  "runId": "260bab8e-2adb-4c32-8efb-744f258e2ce4",
+  "apiPort": 3301,
+  "checks": [
+    {
+      "requirement": "M-A01",
+      "name": "orders list, page50+4, status filter, full-key search, raw/normalized detail",
+      "status": "PASS",
+      "evidence": {
+        "orders": 54,
+        "pages": [
+          50,
+          4
+        ],
+        "searchedRows": 1,
+        "requiredQty": 3
+      }
+    },
+    {
+      "requirement": "M-A02",
+      "name": "confirmed task shows quantity and retained event bodies",
+      "status": "PASS",
+      "evidence": {
+        "events": 4,
+        "appliedQty": 3
+      }
+    },
+    {
+      "requirement": "M-A03",
+      "name": "reason required; device selection, first assignment and disabled reassignment button",
+      "status": "PASS",
+      "evidence": {
+        "assignmentVersion": 1
+      }
+    },
+    {
+      "requirement": "M-A02",
+      "name": "operator note displayed after save",
+      "status": "PASS",
+      "evidence": {
+        "notes": 1
+      }
+    },
+    {
+      "requirement": "M-A04",
+      "name": "failed attempts/error shown; transient retry resets detail, permanent retry rejected",
+      "status": "PASS",
+      "evidence": {
+        "failedAttempts": 5,
+        "resetAttempts": 0,
+        "permanentCode": "PERMANENT_JOB_ERROR"
+      }
+    },
+    {
+      "requirement": "M-A01/M-A02",
+      "name": "synthetic DATA_HOLD correction and audit displayed",
+      "status": "PASS",
+      "evidence": {
+        "revision": 2,
+        "requiredQty": 3,
+        "auditEntries": 1
+      }
+    },
+    {
+      "requirement": "M-A05",
+      "name": "stale device, last observation and pending count displayed",
+      "status": "PASS",
+      "evidence": {
+        "stale": true,
+        "pendingCount": 7
+      }
+    }
+  ],
+  "webSha256": "b24bd4074c527abfb2c28fc0fbc4c1fcca6124cc9946bc2b1ed0f0a914654675",
+  "browser": "Chrome/156.0.8078.48",
+  "at": "2026-10-28T08:01:46.215958+00:00",
+  "failure": {
+    "type": "UnicodeDecodeError",
+    "message": "'utf-8' codec can't decode byte 0xc0 in position 258: invalid start byte"
+  }
+}
