@@ -60,12 +60,17 @@ try{
   const sourceItems=(id:string)=>(originalItems.all(id) as any[]).map(i=>({sourceItemId:Number.isInteger(Number(i.source_item_id))&&Number(i.source_item_id)>0?Number(i.source_item_id):null,productId:i.product_id||null,sellerId:i.seller_id||null,shipByRaw:i.ship_by||null,category:categories.get(i.product_id)||null}));
   let after='',orderChecks=0,quantityChecks=0,taskChecks=0;
   for(;;){
-    const rows=await c.execute('SELECT o.id,o.revision,o.status,r.source_record_id,r.payload FROM orders o JOIN raw_orders r ON r.id=o.raw_order_id WHERE o.run_id=? AND o.id>? ORDER BY o.id LIMIT 200',[runId,after]);if(!rows.length)break;
+    const rows=await c.execute('SELECT o.id,o.revision,o.status,r.source_record_id,r.payload,r.payload_hash FROM orders o JOIN raw_orders r ON r.id=o.raw_order_id WHERE o.run_id=? AND o.id>? ORDER BY o.id LIMIT 200',[runId,after]);if(!rows.length)break;
+    const normalized=await c.execute('SELECT order_id,product_id,required_qty FROM order_items WHERE order_id IN('+rows.map(()=>'?').join(',')+')',rows.map((r:any)=>r.id));
     for(const order of rows){
       const original=originalOrder.get(order.source_record_id) as any;if(!original){fail('ORIGINAL_ORDER_KEY_MISSING');continue;}
       const o=JSON.parse(original.payload),body=parseJson(order.payload),items=sourceItems(o.order_id);
+      if(hash(body)!==order.payload_hash)fail('RAW_CANONICAL_HASH_MISMATCH');
       if(body.sourceOrderId!==(o.order_id||null)||body.sourceStatus!==(o.order_status||null)||body.sourceApprovedAtRaw!==(o.order_approved_at||null)||body.sourcePurchasedAtRaw!==(o.order_purchase_timestamp||null)||hash(body.items)!==hash(items))fail('ORIGINAL_ORDER_CONTENT_MISMATCH');
-      if(order.revision===1){const n=normalize({...body,sourceOrderId:o.order_id||null,sourceStatus:o.order_status||null,sourceApprovedAtRaw:o.order_approved_at||null,items},productIds,sellerIds);if((order.status==='TASK_CREATED'?'READY':order.status)!==n.status)fail('ORIGINAL_CLASSIFICATION_MISMATCH');}orderChecks++;
+      if(order.revision===1){const n=normalize({...body,sourceOrderId:o.order_id||null,sourceStatus:o.order_status||null,sourceApprovedAtRaw:o.order_approved_at||null,items},productIds,sellerIds);if((order.status==='TASK_CREATED'?'READY':order.status)!==n.status)fail('ORIGINAL_CLASSIFICATION_MISMATCH');
+        const expectedQty:Record<string,number>={};for(const item of items)if(item.productId&&productIds.has(item.productId))expectedQty[item.productId]=(expectedQty[item.productId]||0)+1;
+        if(hash(Object.fromEntries(normalized.filter((i:any)=>i.order_id===order.id).map((i:any)=>[i.product_id,i.required_qty])))!==hash(expectedQty))fail('NORMALIZED_SOURCE_QUANTITY');
+      }orderChecks++;
     }after=rows[rows.length-1].id;if(orderChecks%5000===0)console.log('Reconciled original orders',orderChecks);
   }
   after='';

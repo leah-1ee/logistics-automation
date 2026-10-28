@@ -1,0 +1,22 @@
+TAP version 13
+# Subtest: full reconciliation independently checks original rows and rejects coherent server corruption
+ok 1 - full reconciliation independently checks original rows and rejects coherent server corruption
+  ---
+  duration_ms: 2866.990751
+  type: 'test'
+  ...
+# Subtest: T28 both auditors reject isolated raw hash and normalized quantity corruption
+ok 2 - T28 both auditors reject isolated raw hash and normalized quantity corruption
+  ---
+  duration_ms: 3789.199975
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8538.795985
