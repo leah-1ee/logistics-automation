@@ -1,0 +1,63 @@
+{
+  "datasetVersion": "olist-v2",
+  "synthetic": false,
+  "downloadedAt": "2026-10-28T00:32:21.581068+00:00",
+  "preparedAt": "2026-10-28T00:37:03.450916+00:00",
+  "downloadProvenance": {
+    "sourceUrl": "https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce",
+    "datasetVersion": 2,
+    "licenseNotice": "CC BY-NC-SA 4.0",
+    "archiveSha256": "967e41e04fc306fe604e2a693f488995a8b41e5047418f8a5c8e4abd6deca784",
+    "archiveBytes": 44717580,
+    "fileObservedAt": "2026-10-28T00:34:07.212047+00:00",
+    "downloadedAt": "2026-10-28T00:32:21.581068+00:00",
+    "downloadUrl": "https://www.kaggle.com/api/v1/datasets/download/olistbr/brazilian-ecommerce?datasetVersionNumber=2",
+    "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+    "screenContentSize": "44717580 bytes",
+    "downloadStartedAt": "2026-10-28T00:32:14.844498+00:00",
+    "transport": "HTTPS GET; bounded to verified size; ZIP CRC checked",
+    "rawCommittedToGit": false
+  },
+  "sourceUrl": "https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce",
+  "licenseNotice": "CC BY-NC-SA 4.0 — Olist / Kaggle; preserve attribution; no raw redistribution in Git",
+  "files": [
+    {
+      "fileName": "olist_orders_dataset.csv",
+      "fileSha256": "8df58ef3d2d7e9944010f7beecd9b75367f5588ec6e3c91cec19ae3345ef9ecf",
+      "fileBytes": 17654914,
+      "rowCount": 99441,
+      "distinctKeyCount": 99441,
+      "keyDefinition": "order_id",
+      "schemaFingerprint": "0465189e63781c13c92d37ae90ec9354a57c3e5338b338660fc20f6b8285d3ce"
+    },
+    {
+      "fileName": "olist_order_items_dataset.csv",
+      "fileSha256": "0bc4d068c4fe38cbb01bd90e8746e3c613fe7b4baef75fab7b0e329701c3e279",
+      "fileBytes": 15438671,
+      "rowCount": 112650,
+      "distinctKeyCount": 112650,
+      "keyDefinition": "order_id+order_item_id",
+      "schemaFingerprint": "efbf94fb23f4b8090778c70fd9366ca1f2c22b373772bd1b4cab875b4474483b"
+    },
+    {
+      "fileName": "olist_products_dataset.csv",
+      "fileSha256": "3e6569628a17fbc75fd206ee357b59e20364b9afa90f5b6cd5b4d624c58aa9cc",
+      "fileBytes": 2379446,
+      "rowCount": 32951,
+      "distinctKeyCount": 32951,
+      "keyDefinition": "product_id",
+      "schemaFingerprint": "9496cc5568b870bb78eaa749508fa54aafc303d92eebe1c294de218e5e1b2f25"
+    },
+    {
+      "fileName": "olist_sellers_dataset.csv",
+      "fileSha256": "1f643d2b950373b85735e7794b20986f528d7a000432e7c6f9bcbb44d0846a0e",
+      "fileBytes": 174703,
+      "rowCount": 3095,
+      "distinctKeyCount": 3095,
+      "keyDefinition": "seller_id",
+      "schemaFingerprint": "1a7ca180d38404b63228125b5bd0fa360a9982852f8bd160ed072df417a7bfe6"
+    }
+  ],
+  "importConfigHash": "697c6ae0617d279aeae1a61e95529a0a8fef5677b96b666def4a24b05d981a66",
+  "orphanItemRows": 0
+}

@@ -17,9 +17,9 @@ def digest(path):
   for block in iter(lambda:f.read(1024*1024), b''): h.update(block)
  return h.hexdigest()
 def main():
- p=argparse.ArgumentParser();p.add_argument('--raw',required=True);p.add_argument('--out',required=True);p.add_argument('--manifest',required=True);p.add_argument('--synthetic',action='store_true');p.add_argument('--downloaded-at');a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--raw',required=True);p.add_argument('--out',required=True);p.add_argument('--manifest',required=True);p.add_argument('--synthetic',action='store_true');p.add_argument('--downloaded-at');p.add_argument('--verify-source-only',action='store_true');a=p.parse_args()
  raw=Path(a.raw);out=Path(a.out);out.parent.mkdir(parents=True,exist_ok=True)
- if out.exists() or Path(a.manifest).exists(): raise SystemExit('Existing output/manifest refused; use a new version path.')
+ if not a.verify_source_only and (out.exists() or Path(a.manifest).exists()): raise SystemExit('Existing output/manifest refused; use a new version path.')
  provenance=json.loads((raw/'download.json').read_text()) if (raw/'download.json').exists() else {}
  downloaded_at=None
  if not a.synthetic:
@@ -27,6 +27,13 @@ def main():
   try:
    parsed_time=datetime.fromisoformat(downloaded_at.replace('Z','+00:00'));assert parsed_time.tzinfo is not None
   except (AttributeError,ValueError,AssertionError):raise SystemExit('Record actual downloadedAt with an offset in download.json, or use --downloaded-at. Preparation time is not download time.')
+  reference=json.loads(Path('manifests/olist-v2.json').read_text())
+  for file in reference['files']:
+   source=raw/file['fileName']
+   if not source.is_file() or source.stat().st_size!=file['fileBytes'] or digest(source)!=file['fileSha256']:
+    raise SystemExit('Actual Olist v2 source hash mismatch; generated/changed input cannot be labeled actual: '+file['fileName'])
+ if a.verify_source_only:
+  print('Verified source fingerprints; no index or manifest created.');return
  for name,(file,required) in FILES.items():
   with open(raw/file,newline='',encoding='utf-8-sig') as f:
    headers=next(csv.reader(f));assert all(k in headers for k in required),(file,required,headers)

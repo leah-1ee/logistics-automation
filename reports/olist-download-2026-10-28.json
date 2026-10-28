@@ -1,0 +1,14 @@
+{
+  "sourceUrl": "https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce",
+  "downloadUrl": "https://www.kaggle.com/api/v1/datasets/download/olistbr/brazilian-ecommerce?datasetVersionNumber=2",
+  "datasetVersion": 2,
+  "licenseNotice": "CC BY-NC-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+  "screenContentSize": "44717580 bytes",
+  "archiveBytes": 44717580,
+  "archiveSha256": "967e41e04fc306fe604e2a693f488995a8b41e5047418f8a5c8e4abd6deca784",
+  "downloadStartedAt": "2026-10-28T00:32:14.844498+00:00",
+  "downloadedAt": "2026-10-28T00:32:21.581068+00:00",
+  "transport": "HTTPS GET; bounded to verified size; ZIP CRC checked",
+  "rawCommittedToGit": false
+}
