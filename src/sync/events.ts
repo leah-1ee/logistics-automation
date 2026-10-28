@@ -50,7 +50,9 @@ export async function applyEvent(db:Db,authenticatedDevice:string,event:Event,af
         items.find((i:any)=>i.product_id===scan.product_id).applied_qty--;task.status='IN_PROGRESS';
       }
     }else if(items.some((i:any)=>i.applied_qty!==i.required_qty))rejected='INCOMPLETE_QUANTITY';
-    const [time]=await tx.execute('SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP(3))*1000 AS millis');
+    // UTC_TIMESTAMP is already UTC; UNIX_TIMESTAMP(datetime) would reinterpret it
+    // in the session timezone. Subtract the UTC epoch without that conversion.
+    const [time]=await tx.execute("SELECT TIMESTAMPDIFF(MICROSECOND,'1970-01-01 00:00:00',UTC_TIMESTAMP(3))/1000 AS millis");
     const committedAt=new Date(Number(time.millis)).toISOString();
     if(rejected){task.status='HOLD';task.hold_reason=rejected;}
     else if(event.type==='COMPLETE') {

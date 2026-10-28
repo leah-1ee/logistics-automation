@@ -141,6 +141,7 @@ QR은 상품 식별자만 담습니다. API 토큰·운영자 권한·임의 명
 구현 보완(2026-10-27): committedAt/confirmedAt은 트랜잭션의 마지막 기록 직전에
 MySQL UTC 시계에서 얻은 확정 기록 시각입니다. ACK는 COMMIT 성공 후에만 반환하며,
 필드는 DB 엔진 로그의 정확한 commit timestamp를 의미하지 않습니다.
+UTC epoch 차이로 계산하여 MySQL 세션 시간대가 UTC가 아니어도 확정 시각과 업무일이 바뀌지 않습니다.
 CONFIRMED는 terminal이므로 새 eventId의 추가 입력은 BLOCKED/TASK_ALREADY_CONFIRMED이며
 seq·확정·집계를 바꾸지 않습니다. 기존 eventId 중복 검사는 이 상태 검사보다 우선합니다.
 

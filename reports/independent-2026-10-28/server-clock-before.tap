@@ -1,0 +1,36 @@
+TAP version 13
+# Subtest: T25 DB session timezone cannot shift committedAt or confirmed business date
+not ok 1 - T25 DB session timezone cannot shift committedAt or confirmed business date
+  ---
+  duration_ms: 210.047603
+  type: 'test'
+  location: '/home/leah/logistics-automation/tests/integration/server-clock.test.ts:1:359'
+  failureType: 'testCodeFailure'
+  error: |-
+    +09:00
+    + actual - expected
+    
+    + '2026-10-28T06:30:00.000Z'
+    - '2026-10-28T15:30:00.000Z'
+                  ^
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '2026-10-28T15:30:00.000Z'
+  actual: '2026-10-28T06:30:00.000Z'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/home/leah/logistics-automation/tests/integration/server-clock.test.ts:24:16)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1409:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1111.231817
