@@ -1,0 +1,8 @@
+{
+  "commit": "a7bb63334372de1b74758876cb63486f1b904e0c",
+  "originalSha256": "828e6ef128496aec0e292742f8f6bdc51dc9ff6fa55984106838d5e2743902c9",
+  "entrySha256": "d64a47587384e610d3e8b2b1b380a8a64a76206cda8653e7907406e5e81a147c",
+  "onlyDifference": "Report self hash reads import.meta.url instead of hard-coded working file; validation algorithm unchanged",
+  "baselineFile": "tools/benchmarks/audit-source-baseline.ts",
+  "baselineFileSha256": "d64a47587384e610d3e8b2b1b380a8a64a76206cda8653e7907406e5e81a147c"
+}
