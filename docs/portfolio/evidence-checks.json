@@ -1,0 +1,344 @@
+{
+  "at": "2026-10-29T14:08:59.330559+09:00",
+  "sourceHead": "53b3ee389041b207d0606de635dd8da6532bdbdd",
+  "status": "PASS",
+  "scope": "Documentation fact/link/provenance review of existing artifacts; no new product, hardware, load or productivity experiment",
+  "checks": [
+    {
+      "check": "whole_dataset_counts_and_classification",
+      "status": "PASS",
+      "evidence": {
+        "path": "reports/audit-memory-2026-10-29/paired-final/round1-disk-indexed-audit.json",
+        "counts": {
+          "sourceOrders": 99441,
+          "sourceItems": 112650,
+          "sourceProducts": 32951,
+          "sourceSellers": 3095,
+          "taskChecks": 96596,
+          "quantityChecks": 98840,
+          "eventChecks": 4260,
+          "confirmed": 2002,
+          "classifications": {
+            "TASK_CREATED": 96596,
+            "DATA_HOLD": 789,
+            "UNSUPPORTED": 2056
+          },
+          "unfinishedJobs": 0
+        }
+      }
+    },
+    {
+      "check": "separate_actual_input_F1_trials",
+      "status": "PASS",
+      "evidence": {
+        "first": {
+          "taskCount": 1000,
+          "itemCount": 1117,
+          "uniqueEvents": 2117,
+          "deliveriesThisInvocation": 2332,
+          "droppedResponsesThisInvocation": 100,
+          "localPending": 0,
+          "elapsedSeconds": 361.024106166,
+          "input": "ACTUAL_OLIST_V2",
+          "actions": "SIMULATED_SOFTWARE_WAREHOUSE"
+        },
+        "independent": {
+          "taskCount": 1000,
+          "itemCount": 1134,
+          "uniqueEvents": 2134,
+          "deliveriesThisInvocation": 2350,
+          "droppedResponsesThisInvocation": 100,
+          "localPending": 0,
+          "elapsedSeconds": 400.252974355,
+          "input": "ACTUAL_OLIST_V2",
+          "actions": "SIMULATED_SOFTWARE_WAREHOUSE"
+        },
+        "duplicateReceipts": [
+          215,
+          216
+        ]
+      }
+    },
+    {
+      "check": "cumulative_F1_plus_Pi_arithmetic",
+      "status": "PASS",
+      "evidence": {
+        "confirmed": 2002,
+        "events": 4260,
+        "quantity": 2254,
+        "PiEvidence": "reports/hardware-validation.md and local-server-checks.json"
+      }
+    },
+    {
+      "check": "Pi_photo_scope_and_normal_reboot_only",
+      "status": "PASS",
+      "evidence": {
+        "checks": {
+          "photo-reboot": {
+            "serverConfirmed": true,
+            "localConfirmed": true,
+            "noPending": true,
+            "quantity": true,
+            "events": true
+          },
+          "ui-fix": {
+            "serverConfirmed": true,
+            "localConfirmed": true,
+            "noPending": true,
+            "quantity": true,
+            "events": true
+          }
+        },
+        "rebootChecks": {
+          "snapshotHash": true,
+          "localStatus": true,
+          "syncStatus": true,
+          "nextSeq": true,
+          "appliedTotal": true,
+          "requiredTotal": true,
+          "events": true,
+          "auditCodes": true,
+          "configMode": true,
+          "bootChanged": true,
+          "sqliteIntegrity": true
+        },
+        "unverified": "Live optical QR remains BLOCKED; no power-cut/SD/HDMI PASS"
+      }
+    },
+    {
+      "check": "supplementary_synthetic_not_actual_F1",
+      "status": "PASS",
+      "evidence": {
+        "scope": "SUPPLEMENTARY_SYNTHETIC_SOFTWARE_ONLY",
+        "taskCount": 1000,
+        "itemCount": 3000,
+        "uniqueEvents": 4000,
+        "deliveries": 4400,
+        "duplicateReceipts": 400,
+        "localPending": 0,
+        "elapsedSeconds": 271.640524716
+      }
+    },
+    {
+      "check": "actual_headless_UI_nine_checks",
+      "status": "PASS",
+      "evidence": {
+        "browser": "Chrome/156.0.8078.48",
+        "scope": "Actual Windows headless browser, React events and HTTP; SYNTHETIC isolated test data",
+        "checks": 9
+      }
+    },
+    {
+      "check": "forty_three_cases_and_code_identity",
+      "status": "PASS",
+      "evidence": {
+        "caseKinds": {
+          "PASS": 6,
+          "FAIL": 30,
+          "NEW_SOURCE_CHECK": 7
+        },
+        "testedCodeSha256": {
+          "tools/audit-source.ts": "43dd2ae26206492c946b1b32d73c3560485367fee4512c5a341c47373f23f58a",
+          "tools/audit-source-index.ts": "ab9a1bb2bf45c75c14a212898b3e2e0a3a6b3adf329e3ee3354b1bd004fc8f3a",
+          "tools/benchmarks/audit-source-baseline.ts": "d64a47587384e610d3e8b2b1b380a8a64a76206cda8653e7907406e5e81a147c",
+          "tests/integration/audit-memory.test.ts": "9e9a8bdd2f0717f1ff820a0af5ac5da3d5330d8eb114e9239e64e57e099b8049"
+        }
+      }
+    },
+    {
+      "check": "paired_measurements_same_scope_tradeoff",
+      "status": "PASS",
+      "evidence": {
+        "baseline": {
+          "samples": 3,
+          "wallSeconds": {
+            "min": 8.929720623000321,
+            "median": 9.081169729000067,
+            "max": 9.149767975000032
+          },
+          "peakRssBytes": {
+            "min": 521900032,
+            "median": 529539072,
+            "max": 533889024
+          },
+          "tempObservedAllocatedBytes": {
+            "min": 28672,
+            "median": 28672,
+            "max": 32768
+          },
+          "tempRetainedAllocatedBytes": {
+            "min": 28672,
+            "median": 28672,
+            "max": 28672
+          }
+        },
+        "diskIndexed": {
+          "samples": 3,
+          "wallSeconds": {
+            "min": 13.397692928999277,
+            "median": 13.415837198999725,
+            "max": 13.471223194000231
+          },
+          "peakRssBytes": {
+            "min": 262803456,
+            "median": 263671808,
+            "max": 266141696
+          },
+          "tempObservedAllocatedBytes": {
+            "min": 77533184,
+            "median": 77541376,
+            "max": 77541376
+          },
+          "tempRetainedAllocatedBytes": {
+            "min": 61517824,
+            "median": 61517824,
+            "max": 61517824
+          }
+        },
+        "rssReductionPercent": 50.20729877322443,
+        "wallIncreasePercent": 47.73247939808027,
+        "scope": "Auditor Node RSS only (OS high-water); invocation wall time; scratch allocation sampled20ms, lower bound. No whole-service memory claim.",
+        "limits": [
+          "Three pairs on one WSL/Docker host; no statistical population or throughput claim",
+          "Other services remain running; MySQL RSS, OS page cache, parent sampler and MySQL temporary disk are excluded",
+          "Preliminary first-run observations are separate and not used in these medians"
+        ]
+      }
+    },
+    {
+      "check": "recorded_unit-final.tap",
+      "status": "PASS",
+      "evidence": {
+        "path": "reports/audit-memory-2026-10-29/unit-final.tap",
+        "counts": {
+          "tests": 17,
+          "pass": 17,
+          "fail": 0
+        },
+        "rerunDuringDocumentation": false
+      }
+    },
+    {
+      "check": "recorded_integration-final.tap",
+      "status": "PASS",
+      "evidence": {
+        "path": "reports/audit-memory-2026-10-29/integration-final.tap",
+        "counts": {
+          "tests": 23,
+          "pass": 23,
+          "fail": 0
+        },
+        "rerunDuringDocumentation": false
+      }
+    },
+    {
+      "check": "requirement_and_T_status_scope",
+      "status": "PASS",
+      "evidence": {
+        "requirementCounts": {
+          "PASS": 34,
+          "BLOCKED": 1
+        },
+        "testCounts": {
+          "PASS": 32,
+          "BLOCKED": 2
+        },
+        "blockedRequirements": [
+          "M-E01"
+        ],
+        "blockedTests": [
+          "T08",
+          "T29"
+        ],
+        "fullMvpComplete": false
+      }
+    },
+    {
+      "check": "current_contract_not_old_document_checks",
+      "status": "PASS",
+      "evidence": {
+        "operations": 29,
+        "schemas": 44,
+        "eventKnownAnswers": 6
+      }
+    },
+    {
+      "check": "recorded_business_DB_identity_equal",
+      "status": "PASS",
+      "evidence": {
+        "sha256": "a492633ec13b3e9a06c29e2a6275bd580bfacf7582a1982098ac7c68e413023e",
+        "scope": "Recorded business tables only; not a new live DB check"
+      }
+    },
+    {
+      "check": "original_tracked_files_untouched",
+      "status": "PASS",
+      "evidence": {
+        "originalFileCount": 337,
+        "changedOrMissing": []
+      }
+    },
+    {
+      "check": "representative_commit_evidence_exists",
+      "status": "PASS",
+      "evidence": {
+        "325662e": "docs/README.md",
+        "b4d4894": "src/sync/events.ts",
+        "fa920ce": "web/camera.ts",
+        "8afc8b9": "tools/audit-source.ts",
+        "a48377f": "src/operations/api.ts",
+        "d7afe65": "web/main.tsx",
+        "92d6ba5": "tools/audit-source-index.ts",
+        "53b3ee3": "reports/audit-memory-2026-10-29/README.md"
+      }
+    },
+    {
+      "check": "local_markdown_links_and_heading_fragments",
+      "status": "PASS",
+      "evidence": {
+        "checked": 289,
+        "broken": []
+      }
+    }
+  ],
+  "sourceArtifactSha256": {
+    "docs/examples.json": "92b342a4a47babeaba9c7b9bd7469326ab2103c49942a73c0d01a1c4325ee1d4",
+    "docs/openapi.yaml": "aa07ebe6c800df843361a5718d1b5b721b4ce5e19a1e5917bb1cd3761cd7eb0e",
+    "reports/audit-memory-2026-10-29/integration-final.tap": "8e26b3a22c0c0b49d94bcf1be081b8a883a9a0f298496fd1c823aeed3ea214e0",
+    "reports/audit-memory-2026-10-29/original-after.json": "65913c28193fc6064b95d3125fb6bc2bcd40270c392c830f89a3b8bb85047c70",
+    "reports/audit-memory-2026-10-29/original-before.json": "f9d4458b8cad7240f40a4f05ca944b227e5315e7883d30bf07fec1b6afbdc167",
+    "reports/audit-memory-2026-10-29/paired-final/comparison.json": "7bf3546948e39607dfb18cb8cbf01bb6a4d4a81ceed6f48aa5604a0ba558946e",
+    "reports/audit-memory-2026-10-29/paired-final/round1-disk-indexed-audit.json": "273575e2b20d64f97d851fb3ca14dcf90a49ed08bb86c0b4d7705cda3c1518ae",
+    "reports/audit-memory-2026-10-29/regression-cases-final.json": "a259e869334380421daba1261523011161a6ce9a780aaaf016a2dddb9d11125a",
+    "reports/audit-memory-2026-10-29/snapshot-after.json": "bcc59e624e4fe9926e9548e614a772fe7011c76820306818fd4de5160316e37c",
+    "reports/audit-memory-2026-10-29/snapshot-before.json": "17c54420f074fd5a1c8c4ca7ad4e7b1502b0a926e856244196c6b431adc75369",
+    "reports/audit-memory-2026-10-29/unit-final.tap": "d5555dbe1c221568bf79d96618558d0ecefaed5d6a1a2fde062717e9d5f9e378",
+    "reports/f1-e7fb6a95-0d26-42b5-9305-5b559569b7da-independent-20261028.json": "9c12f4fa0e92c38dab52aa3aaabc8b534943ee3df733043c0696c91cedfa0747",
+    "reports/f1-e7fb6a95-0d26-42b5-9305-5b559569b7da.json": "37231f176a7509d53d18f4c7896803045fae44a8f2fdc137f552ea765d0cfc27",
+    "reports/f1-local-audit-e7fb6a95-0d26-42b5-9305-5b559569b7da.json": "0298f936b8df48d4480ff6157271edc9806689467cf187f34445ae33f9add3bd",
+    "reports/hardware-2026-10-28/admin-browser-final.json": "8d302ddb993b8804cc49b287e4f42b62b3b625a764c2f90164d0c529b85f45d3",
+    "reports/hardware-2026-10-28/local-server-checks.json": "31333740e5e76969b5ce05f6d74280b00dc973dd1164551a4deae31315e1db72",
+    "reports/hardware-2026-10-28/reboot.json": "914a524fb1bbc3c7f3ecf25965749311d6ef7e1c22f126e09aeb3598a67e945c",
+    "reports/independent-2026-10-28/f1-local.json": "ce96b7c1a9e57617d3d0aaef104cdbee7602939950b86dac87ba0c1326367da7",
+    "reports/independent-2026-10-28/verification.md": "3e6fc98aa0e3b07db3e833d9e468adb2c08218a4b690c2aff357e27765230be1",
+    "reports/synthetic-1000.json": "9da303472c33d63fb459c98a33ad6550c1e844c6c5c55865f1c2f1828240bc93"
+  },
+  "markdownSha256": {
+    "docs/portfolio/README.md": "bc916aa981be89ef6cb874aac12993f90fad19e85a6fd1006e44013a0e4a7200",
+    "docs/portfolio/architecture.md": "3e8ca70311ebc2426473ee69684462472ee85969b79c50b1e6e2898e1c7bc3f0",
+    "docs/portfolio/contribution-ai.md": "ec3807f586d97094b258de6a7f96ec2e433e1aafa4123820b8f1a431c71f0363",
+    "docs/portfolio/troubleshooting.md": "0d959c1ea3a6c450db62ad1286067db777345432276231309ebcc341d98d02ca",
+    "docs/portfolio/verification-results.md": "18411167e58b4c3515e144bf3fecfbdf4f7d29a41b7388fcf06d733dc4b11926"
+  },
+  "externalReferences": {
+    "recheckedOn": "2026-10-29 Asia/Seoul",
+    "tossEmergency": "Official guide read: limited emergency operation and revenue reflection after connectivity returns; internals unknown",
+    "tossCareer": "Page title/link observed; article body extraction incomplete, detailed claims need confirmation",
+    "flexport": "Official API overview read: products/orders/inbounds/webhooks/sandbox described; no project API/account execution"
+  },
+  "limitations": [
+    "Current conversation attribution is not a repository transcript",
+    "No claim of new live hardware/DB verification",
+    "Markdown headings/link checker is a local static check, not rendering validation"
+  ]
+}
