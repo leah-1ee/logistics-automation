@@ -1,0 +1,73 @@
+{
+  "at": "2026-10-29T01:18:11.918Z",
+  "scope": "Read-only consistent snapshot; validator business tables only, excludes mutable device heartbeats",
+  "datasetRunId": "e7fb6a95-0d26-42b5-9305-5b559569b7da",
+  "database": "logistics_audit_bench_20261029",
+  "contentSha256": "a492633ec13b3e9a06c29e2a6275bd580bfacf7582a1982098ac7c68e413023e",
+  "tables": {
+    "dataset_runs": {
+      "rows": 1,
+      "sha256": "82ba272e8b4ff9b93b152e74ea9565d8403ee8f813f63ebeaa31a013fd7a0dfd"
+    },
+    "dataset_scenarios": {
+      "rows": 1,
+      "sha256": "7ced94176621c03f3709755329a45521917ca3e4eb63f2549f858f0399159ec1"
+    },
+    "source_checkpoints": {
+      "rows": 1,
+      "sha256": "a4953362db3ada9204c6723afe2f353eea0d7fcf786f34fde57602cedd530b45"
+    },
+    "products": {
+      "rows": 32951,
+      "sha256": "ca223a248a19cdc79566648b7c19ecfcbe694ed51d3378ff587085931faf89af"
+    },
+    "sellers": {
+      "rows": 3095,
+      "sha256": "941530b685779bcebf04bcaf70c65ffd75c7900972ecf8210aa3a9ebf89cdeab"
+    },
+    "raw_orders": {
+      "rows": 99441,
+      "sha256": "7d5b44a9d1981662677229cf8668853e659e32630e365bf5a7b360f4243ddd3e"
+    },
+    "orders": {
+      "rows": 99441,
+      "sha256": "2455e4618cc6cccad56964725655de3a18aa606ad093661a44f87dd36879f9ef"
+    },
+    "tasks": {
+      "rows": 96596,
+      "sha256": "4a0b5d5c5992d53654bd9a553878a0c53bf56f27ec1c3d77898e83f33c8b3872"
+    },
+    "outbox_jobs": {
+      "rows": 98598,
+      "sha256": "766c4306a72a017d30bf79336e99cd84010e0409d194d84e1461296c788f1c7e"
+    },
+    "report_daily": {
+      "rows": 1,
+      "sha256": "ad58cfd528e68ba26128355bce49c34662cd998f8b8e1761bf2a202dc7e92a5b"
+    },
+    "report_daily_product": {
+      "rows": 1704,
+      "sha256": "2b1e9dbe990e89495604e608f3da8d735d805b4548e2d6e41db4543d7fb47b5f"
+    },
+    "order_items": {
+      "rows": 102425,
+      "sha256": "91c7edd98a64affe63a568194815372dd5a0792569f5c43b18b44679c8c7e8b1"
+    },
+    "task_items": {
+      "rows": 98840,
+      "sha256": "12edf9984013e2470bee508cb63fc3ca51915fd7ed81c4ea695a13b9891ad8b0"
+    },
+    "task_scans": {
+      "rows": 2256,
+      "sha256": "5251cae1afabe327412a97cbc3b795842ef83f9dd28544572898cf6709e95b0d"
+    },
+    "device_events": {
+      "rows": 4260,
+      "sha256": "3c9ed22a2a2ab1e2d3d14b103b45ac228527f603d7e57a1d2c60b1954b5aaf25"
+    },
+    "schema_migrations": {
+      "rows": 4,
+      "sha256": "8561e873cf3422589281cc68cf503e6b662070f30e23e78f3191044ec7c7ffc4"
+    }
+  }
+}

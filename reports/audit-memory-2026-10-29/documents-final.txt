@@ -1,0 +1,5 @@
+
+> logistics-operations-mvp@0.1.0 verify:documents
+> node --import tsx tools/check-documents.ts
+
+{"scope":"document contracts only; not product verification","operations":29,"schemas":44,"events":6,"links":17}

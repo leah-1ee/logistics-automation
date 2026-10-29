@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "scope": "reachable Git history and tracked/non-ignored worktree candidates; bounded pattern/exact-secret audit",
+  "head": "92d6ba5b1bf75b892cb6b4e4ca4947840a415356",
+  "historicalBlobCount": 408,
+  "candidateFileCount": 336,
+  "localSecretEntriesChecked": 16,
+  "findings": [],
+  "forbiddenPaths": [],
+  "limitations": "Manual review is still required for arbitrary prose/PII. Generated examples and synthetic manifests are not Olist originals. Git author metadata is preserved."
+}

@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-29T02:32:49.230033+00:00",
+  "status": "PASS",
+  "checks": {
+    "finalComparisonPassed": true,
+    "fortyThreeCasesPassed": true,
+    "testedCodeStillMatches": true,
+    "measuredCodeStillMatches": true,
+    "sourceAndPriorReportsPreserved": true,
+    "beforeAfterDbIdentityEqual": true,
+    "compiledAuditEqual": true,
+    "compiledScratchCleaned": true,
+    "servicesReady": true,
+    "baselineOnlyChangesSelfHashPath": true
+  },
+  "notes": [
+    "Build,17 unit tests,23 integration tests already executed with exit0; evidence logs alongside",
+    "Compiled audit is an additional accuracy/cleanup check, not a benchmark sample",
+    "Earlier readiness request used wrong path and returned404; actual /api/v1/ready response is stored separately"
+  ]
+}

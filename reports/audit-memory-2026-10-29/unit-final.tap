@@ -1,0 +1,29 @@
+
+> logistics-operations-mvp@0.1.0 test
+> node --import tsx --test tests/*.test.ts
+
+✔ clean fixture bootstrap preserves tracked reference manifest and is repeatable (385.720224ms)
+✔ T08 software camera session ignores old frames and permission results after task switch (2.904806ms)
+✔ T08 software camera stop during permission prompt cancels the late stream (0.782068ms)
+✔ T08 synchronous decode callback is consumed once; active startup errors surface (0.846493ms)
+✔ S0 canonical known answers from preserved contract (11.506788ms)
+✔ S0 schema forbids unknown fields, non-unit quantities, bad times (0.343701ms)
+✔ S0 role authentication and server business timezone (11.219402ms)
+✔ generated CSVs cannot be prepared as actual Olist; explicit synthetic preparation works (367.894907ms)
+✔ T19/T33 device task isolation, bounded retries and Retry-After (335.464652ms)
+✔ T26 local origin, host, remote address and missing mutation origin (0.317702ms)
+✔ T07~T13/T32 SQLite fixture download, validation, reversal, atomic rollback and restart (299.124136ms)
+✔ T34 late ACK preserves later unsent local projection and duplicate rejection stays blocked (115.96568ms)
+✔ T03/T04 fixture classification, row counts and missing-parent precedence (13.485949ms)
+✔ task QR labels contain only selected products and reject a different dataset run (735.52412ms)
+✔ T08 software QR encode/decode round trip; physical webcam not covered (19.743927ms)
+✔ S1 source cursor is repeatable, bound to run, waits instead of false EOF (784.877051ms)
+✔ actual verification waits for both source EOF and durable job completion (1.233651ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1149.329308

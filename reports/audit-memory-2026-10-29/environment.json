@@ -1,0 +1,104 @@
+{
+  "date": "2026-10-29 Asia/Seoul",
+  "baselineCommit": "a7bb63334372de1b74758876cb63486f1b904e0c",
+  "lockfileSha256": "4cf789861217e64c793a9ddbe73f5b4b608d0a92486fd4c730431f4e5c68ab1e",
+  "kernel": "6.18.54.1-microsoft-standard-WSL2",
+  "architecture": "x86_64",
+  "logicalCpus": 20,
+  "hostMemory": {
+    "MemTotal": "16150404 kB",
+    "SwapTotal": "4194304 kB"
+  },
+  "files": [
+    {
+      "file": "olist_orders_dataset.csv",
+      "bytes": 17654914,
+      "sha256": "8df58ef3d2d7e9944010f7beecd9b75367f5588ec6e3c91cec19ae3345ef9ecf",
+      "mode": "0o444"
+    },
+    {
+      "file": "olist_order_items_dataset.csv",
+      "bytes": 15438671,
+      "sha256": "0bc4d068c4fe38cbb01bd90e8746e3c613fe7b4baef75fab7b0e329701c3e279",
+      "mode": "0o444"
+    },
+    {
+      "file": "olist_products_dataset.csv",
+      "bytes": 2379446,
+      "sha256": "3e6569628a17fbc75fd206ee357b59e20364b9afa90f5b6cd5b4d624c58aa9cc",
+      "mode": "0o444"
+    },
+    {
+      "file": "olist_sellers_dataset.csv",
+      "bytes": 174703,
+      "sha256": "1f643d2b950373b85735e7794b20986f528d7a000432e7c6f9bcbb44d0846a0e",
+      "mode": "0o444"
+    }
+  ],
+  "scope": "Only the auditor Node process lifetime is measured; application services, MySQL and Python sampler are excluded. Compilation/loading included equally. Temp disk includes per-invocation TMPDIR and unlinked open scratch files, sampled every20ms (lower bound).",
+  "design": "First original invocation before algorithm change; final comparison: one warm-up per implementation, then three sequential paired rounds BA/AB/BA. No forced OS/DB cache flush. Same immutable source and SELECT-only fixed DB clone. No concurrent test/fingerprint jobs during each measured invocation.",
+  "temporaryDiskRetention": "Normal CLI cleans its own unique index. Benchmarks retain new per-invocation derivatives in ignored var, excluding them from Git. One-time fixed DB clone storage is reported separately.",
+  "docker": {
+    "version": "29.9.2",
+    "logicalCpus": 20,
+    "memoryBytes": 16538013696
+  },
+  "mysqlObserved": [
+    "8.4.13",
+    "134217728",
+    "1",
+    "1",
+    "REPEATABLE-READ",
+    "utf8mb4_0900_ai_ci"
+  ],
+  "mysqlObservedFields": [
+    "version",
+    "innodb_buffer_pool_size",
+    "innodb_flush_log_at_trx_commit",
+    "sync_binlog",
+    "transaction_isolation",
+    "collation_server"
+  ],
+  "oneTimeCloneDisk": {
+    "logicalBytes": 509235200,
+    "allocatedKiB": 497352,
+    "scope": "Entire new schema filesystem, all22 copied tables; excluded from per-invocation temp disk. Information-schema DATA_LENGTH+INDEX_LENGTH estimate was325337088bytes."
+  },
+  "serviceBeforeSamples": [
+    {
+      "CPUPerc": "1.06%",
+      "MemPerc": "2.87%",
+      "MemUsage": "452.1MiB / 15.4GiB",
+      "Name": "logistics-mvp-mysql-1",
+      "PIDs": "45"
+    },
+    {
+      "CPUPerc": "0.00%",
+      "MemPerc": "0.39%",
+      "MemUsage": "61.42MiB / 15.4GiB",
+      "Name": "logistics-mvp-api-1",
+      "PIDs": "7"
+    },
+    {
+      "CPUPerc": "0.26%",
+      "MemPerc": "0.36%",
+      "MemUsage": "57.42MiB / 15.4GiB",
+      "Name": "logistics-mvp-worker-1",
+      "PIDs": "11"
+    },
+    {
+      "CPUPerc": "0.00%",
+      "MemPerc": "0.31%",
+      "MemUsage": "49.27MiB / 15.4GiB",
+      "Name": "logistics-mvp-source-1",
+      "PIDs": "7"
+    },
+    {
+      "CPUPerc": "0.75%",
+      "MemPerc": "0.05%",
+      "MemUsage": "8.289MiB / 15.4GiB",
+      "Name": "logistics-mvp-redis-1",
+      "PIDs": "6"
+    }
+  ]
+}

@@ -1,0 +1,600 @@
+{
+  "status": "PASS",
+  "scope": "Isolated SYNTHETIC fixture; original CSV/DB never corrupted",
+  "cases": [
+    {
+      "name": "normal-mixed-classification-and-events",
+      "expected": "PASS",
+      "baseline": {
+        "exit": 0,
+        "status": "PASS",
+        "errors": {}
+      },
+      "diskIndexed": {
+        "exit": 0,
+        "status": "PASS",
+        "errors": {}
+      }
+    },
+    {
+      "name": "unsorted-all-four-csv",
+      "expected": "PASS",
+      "baseline": {
+        "exit": 0,
+        "status": "PASS",
+        "errors": {}
+      },
+      "diskIndexed": {
+        "exit": 0,
+        "status": "PASS",
+        "errors": {}
+      }
+    },
+    {
+      "name": "raw-hash-only",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "RAW_CANONICAL_HASH": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "RAW_CANONICAL_HASH": 1
+        }
+      }
+    },
+    {
+      "name": "normalized-quantity-only",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "NORMALIZED_QUANTITIES": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "NORMALIZED_QUANTITIES": 1
+        }
+      }
+    },
+    {
+      "name": "task-required-quantity-only",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "TASK_CSV_QUANTITIES": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "TASK_CSV_QUANTITIES": 1
+        }
+      }
+    },
+    {
+      "name": "coherent-raw-and-projections",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "RAW_CSV_CONTENT": 1,
+          "NORMALIZED_QUANTITIES": 1,
+          "TASK_CSV_QUANTITIES": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "RAW_CSV_CONTENT": 1,
+          "NORMALIZED_QUANTITIES": 1,
+          "TASK_CSV_QUANTITIES": 1
+        }
+      }
+    },
+    {
+      "name": "order-classification",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "NORMALIZATION": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "NORMALIZATION": 1
+        }
+      }
+    },
+    {
+      "name": "source-identity-not-in-csv",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "SOURCE_KEY_SET": 1,
+          "MISSING_SOURCE_ORDERS": 1,
+          "EXTRA_NORMALIZED_OR_TASK_ROWS": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "SOURCE_KEY_SET": 1,
+          "MISSING_SOURCE_ORDERS": 1,
+          "EXTRA_NORMALIZED_OR_TASK_ROWS": 1
+        }
+      }
+    },
+    {
+      "name": "missing-normalized-product",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "NORMALIZED_QUANTITIES": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "NORMALIZED_QUANTITIES": 1
+        }
+      }
+    },
+    {
+      "name": "product-attributes",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "PRODUCT_ATTRIBUTES": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "PRODUCT_ATTRIBUTES": 1
+        }
+      }
+    },
+    {
+      "name": "extra-server-seller",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "SELLER_SET": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "SELLER_SET": 1
+        }
+      }
+    },
+    {
+      "name": "event-canonical-hash",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "EVENT_IDENTITY_SEQUENCE_HASH_RECEIPT": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "EVENT_IDENTITY_SEQUENCE_HASH_RECEIPT": 1
+        }
+      }
+    },
+    {
+      "name": "event-body-sequence",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "EVENT_IDENTITY_SEQUENCE_HASH_RECEIPT": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "EVENT_IDENTITY_SEQUENCE_HASH_RECEIPT": 1
+        }
+      }
+    },
+    {
+      "name": "event-receipt-sequence",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "EVENT_IDENTITY_SEQUENCE_HASH_RECEIPT": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "EVENT_IDENTITY_SEQUENCE_HASH_RECEIPT": 1
+        }
+      }
+    },
+    {
+      "name": "event-reversal-target",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "EVENT_REVERSAL": 1,
+          "EVENT_EFFECT_REPLAY": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "EVENT_REVERSAL": 1,
+          "EVENT_EFFECT_REPLAY": 1
+        }
+      }
+    },
+    {
+      "name": "snapshot-hash",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "IMMUTABLE_SNAPSHOT": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "IMMUTABLE_SNAPSHOT": 1
+        }
+      }
+    },
+    {
+      "name": "applied-effects",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "TASK_EFFECT_QUANTITIES": 1,
+          "EVENT_EFFECT_REPLAY": 1,
+          "DAILY_REPORT": 1,
+          "PRODUCT_REPORT": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "TASK_EFFECT_QUANTITIES": 1,
+          "EVENT_EFFECT_REPLAY": 1,
+          "DAILY_REPORT": 1,
+          "PRODUCT_REPORT": 1
+        }
+      }
+    },
+    {
+      "name": "daily-report-count",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "DAILY_REPORT": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "DAILY_REPORT": 1
+        }
+      }
+    },
+    {
+      "name": "product-report-count",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "PRODUCT_REPORT": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "PRODUCT_REPORT": 1
+        }
+      }
+    },
+    {
+      "name": "missing-report-day",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "DAILY_REPORT": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "DAILY_REPORT": 1
+        }
+      }
+    },
+    {
+      "name": "extra-zero-report-day",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "DAILY_REPORT": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "DAILY_REPORT": 1
+        }
+      }
+    },
+    {
+      "name": "extra-zero-product-report",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "PRODUCT_REPORT": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "PRODUCT_REPORT": 1
+        }
+      }
+    },
+    {
+      "name": "undrained-outbox",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "OUTBOX_NOT_DRAINED": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "OUTBOX_NOT_DRAINED": 1
+        }
+      }
+    },
+    {
+      "name": "source-not-done",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "SOURCE_NOT_DONE": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "SOURCE_NOT_DONE": 1
+        }
+      }
+    },
+    {
+      "name": "csv-changed-with-old-fingerprint",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "ABORTED",
+        "errors": {}
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "RAW_FILE_FINGERPRINT": 1,
+          "SOURCE_NOT_VERIFIED": 1
+        }
+      }
+    },
+    {
+      "name": "missing-source-order",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "ORPHAN_SOURCE_ITEM": 3,
+          "SOURCE_KEY_SET": 1,
+          "EXTRA_NORMALIZED_OR_TASK_ROWS": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "ORPHAN_SOURCE_ITEM": 3,
+          "SOURCE_KEY_SET": 1,
+          "EXTRA_NORMALIZED_OR_TASK_ROWS": 1
+        }
+      }
+    },
+    {
+      "name": "missing-source-item",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "RAW_CSV_CONTENT": 1,
+          "NORMALIZED_QUANTITIES": 1,
+          "IMMUTABLE_SNAPSHOT": 1,
+          "TASK_CSV_QUANTITIES": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "RAW_CSV_CONTENT": 1,
+          "NORMALIZED_QUANTITIES": 1,
+          "IMMUTABLE_SNAPSHOT": 1,
+          "TASK_CSV_QUANTITIES": 1
+        }
+      }
+    },
+    {
+      "name": "duplicate-order",
+      "expected": "NEW_DUPLICATE_CHECK",
+      "baseline": {
+        "exit": 0,
+        "status": "PASS",
+        "errors": {}
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "DUPLICATE_SOURCE_ORDERS_KEY": 1
+        }
+      }
+    },
+    {
+      "name": "duplicate-product",
+      "expected": "NEW_DUPLICATE_CHECK",
+      "baseline": {
+        "exit": 0,
+        "status": "PASS",
+        "errors": {}
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "DUPLICATE_SOURCE_PRODUCTS_KEY": 1
+        }
+      }
+    },
+    {
+      "name": "duplicate-seller",
+      "expected": "NEW_DUPLICATE_CHECK",
+      "baseline": {
+        "exit": 0,
+        "status": "PASS",
+        "errors": {}
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "DUPLICATE_SOURCE_SELLERS_KEY": 1
+        }
+      }
+    },
+    {
+      "name": "duplicate-item",
+      "expected": "FAIL",
+      "baseline": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "RAW_CSV_CONTENT": 1,
+          "NORMALIZATION": 1,
+          "NORMALIZED_QUANTITIES": 1,
+          "ELIGIBLE_TASK_BIJECTION": 1,
+          "IMMUTABLE_SNAPSHOT": 1,
+          "TASK_CSV_QUANTITIES": 1
+        }
+      },
+      "diskIndexed": {
+        "exit": 1,
+        "status": "FAIL",
+        "errors": {
+          "DUPLICATE_SOURCE_ITEM_KEY": 1,
+          "RAW_CSV_CONTENT": 1,
+          "NORMALIZATION": 1,
+          "NORMALIZED_QUANTITIES": 1,
+          "ELIGIBLE_TASK_BIJECTION": 1,
+          "IMMUTABLE_SNAPSHOT": 1,
+          "TASK_CSV_QUANTITIES": 1
+        }
+      }
+    },
+    {
+      "name": "normal-after-all-restorations",
+      "expected": "PASS",
+      "baseline": {
+        "exit": 0,
+        "status": "PASS",
+        "errors": {}
+      },
+      "diskIndexed": {
+        "exit": 0,
+        "status": "PASS",
+        "errors": {}
+      }
+    }
+  ]
+}

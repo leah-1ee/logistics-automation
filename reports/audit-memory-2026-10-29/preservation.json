@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-29T02:30:09.923772+00:00",
+  "status": "PASS",
+  "originalCsv": [
+    {
+      "file": "olist_orders_dataset.csv",
+      "sha256": "8df58ef3d2d7e9944010f7beecd9b75367f5588ec6e3c91cec19ae3345ef9ecf",
+      "bytes": 17654914,
+      "unchanged": true
+    },
+    {
+      "file": "olist_order_items_dataset.csv",
+      "sha256": "0bc4d068c4fe38cbb01bd90e8746e3c613fe7b4baef75fab7b0e329701c3e279",
+      "bytes": 15438671,
+      "unchanged": true
+    },
+    {
+      "file": "olist_products_dataset.csv",
+      "sha256": "3e6569628a17fbc75fd206ee357b59e20364b9afa90f5b6cd5b4d624c58aa9cc",
+      "bytes": 2379446,
+      "unchanged": true
+    },
+    {
+      "file": "olist_sellers_dataset.csv",
+      "sha256": "1f643d2b950373b85735e7794b20986f528d7a000432e7c6f9bcbb44d0846a0e",
+      "bytes": 174703,
+      "unchanged": true
+    }
+  ],
+  "existingReportsChecked": 125,
+  "changedOrMissingExistingReports": [],
+  "scope": "All4 original CSV byte sizes/SHA; all pre-existing tracked report files captured before task. New reports excluded."
+}

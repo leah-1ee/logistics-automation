@@ -1,0 +1,35 @@
+
+> logistics-operations-mvp@0.1.0 test:integration
+> node --import tsx --env-file=.env.test --test --test-concurrency=1 tests/integration/*.test.ts
+
+✔ disk CSV oracle preserves checks and logical duplicates, rejects hidden conflicts and wrong counts (20942.772915ms)
+✔ T14/T16 HTTP success waits for COMMIT; concurrent duplicate deliveries apply once (377.29588ms)
+✔ T23 failed COMMIT gives no successful receipt and preserves local pending input (249.204596ms)
+✔ MySQL enforces quantities, state enum and assigned ownership independently of HTTP (134.772544ms)
+✔ T02/T12/T22 actual SIGKILL around MySQL and SQLite commit boundaries (10000.494746ms)
+✔ T14/T18 real HTTP connection loss from killed API after first event commit (1003.499532ms)
+✔ T10/T15/T16 server reversal, double reversal, sequence reuse and over quantity hold (286.37445ms)
+✔ T30 old revision job is superseded after a source conflict and audited correction (92.105997ms)
+✔ T24 later completion on an already rebuilt day gets a distinct durable report job (259.430425ms)
+✔ T26/T31 real Nest HTTP roles, bounded pages, stale observation, CSV, input rejection (1038.322626ms)
+✔ T01/T02/T03/T04/T32 MySQL page replay, rollback, checkpoint and conflict evidence (263.661452ms)
+✔ T08/T11/T26 local HTTP loopback/origin gates and durable QR action contract (818.733562ms)
+✔ file master chunks are idempotent and a failed chunk is atomic (123.465266ms)
+✔ T30/T33 correction revision, immutable raw, superseded job and bounded job failures (304.669788ms)
+✔ T24/T25 reporting recomputes only confirmed tasks and deduplicates completion (149.422949ms)
+✔ full reconciliation independently checks original rows and rejects coherent server corruption (1867.550755ms)
+✔ T21 DB expired outbox reconstructs missing Redis delivery; BullMQ worker applies once (186.271553ms)
+✔ T25 DB session timezone cannot shift committedAt or confirmed business date (289.527831ms)
+✔ T07/T13/T14 confirmed tasks are not offered as new work; lost COMPLETE ACK still recovers (351.436312ms)
+✔ T28 both auditors reject isolated raw hash and normalized quantity corruption (2444.775569ms)
+✔ T14~T18/T25 real MySQL ACK loss, dedupe before status, ordering, fencing, partial batch (428.142899ms)
+✔ T11/T19 business rejection consumes seq and holds only its own task (206.190965ms)
+✔ T05/T06/T07/T22 real MySQL task job replay, rollback and immutable assignment (231.870155ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 62061.712617

@@ -1,0 +1,59 @@
+{
+  "name": "candidate-smoke",
+  "at": "2026-10-29T00:42:33Z",
+  "scope": "Auditor Node process only; other services/parent sampler excluded; TS loader included",
+  "script": "tools/audit-source.ts",
+  "scriptSha256": "d82110e491afd20cb1ae2906a5287af04053aeef0aac3688b83c5feca7212b2f",
+  "database": "logistics_audit_bench_20261029",
+  "wallSeconds": 11.857534372000373,
+  "process": {
+    "exitCode": 0,
+    "nodeElapsedSeconds": 11.81083223,
+    "peakRssBytes": 262983680,
+    "scope": "Linux Node process lifetime including module/TS loading; excludes MySQL, other services and parent sampler"
+  },
+  "exitCode": 0,
+  "gnuTime": "11.84 256980 7.88 1.43 0",
+  "temporaryDisk": {
+    "scope": "Unique TMPDIR including TS cache and unlinked open SQLite files; excludes MySQL server disk and source files",
+    "samplingIntervalMs": 20,
+    "sampleCount": 580,
+    "peakObservedLogicalBytes": 60952288,
+    "peakObservedAllocatedBytes": 60956672,
+    "retainedLogicalBytes": 52000216,
+    "retainedAllocatedBytes": 52002816,
+    "limitation": "Sampled peak is a lower bound; temporary data retained in ignored var for inspection"
+  },
+  "audit": {
+    "status": "PASS",
+    "sourceOrders": 99441,
+    "sourceItems": 112650,
+    "sourceProducts": 32951,
+    "sourceSellers": 3095,
+    "orderChecks": 99441,
+    "taskChecks": 96596,
+    "quantityChecks": 98840,
+    "eventChecks": 4260,
+    "confirmed": 2002,
+    "classifications": {
+      "TASK_CREATED": 96596,
+      "DATA_HOLD": 789,
+      "UNSUPPORTED": 2056
+    },
+    "unfinishedJobs": 0,
+    "reports": [
+      {
+        "date": "2026-10-28",
+        "tasks": 2002,
+        "items": 2254
+      }
+    ],
+    "errors": {}
+  },
+  "environment": {
+    "kernel": "6.18.54.1-microsoft-standard-WSL2",
+    "machine": "x86_64",
+    "cpuCount": 20,
+    "node": "v24.22.1"
+  }
+}

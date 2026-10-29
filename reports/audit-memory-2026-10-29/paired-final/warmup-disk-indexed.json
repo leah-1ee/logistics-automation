@@ -1,0 +1,84 @@
+{
+  "name": "warmup-disk-indexed",
+  "at": "2026-10-29T01:18:35Z",
+  "scope": "Auditor Node process only; other services/parent sampler excluded; TS loader included",
+  "script": "tools/audit-source.ts",
+  "scriptSha256": "43dd2ae26206492c946b1b32d73c3560485367fee4512c5a341c47373f23f58a",
+  "codeBefore": {
+    "tools/audit-source.ts": "43dd2ae26206492c946b1b32d73c3560485367fee4512c5a341c47373f23f58a",
+    "tools/audit-process-metrics.mjs": "7c95bc46121e91f28bca58202345ecd43a093919656a96e5aa7b410eb7c33c6d",
+    "/home/leah/logistics-automation/tools/benchmark-audit.py": "e320e9d7ecfb913d6a8269325aac246487b9cd4d25abb113a800e7a0b1c2133d",
+    "tools/audit-source-index.ts": "ab9a1bb2bf45c75c14a212898b3e2e0a3a6b3adf329e3ee3354b1bd004fc8f3a"
+  },
+  "codeUnchangedDuringInvocation": true,
+  "database": "logistics_audit_bench_20261029",
+  "wallSeconds": 14.362742844999957,
+  "process": {
+    "exitCode": 0,
+    "nodeElapsedSeconds": 14.313718061,
+    "peakRssBytes": 267755520,
+    "heapSizeLimitBytes": 4496293888,
+    "scope": "Linux Node process lifetime including module/TS loading; excludes MySQL, other services and parent sampler"
+  },
+  "exitCode": 0,
+  "gnuTime": "14.35 261480 9.82 1.98 0",
+  "temporaryDisk": {
+    "scope": "Unique TMPDIR including TS cache and unlinked open SQLite files; excludes MySQL server disk and source files",
+    "samplingIntervalMs": 20,
+    "sampleCount": 701,
+    "peakObservedLogicalBytes": 77531870,
+    "peakObservedAllocatedBytes": 77533184,
+    "retainedLogicalBytes": 61516862,
+    "retainedAllocatedBytes": 61517824,
+    "limitation": "Sampled peak is a lower bound; temporary data retained in ignored var for inspection"
+  },
+  "audit": {
+    "status": "PASS",
+    "sourceOrders": 99441,
+    "sourceItems": 112650,
+    "sourceProducts": 32951,
+    "sourceSellers": 3095,
+    "orderChecks": 99441,
+    "taskChecks": 96596,
+    "quantityChecks": 98840,
+    "eventChecks": 4260,
+    "confirmed": 2002,
+    "classifications": {
+      "TASK_CREATED": 96596,
+      "DATA_HOLD": 789,
+      "UNSUPPORTED": 2056
+    },
+    "unfinishedJobs": 0,
+    "reports": [
+      {
+        "date": "2026-10-28",
+        "tasks": 2002,
+        "items": 2254
+      }
+    ],
+    "errors": {}
+  },
+  "auditBounds": {
+    "sqliteCacheKiB": 8192,
+    "mmapBytes": 0,
+    "rawPageRows": 200,
+    "streamHighWaterRows": 16,
+    "maxRawRows": 200,
+    "maxNormalizedRows": 217,
+    "maxTaskItemRows": 211,
+    "maxOrderItems": 21,
+    "maxPageEvents": 25,
+    "sqlStatements": 2004
+  },
+  "auditTemporaryStorage": {
+    "logicalBytes": 61476864,
+    "retained": true,
+    "scope": "Disposable disk index only; excludes source files and MySQL disk"
+  },
+  "environment": {
+    "kernel": "6.18.54.1-microsoft-standard-WSL2",
+    "machine": "x86_64",
+    "cpuCount": 20,
+    "node": "v24.22.1"
+  }
+}

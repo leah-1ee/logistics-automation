@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "archiveBytes": 44717580,
+  "archiveSha256": "967e41e04fc306fe604e2a693f488995a8b41e5047418f8a5c8e4abd6deca784",
+  "expectedManifestSha256": "967e41e04fc306fe604e2a693f488995a8b41e5047418f8a5c8e4abd6deca784",
+  "scope": "Original archive matches pre-existing download manifest; no extraction/download during optimization"
+}

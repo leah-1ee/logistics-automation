@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: disk CSV oracle preserves checks and logical duplicates, rejects hidden conflicts and wrong counts
+ok 1 - disk CSV oracle preserves checks and logical duplicates, rejects hidden conflicts and wrong counts
+  ---
+  duration_ms: 20067.685375
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 20646.548324

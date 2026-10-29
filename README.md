@@ -160,6 +160,8 @@ node_modules, `.tools`, dist는 Git에서 제외됩니다. 원격 가시성은 P
 ## 독립 재검증과 오프라인 빌드
 
 최신 판정은 [요구사항별 재검증](reports/independent-2026-10-28/verification.md)을 보세요.
+CSV 독립 대사의 메모리 개선·정확성 비교·실행 시간/임시 디스크 비용은
+[2026-10-29 측정 보고서](reports/audit-memory-2026-10-29/README.md)에 별도로 기록했습니다.
 실제 C270/Pi와 화면 수용 기준은 실행 증거가 생기기 전 BLOCKED/NOT_RUN으로 유지합니다.
 기존 F1을 덮어쓰지 않는 별도 재생은 `F1_TRIAL=independent-20261028` 환경 값으로
 `tools/replay-actual.ts`를 실행합니다. 같은 trial은 저장한 plan과 로컬 사건을 재사용합니다.

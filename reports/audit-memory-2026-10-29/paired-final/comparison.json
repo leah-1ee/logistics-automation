@@ -1,0 +1,128 @@
+{
+  "status": "PASS",
+  "scope": "Auditor Node RSS only (OS high-water); invocation wall time; scratch allocation sampled20ms, lower bound. No whole-service memory claim.",
+  "warmupsPerVariant": 1,
+  "measuredPairs": 3,
+  "order": [
+    "baseline/disk-indexed",
+    "disk-indexed/baseline",
+    "baseline/disk-indexed"
+  ],
+  "cachePolicy": "No forced cache flush; both implementations warmed. Fresh Node process and separate temp/TS cache every invocation.",
+  "snapshotSha256": "a492633ec13b3e9a06c29e2a6275bd580bfacf7582a1982098ac7c68e413023e",
+  "dbIdentityChecks": [
+    {
+      "file": "reports/audit-memory-2026-10-29/paired-final/before-warmup-db.json",
+      "sha256": "a492633ec13b3e9a06c29e2a6275bd580bfacf7582a1982098ac7c68e413023e"
+    },
+    {
+      "file": "reports/audit-memory-2026-10-29/paired-final/round1-before-db.json",
+      "sha256": "a492633ec13b3e9a06c29e2a6275bd580bfacf7582a1982098ac7c68e413023e"
+    },
+    {
+      "file": "reports/audit-memory-2026-10-29/paired-final/round1-after-db.json",
+      "sha256": "a492633ec13b3e9a06c29e2a6275bd580bfacf7582a1982098ac7c68e413023e"
+    },
+    {
+      "file": "reports/audit-memory-2026-10-29/paired-final/round2-before-db.json",
+      "sha256": "a492633ec13b3e9a06c29e2a6275bd580bfacf7582a1982098ac7c68e413023e"
+    },
+    {
+      "file": "reports/audit-memory-2026-10-29/paired-final/round2-after-db.json",
+      "sha256": "a492633ec13b3e9a06c29e2a6275bd580bfacf7582a1982098ac7c68e413023e"
+    },
+    {
+      "file": "reports/audit-memory-2026-10-29/paired-final/round3-before-db.json",
+      "sha256": "a492633ec13b3e9a06c29e2a6275bd580bfacf7582a1982098ac7c68e413023e"
+    },
+    {
+      "file": "reports/audit-memory-2026-10-29/paired-final/round3-after-db.json",
+      "sha256": "a492633ec13b3e9a06c29e2a6275bd580bfacf7582a1982098ac7c68e413023e"
+    }
+  ],
+  "semanticResultsEqual": true,
+  "baseline": {
+    "samples": 3,
+    "wallSeconds": {
+      "min": 8.929720623000321,
+      "median": 9.081169729000067,
+      "max": 9.149767975000032
+    },
+    "peakRssBytes": {
+      "min": 521900032,
+      "median": 529539072,
+      "max": 533889024
+    },
+    "tempObservedAllocatedBytes": {
+      "min": 28672,
+      "median": 28672,
+      "max": 32768
+    },
+    "tempRetainedAllocatedBytes": {
+      "min": 28672,
+      "median": 28672,
+      "max": 28672
+    }
+  },
+  "diskIndexed": {
+    "samples": 3,
+    "wallSeconds": {
+      "min": 13.397692928999277,
+      "median": 13.415837198999725,
+      "max": 13.471223194000231
+    },
+    "peakRssBytes": {
+      "min": 262803456,
+      "median": 263671808,
+      "max": 266141696
+    },
+    "tempObservedAllocatedBytes": {
+      "min": 77533184,
+      "median": 77541376,
+      "max": 77541376
+    },
+    "tempRetainedAllocatedBytes": {
+      "min": 61517824,
+      "median": 61517824,
+      "max": 61517824
+    }
+  },
+  "measuredRssReductionPercent": 50.20729877322443,
+  "measuredWallTimeChangePercent": 47.73247939808027,
+  "memoryImprovedInThisExperiment": true,
+  "auditResult": {
+    "status": "PASS",
+    "sourceOrders": 99441,
+    "sourceItems": 112650,
+    "sourceProducts": 32951,
+    "sourceSellers": 3095,
+    "orderChecks": 99441,
+    "taskChecks": 96596,
+    "quantityChecks": 98840,
+    "eventChecks": 4260,
+    "confirmed": 2002,
+    "classifications": {
+      "TASK_CREATED": 96596,
+      "DATA_HOLD": 789,
+      "UNSUPPORTED": 2056
+    },
+    "unfinishedJobs": 0,
+    "reports": [
+      {
+        "date": "2026-10-28",
+        "tasks": 2002,
+        "items": 2254
+      }
+    ],
+    "errors": {}
+  },
+  "scriptHashes": {
+    "baseline": "d64a47587384e610d3e8b2b1b380a8a64a76206cda8653e7907406e5e81a147c",
+    "disk-indexed": "43dd2ae26206492c946b1b32d73c3560485367fee4512c5a341c47373f23f58a"
+  },
+  "limits": [
+    "Three pairs on one WSL/Docker host; no statistical population or throughput claim",
+    "Other services remain running; MySQL RSS, OS page cache, parent sampler and MySQL temporary disk are excluded",
+    "Preliminary first-run observations are separate and not used in these medians"
+  ]
+}
