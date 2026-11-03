@@ -1,0 +1,72 @@
+{
+  "at": "2026-11-03T05:09:43.488767+00:00",
+  "status": "PASS",
+  "originalHead": "0a4c6ee1bda3dd7103525868aa15eec54d573ace",
+  "trackedCompared": 343,
+  "trackedByteChanges": [],
+  "discoveryCompared": 16,
+  "discoveryByteChanges": [],
+  "originalStatusDifference": "Only user-supplied docs/E1_B0_Preparation_Spec.md added after initial snapshot; all prior entries preserved",
+  "originalSpecByteUnchanged": true,
+  "actualOlistInputHashesUnchanged": true,
+  "olistTargetStarted": false,
+  "experiments": [
+    {
+      "root": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-smoke-off-01",
+      "project": "e1b0-5df22d3bb6dd4b00",
+      "mode": "smoke",
+      "runningContainers": 0,
+      "started": true,
+      "volumesAndState": "retained; no down -v/flush/drop/truncate"
+    },
+    {
+      "root": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-ready",
+      "project": "e1b0-ab8aedbeac5f4e3a",
+      "mode": "olist",
+      "runningContainers": 0,
+      "started": false,
+      "volumesAndState": "retained; no down -v/flush/drop/truncate"
+    },
+    {
+      "root": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-pilot-ready",
+      "project": "e1b0-3eb1e3c436004f80",
+      "mode": "olist",
+      "runningContainers": 0,
+      "started": false,
+      "volumesAndState": "retained; no down -v/flush/drop/truncate"
+    },
+    {
+      "root": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on",
+      "project": "e1b0-74f542ae36134a12",
+      "mode": "smoke",
+      "runningContainers": 0,
+      "started": true,
+      "volumesAndState": "retained; no down -v/flush/drop/truncate"
+    },
+    {
+      "root": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-off",
+      "project": "e1b0-e018d86163dc49d9",
+      "mode": "smoke",
+      "runningContainers": 0,
+      "started": true,
+      "volumesAndState": "retained; no down -v/flush/drop/truncate"
+    },
+    {
+      "root": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-smoke-off-02",
+      "project": "e1b0-5dcbacb081394525",
+      "mode": "smoke",
+      "runningContainers": 0,
+      "started": true,
+      "volumesAndState": "retained; no down -v/flush/drop/truncate"
+    },
+    {
+      "root": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-smoke-on-01",
+      "project": "e1b0-0c79ccf544024d6b",
+      "mode": "smoke",
+      "runningContainers": 0,
+      "started": true,
+      "volumesAndState": "retained; no down -v/flush/drop/truncate"
+    }
+  ],
+  "scope": "File/state/hash preservation; no new logical fingerprint of original live DB or remote Pi audit."
+}

@@ -1,0 +1,255 @@
+[
+  {
+    "service": "mysql",
+    "containerId": "e3f80788d83a6feb90dfdc6e2e9e607f6416715297a8bbab390b5c8295d03449",
+    "imageId": "sha256:2068651a18ac6048578647ea57b940ca2daed3f504ebe7fba6a93beeb39aaa1f",
+    "cpuNano": 1500000000,
+    "memoryLimit": 2147483648,
+    "mounts": [
+      {
+        "Type": "volume",
+        "Source": "/var/lib/docker/volumes/e1b0-74f542ae36134a12-mysql-data/_data",
+        "Destination": "/var/lib/mysql",
+        "RW": true,
+        "Name": "e1b0-74f542ae36134a12-mysql-data"
+      }
+    ],
+    "running": true
+  },
+  {
+    "service": "redis",
+    "containerId": "05a085e4c944b775bc7993f13d24d8c2aacc5b599ac141b1a8e0e658efd629ae",
+    "imageId": "sha256:1cf73a2f04808e55a8bd2f5706c2aa0ebb0f71938f93deb7af79f48311cd5cb9",
+    "cpuNano": 500000000,
+    "memoryLimit": 536870912,
+    "mounts": [
+      {
+        "Type": "volume",
+        "Source": "/var/lib/docker/volumes/e1b0-74f542ae36134a12-redis-data/_data",
+        "Destination": "/data",
+        "RW": true,
+        "Name": "e1b0-74f542ae36134a12-redis-data"
+      }
+    ],
+    "running": true
+  },
+  {
+    "service": "api",
+    "containerId": "a708f690100f7f68929d58808f5c038983b3e219f4d687776bbbc34efdbf974a",
+    "imageId": "sha256:f0c759799003ce71a90dcc6b687e30ca20396b1ce63586061eba0e845feb9fa1",
+    "cpuNano": 750000000,
+    "memoryLimit": 1073741824,
+    "mounts": [
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/metrics/api",
+        "Destination": "/observations",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/scratch",
+        "Destination": "/scratch",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/manifests",
+        "Destination": "/app/manifests",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/manifest.json",
+        "Destination": "/inputs/manifest.json",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/prepared.sqlite",
+        "Destination": "/inputs/prepared.sqlite",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/raw/olist_order_items_dataset.csv",
+        "Destination": "/inputs/raw/olist_order_items_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/raw/olist_orders_dataset.csv",
+        "Destination": "/inputs/raw/olist_orders_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/raw/olist_products_dataset.csv",
+        "Destination": "/inputs/raw/olist_products_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/raw/olist_sellers_dataset.csv",
+        "Destination": "/inputs/raw/olist_sellers_dataset.csv",
+        "RW": false,
+        "Name": null
+      }
+    ],
+    "running": true
+  },
+  {
+    "service": "worker",
+    "containerId": "1006eb66e1f8d87b7748190402b97eab277984afe6240498e7ead56ac604b48e",
+    "imageId": "sha256:f0c759799003ce71a90dcc6b687e30ca20396b1ce63586061eba0e845feb9fa1",
+    "cpuNano": 750000000,
+    "memoryLimit": 1073741824,
+    "mounts": [
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/metrics/worker",
+        "Destination": "/observations",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/scratch",
+        "Destination": "/scratch",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/manifests",
+        "Destination": "/app/manifests",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/manifest.json",
+        "Destination": "/inputs/manifest.json",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/prepared.sqlite",
+        "Destination": "/inputs/prepared.sqlite",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/raw/olist_order_items_dataset.csv",
+        "Destination": "/inputs/raw/olist_order_items_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/raw/olist_orders_dataset.csv",
+        "Destination": "/inputs/raw/olist_orders_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/raw/olist_products_dataset.csv",
+        "Destination": "/inputs/raw/olist_products_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/raw/olist_sellers_dataset.csv",
+        "Destination": "/inputs/raw/olist_sellers_dataset.csv",
+        "RW": false,
+        "Name": null
+      }
+    ],
+    "running": true
+  },
+  {
+    "service": "source",
+    "containerId": "af0618dbd4a20d8abc0ac09a0b7f4f1deabe3521f5b362124b3517dce2b66a5e",
+    "imageId": "sha256:f0c759799003ce71a90dcc6b687e30ca20396b1ce63586061eba0e845feb9fa1",
+    "cpuNano": 500000000,
+    "memoryLimit": 1073741824,
+    "mounts": [
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/metrics/source",
+        "Destination": "/observations",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/scratch",
+        "Destination": "/scratch",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/manifests",
+        "Destination": "/app/manifests",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/manifest.json",
+        "Destination": "/inputs/manifest.json",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/prepared.sqlite",
+        "Destination": "/inputs/prepared.sqlite",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/raw/olist_order_items_dataset.csv",
+        "Destination": "/inputs/raw/olist_order_items_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/raw/olist_orders_dataset.csv",
+        "Destination": "/inputs/raw/olist_orders_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/raw/olist_products_dataset.csv",
+        "Destination": "/inputs/raw/olist_products_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-on/inputs/raw/olist_sellers_dataset.csv",
+        "Destination": "/inputs/raw/olist_sellers_dataset.csv",
+        "RW": false,
+        "Name": null
+      }
+    ],
+    "running": true
+  }
+]

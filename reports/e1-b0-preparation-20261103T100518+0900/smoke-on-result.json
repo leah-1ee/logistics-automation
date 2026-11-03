@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "input": "SYNTHETIC_ONLY",
+  "expected": {
+    "raw": 4,
+    "task": 2,
+    "qty": 4,
+    "classifications": {
+      "TASK_CREATED": 2,
+      "DATA_HOLD": 1,
+      "UNSUPPORTED": 1
+    }
+  },
+  "coverage": "VALID",
+  "timeline": [
+    {
+      "at": "2026-11-03T04:58:13.391450+00:00",
+      "action": "DRAIN_STABLE",
+      "firstZeroObservedAt": "2026-11-03T04:57:42.999Z",
+      "note": "Three complete observations at the observer sample times; stable confirmation includes waiting."
+    }
+  ],
+  "performanceClaim": "NONE; smoke is not an overhead or throughput experiment"
+}

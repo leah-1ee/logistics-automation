@@ -1,0 +1,413 @@
+diff --git a/src/fulfillment/tasks.ts b/src/fulfillment/tasks.ts
+index f18865a..663f330 100644
+--- a/src/fulfillment/tasks.ts
++++ b/src/fulfillment/tasks.ts
+@@ -2,20 +2,22 @@ import { randomUUID } from 'node:crypto';
+ import { type Db,type Tx } from '../server/db.js';
+ import { now,parseJson,Problem,snapshotHash } from '../shared/contracts.js';
+ import { adminRequest,audit } from '../operations/requests.js';
++import { candidate } from '../observability/b0.js';
+ export async function createTask(tx:Tx,job:any) {
+   const p=parseJson(job.payload);
+   const [order]=await tx.execute('SELECT * FROM orders WHERE id=? FOR UPDATE',[p.orderId]);
+   if(!order)throw new Problem('ORDER_NOT_FOUND');
+-  if(order.revision!==p.revision)return 'SUPERSEDED';
++  if(order.revision!==p.revision){candidate('task_noop','job.process',{runId:order.run_id,jobId:job.id,orderId:order.id});return 'SUPERSEDED';}
+   const [existing]=await tx.execute('SELECT id FROM tasks WHERE order_id=?',[order.id]);
+-  if(existing)return existing.id;
+-  if(order.status!=='READY')return 'SUPERSEDED';
++  if(existing){candidate('task_noop','job.process',{runId:order.run_id,jobId:job.id,orderId:order.id,taskId:existing.id});return existing.id;}
++  if(order.status!=='READY'){candidate('task_noop','job.process',{runId:order.run_id,jobId:job.id,orderId:order.id});return 'SUPERSEDED';}
+   const items=await tx.execute('SELECT * FROM order_items WHERE order_id=?',[order.id]);
+   if(!items.length)throw new Problem('ORDER_ITEMS_MISSING');
+   const taskId=randomUUID();
+   await tx.execute('INSERT INTO tasks(id,run_id,order_id,status) VALUES(?,?,?,?)',[taskId,order.run_id,order.id,'CREATED']);
+   for(const item of items)await tx.execute('INSERT INTO task_items VALUES(?,?,?,0)',[taskId,item.product_id,item.required_qty]);
+   await tx.execute('UPDATE orders SET status=? WHERE id=?',['TASK_CREATED',order.id]);
++  candidate('task_created','job.process',{runId:order.run_id,jobId:job.id,orderId:order.id,taskId,count:1});
+   return taskId;
+ }
+ export async function taskView(tx:Tx,id:string) {
+diff --git a/src/ingestion/ingest.ts b/src/ingestion/ingest.ts
+index 5d8fc08..a86b9fc 100644
+--- a/src/ingestion/ingest.ts
++++ b/src/ingestion/ingest.ts
+@@ -3,9 +3,12 @@ import { type Db, type Tx, transaction, connection } from '../server/db.js';
+ import { hash, now, parseJson, Problem, validate } from '../shared/contracts.js';
+ import { normalize } from './normalize.js';
+ import { setTimeout as delay } from 'node:timers/promises';
++import { candidate, observe, measure, measureSync } from '../observability/b0.js';
+ export async function enqueue(tx:Tx,runId:string,type:string,aggregateId:string,dedupe:string,payload:any) {
++  const observationId=randomUUID();
+   await tx.execute('INSERT INTO outbox_jobs(id,run_id,type,aggregate_id,dedupe_key,payload,status,available_at) VALUES(?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE id=id',
+-    [randomUUID(),runId,type,aggregateId,dedupe,JSON.stringify(payload),'PENDING',now()]);
++    [observationId,runId,type,aggregateId,dedupe,JSON.stringify(payload),'PENDING',now()]);
++  candidate('outbox_write_resolved','ingestion.page',{runId,jobId:observationId,orderId:type==='CREATE_TASK'?aggregateId:undefined});
+ }
+ export async function ingestPage(db:Db,runId:string,page:any,expectedCursor:string|null,fault?:(stage:string)=>void) {
+   if(page.datasetRunId!==runId)throw new Problem('CURSOR_RUN_MISMATCH');
+@@ -39,26 +42,32 @@ export async function ingestPage(db:Db,runId:string,page:any,expectedCursor:stri
+       await tx.execute('INSERT INTO orders VALUES(?,?,?,?,?,?,?,?,?,?)',[orderId,rawId,runId,1,source.sourceOrderId||source.sourceRecordId,source.sourceStatus||'',n.status,n.sellerId,JSON.stringify(n.holdReasons),JSON.stringify(n.qualityFlags)]);
+       for(const item of n.items)await tx.execute('INSERT INTO order_items VALUES(?,?,?)',[orderId,item.productId,item.requiredQty]);
+       if(n.status==='READY')await enqueue(tx,runId,'CREATE_TASK',orderId,`${orderId}:1`,{orderId,revision:1});
++      candidate('raw_order_created','ingestion.page',{runId,rawId,orderId,classification:n.status as 'READY'|'DATA_HOLD'|'UNSUPPORTED',count:1,itemCount:n.items.reduce((sum,i)=>sum+i.requiredQty,0),outboxCount:n.status==='READY'?1:0});
+       fault?.('during');
+     }
+     await tx.execute('UPDATE source_checkpoints SET cursor_token=?,status=?,updated_at=? WHERE run_id=? AND source=?',[page.nextCursor,page.exhausted?'DONE':'RUNNING',now(),runId,'olist']);
+     fault?.('before_commit');return true;
+-  });
++  },'ingestion.page');
+ }
+ export async function ingestionStatus(db:Db,runId:string) {
++  return measure('ingestion.status',async()=>{
+   const c=connection(db);const [cp]=await c.execute('SELECT * FROM source_checkpoints WHERE run_id=? AND source=?',[runId,'olist']);
+   if(!cp)throw new Problem('NOT_FOUND',404);
+   const rows=await c.execute('SELECT status,COUNT(*) n FROM orders WHERE run_id=? GROUP BY status',[runId]);
+   const counts=Object.fromEntries(rows.map((r:any)=>[r.status,Number(r.n)]));
+   return {id:runId,datasetRunId:runId,status:cp.status,cursor:cp.cursor_token,receivedCount:Object.values(counts).reduce((a:any,b:any)=>a+b,0),readyCount:(counts.READY||0)+(counts.TASK_CREATED||0),holdCount:counts.DATA_HOLD||0,unsupportedCount:counts.UNSUPPORTED||0};
++  },{runId});
+ }
+ export async function collect(db:Db,runId:string,sourceUrl:string,signal?:AbortSignal) {
+   while(!signal?.aborted) {
+     const state=await ingestionStatus(db,runId);if(state.status==='DONE')return state;
+     const url=new URL('/source/v1/orders',sourceUrl);url.searchParams.set('datasetRunId',runId);url.searchParams.set('limit','200');if(state.cursor)url.searchParams.set('cursor',state.cursor);
+-    const res=await fetch(url,{signal:signal?AbortSignal.any([signal,AbortSignal.timeout(15000)]):AbortSignal.timeout(15000)});
++    const res=await measure('source.fetch',()=>fetch(url,{signal:signal?AbortSignal.any([signal,AbortSignal.timeout(15000)]):AbortSignal.timeout(15000)}),{runId});
++    observe('span','source.fetch',{runId,httpStatus:res.status,outcome:res.ok?'ok':'error'});
+     if(!res.ok)throw new Problem('SOURCE_HTTP_'+res.status,503);
+-    const page=await res.json();validate('SourcePage',page);
++    const page=await measure('source.body',()=>res.json(),{runId});measureSync('source.validation',()=>validate('SourcePage',page));
++    observe('source_page','source.fetch',{runId,count:page.items.length});
++    if(page.exhausted)observe('source_eof','source.fetch',{runId,count:page.items.length});
+     await ingestPage(db,runId,page,state.cursor);
+     if(!page.items.length&&!page.exhausted) await delay(Math.max(100,Math.min(page.nextPollAfterMs,60000)),undefined,{signal});
+   }
+diff --git a/src/jobs/jobs.ts b/src/jobs/jobs.ts
+index 6b83e80..48ff4cc 100644
+--- a/src/jobs/jobs.ts
++++ b/src/jobs/jobs.ts
+@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto';
+ import { type Db,type Tx,transaction,connection } from '../server/db.js';
+ import { now,parseJson,Problem } from '../shared/contracts.js';
+ import { createTask } from '../fulfillment/tasks.js';
++import { candidate, measure, observe } from '../observability/b0.js';
+ export const redisOptions=()=>({host:process.env.REDIS_HOST||'127.0.0.1',port:Number(process.env.REDIS_PORT||6380),maxRetriesPerRequest:null});
+ export async function rebuildReport(tx:Tx,job:any) {
+   const {businessDate}=parseJson(job.payload);
+@@ -18,6 +19,7 @@ export async function rebuildReport(tx:Tx,job:any) {
+   for(const p of products)await tx.execute('INSERT INTO report_daily_product VALUES(?,?,?,?,?)',[job.run_id,businessDate,p.product_id,Number(p.quantity),computed]);
+ }
+ export async function processJob(db:Db,id:string,fault?:(stage:string)=>void) {
++  observe('span','job.process',{jobId:id});
+   try {
+     return await transaction(db,async tx=>{
+       const [job]=await tx.execute('SELECT * FROM outbox_jobs WHERE id=? FOR UPDATE',[id]);
+@@ -30,8 +32,9 @@ export async function processJob(db:Db,id:string,fault?:(stage:string)=>void) {
+       fault?.('after_work');
+       await tx.execute("UPDATE outbox_jobs SET status='DONE',attempts=attempts+1,error_code=NULL,lease_until=NULL WHERE id=?",[id]);
+       await tx.execute('INSERT INTO job_attempts VALUES(?,?,?,?,?,?)',[randomUUID(),id,job.attempts+1,started,now(),null]);
++      candidate('job_completed','job.process',{jobId:id,runId:job.run_id,attempt:job.attempts+1});
+       fault?.('before_commit');
+-    });
++    },'job.process');
+   }catch(error:any) {
+     await transaction(db,async tx=>{
+       const [job]=await tx.execute('SELECT * FROM outbox_jobs WHERE id=? FOR UPDATE',[id]);
+@@ -41,21 +44,23 @@ export async function processJob(db:Db,id:string,fault?:(stage:string)=>void) {
+       const available=new Date(Date.now()+Math.min(60000,1000*2**(attempts-1))+Math.floor(Math.random()*500)).toISOString();
+       await tx.execute('UPDATE outbox_jobs SET status=?,attempts=?,error_code=?,available_at=?,lease_until=NULL WHERE id=?',[failed?'FAILED':'PENDING',attempts,permanent?error.code:'TRANSIENT_ERROR',available,id]);
+       await tx.execute('INSERT INTO job_attempts VALUES(?,?,?,?,?,?)',[randomUUID(),id,attempts,now(),now(),permanent?error.code:'TRANSIENT_ERROR']);
+-    });
++    },'job.failure');
+     throw error;
+   }
+ }
+ export async function dispatch(db:Db,queue:Queue,leaseMs=Number(process.env.OUTBOX_LEASE_MS||30000),runId?:string) {
+-  const jobs=await connection(db).execute("SELECT id FROM outbox_jobs WHERE ((status='PENDING' AND available_at<=?) OR (status='DISPATCHED' AND lease_until<=?))"+(runId?' AND run_id=?':'')+' ORDER BY available_at LIMIT 100',[now(),now(),...(runId?[runId]:[])]);
++  const jobs=await measure('dispatch.scan',()=>connection(db).execute("SELECT id FROM outbox_jobs WHERE ((status='PENDING' AND available_at<=?) OR (status='DISPATCHED' AND lease_until<=?))"+(runId?' AND run_id=?':'')+' ORDER BY available_at LIMIT 100',[now(),now(),...(runId?[runId]:[])]));
++  observe('span','dispatch.scan',{count:jobs.length});
+   for(const {id} of jobs)await transaction(db,async tx=>{
+     const [job]=await tx.execute('SELECT * FROM outbox_jobs WHERE id=? FOR UPDATE',[id]);
+     if(!job||['DONE','FAILED'].includes(job.status))return;
+     if(job.status==='DISPATCHED'&&Date.parse(job.lease_until)>Date.now())return;
+-    const old=await queue.getJob(id);
+-    if(old) {const state=await old.getState();if(state==='completed'||state==='failed')await old.remove();}
+-    await queue.add(job.type,{outboxJobId:id,type:job.type},{jobId:id,attempts:1,removeOnComplete:true,removeOnFail:true});
++    const old=await measure('dispatch.redis.get',()=>queue.getJob(id),{jobId:id});
++    if(old) {const state=await measure('dispatch.redis.state',()=>old.getState(),{jobId:id});if(state==='completed'||state==='failed')await measure('dispatch.redis.remove',()=>old.remove(),{jobId:id});}
++    await measure('dispatch.redis.add',()=>queue.add(job.type,{outboxJobId:id,type:job.type},{jobId:id,attempts:1,removeOnComplete:true,removeOnFail:true}),{jobId:id});
+     await tx.execute("UPDATE outbox_jobs SET status='DISPATCHED',lease_until=? WHERE id=?",[new Date(Date.now()+leaseMs).toISOString(),id]);
+-  });
++    candidate('dispatch_committed','dispatch.transaction',{runId:job.run_id,jobId:id});
++  },'dispatch.transaction');
+   return jobs.length;
+ }
+ export function startJobs(db:Db,prefix='bull') {
+diff --git a/src/observability/b0.ts b/src/observability/b0.ts
+new file mode 100644
+index 0000000..b342c8d
+--- /dev/null
++++ b/src/observability/b0.ts
+@@ -0,0 +1,183 @@
++/** B0 sidecar: best effort observations, never a source of business success. */
++import { AsyncLocalStorage } from 'node:async_hooks';
++import { randomUUID } from 'node:crypto';
++import { mkdir, open, writeFile, rename } from 'node:fs/promises';
++import { join } from 'node:path';
++
++export const labels = [
++  'other','source.fetch','source.body','source.validation','ingestion.status','ingestion.page',
++  'dispatch.scan','dispatch.transaction','dispatch.redis.get','dispatch.redis.state',
++  'dispatch.redis.remove','dispatch.redis.add','job.process','job.failure',
++  'sql.checkpoint','sql.status','sql.products','sql.sellers','sql.raw.identity',
++  'sql.raw.insert','sql.order.insert','sql.items.insert','sql.outbox.insert','sql.dispatch.scan',
++  'sql.job.lock','sql.job.update','sql.attempt.insert','sql.task.read','sql.task.insert',
++  'sql.task.items','sql.order.read','sql.order.update','sql.other'
++] as const;
++export type Label = typeof labels[number];
++type Kind = 'span'|'sql'|'transaction'|'raw_order_created'|'outbox_write_resolved'|
++  'task_created'|'task_noop'|'job_completed'|'dispatch_committed'|'source_page'|'source_eof';
++export type Fields = {runId?:string;rawId?:string;orderId?:string;taskId?:string;jobId?:string;
++  httpStatus?:number;count?:number;itemCount?:number;outboxCount?:number;attempt?:number;
++  startedWallTime?:string;startedMonotonicNs?:string;
++  classification?:'READY'|'DATA_HOLD'|'UNSUPPORTED';durationMs?:number;
++  outcome?:'ok'|'error'|'callback_failed'|'commit_outcome_unknown';sqlCount?:number};
++type Event = Fields & {kind:Kind;label:Label};
++type Pending = {events:Event[];sqlCount:number;overflow:boolean};
++const pending = new AsyncLocalStorage<Pending>();
++const counters = new AsyncLocalStorage<{count:number}[]>();
++const clamp=(v:string|undefined,fallback:number,max:number)=>{
++  const n=Number(v);return Number.isSafeInteger(n)&&n>0?Math.min(n,max):fallback;
++};
++
++export class Recorder {
++  readonly processIdentity = `${process.pid}-${randomUUID()}`;
++  private queue:string[]=[];
++  private queuedBytes=0;
++  private sequence=0;
++  private bytes=0;
++  private acceptedBytes=0;
++  private flushing:Promise<void>|undefined;
++  private timer:NodeJS.Timeout|undefined;
++  private handle:Awaited<ReturnType<typeof open>>|undefined;
++  private clean=false;
++  readonly stats={attempted:0,written:0,dropped:0,errors:0,candidateDrops:0,closed:false};
++  constructor(readonly options:{enabled:boolean;directory:string;experimentId:string;service:string;
++    maxRecords:number;maxBufferBytes:number;maxFileBytes:number;intervalMs?:number}) {
++    if(options.enabled){
++      this.timer=setInterval(()=>{void this.flush();},options.intervalMs??250);
++      this.timer.unref();
++    }
++  }
++  get enabled(){return this.options.enabled;}
++  emit(event:Event):void {
++    if(!this.enabled)return;
++    try {
++      this.stats.attempted++;const sequence=++this.sequence;
++      // Explicit allowlist; no caller-supplied object/string is serialized wholesale.
++      if(!labels.includes(event.label))throw Error('label');
++      const row:Record<string,unknown>={version:1,experimentId:this.options.experimentId,
++        service:this.options.service,processIdentity:this.processIdentity,pid:process.pid,sequence,
++        wallTime:new Date().toISOString(),monotonicNs:process.hrtime.bigint().toString(),
++        kind:event.kind,label:event.label};
++      for(const key of ['runId','rawId','orderId','taskId','jobId'] as const){
++        const v=event[key];if(v!==undefined){if(!/^[a-f0-9-]{32,36}$/i.test(v))throw Error('id');row[key]=v;}
++      }
++      for(const key of ['httpStatus','count','itemCount','outboxCount','attempt','durationMs','sqlCount'] as const){
++        const v=event[key];if(v!==undefined){if(!Number.isFinite(v)||v<0)throw Error('number');row[key]=v;}
++      }
++      if(event.startedWallTime!==undefined&&/^\d{4}-\d{2}-\d{2}T/.test(event.startedWallTime))row.startedWallTime=event.startedWallTime;
++      if(event.startedMonotonicNs!==undefined&&/^\d+$/.test(event.startedMonotonicNs))row.startedMonotonicNs=event.startedMonotonicNs;
++      if(event.outcome!==undefined)row.outcome=event.outcome;
++      if(event.classification!==undefined)row.classification=event.classification;
++      const line=JSON.stringify(row)+'\n',size=Buffer.byteLength(line);
++      if(this.stats.closed||this.queue.length>=this.options.maxRecords||this.queuedBytes+size>this.options.maxBufferBytes||this.acceptedBytes+size>this.options.maxFileBytes){this.stats.dropped++;return;}
++      this.queue.push(line);this.queuedBytes+=size;this.acceptedBytes+=size;
++    }catch{this.stats.errors++;this.stats.dropped++;}
++  }
++  lostCandidates(count:number){if(this.enabled){this.stats.candidateDrops+=count;}}
++  async flush():Promise<void>{
++    if(!this.enabled)return;
++    if(this.flushing)return this.flushing;
++    // No rejected promise may reach a product caller or an unhandled-rejection hook.
++    this.flushing=this.flushBatch().catch(()=>{this.stats.errors++;}).finally(()=>{this.flushing=undefined;});
++    return this.flushing;
++  }
++  private async flushBatch(){
++    const batch=this.queue;this.queue=[];this.queuedBytes=0;
++    try{
++      await mkdir(this.options.directory,{recursive:true,mode:0o700});
++      if(batch.length){
++        this.handle??=await open(join(this.options.directory,`${this.processIdentity}.jsonl`),'ax',0o600);
++        const body=batch.join('');await this.handle.writeFile(body);this.bytes+=Buffer.byteLength(body);this.stats.written+=batch.length;
++      }
++    }catch{this.stats.errors++;this.stats.dropped+=batch.length;}
++    // Health is a separate file, so a failed events sink can still reveal loss.
++    try{
++      const path=join(this.options.directory,`${this.processIdentity}.health.json`);
++      const health={version:1,experimentId:this.options.experimentId,service:this.options.service,
++        processIdentity:this.processIdentity,pid:process.pid,wallTime:new Date().toISOString(),sequence:this.sequence,
++        ...this.stats,bytes:this.bytes,queued:this.queue.length,cleanClose:this.clean,
++        coverage:this.stats.dropped||this.stats.errors||this.stats.candidateDrops?'INVALID':this.clean?'CANDIDATE_VALID':'OPEN',
++        limits:{maxRecords:this.options.maxRecords,maxBufferBytes:this.options.maxBufferBytes,maxFileBytes:this.options.maxFileBytes}};
++      await writeFile(path+'.tmp',JSON.stringify(health)+'\n',{mode:0o600});await rename(path+'.tmp',path);
++    }catch{this.stats.errors++;}
++  }
++  async close(){
++    if(!this.enabled||this.stats.closed)return;
++    if(this.timer)clearInterval(this.timer);
++    await this.flush();this.stats.closed=true;await this.flush();
++    try{await this.handle?.close();}catch{this.stats.errors++;}
++    this.clean=true;await this.flush();
++  }
++}
++export const recorder = new Recorder({enabled:process.env.B0_OBSERVE==='1',
++  directory:process.env.B0_OBSERVATION_DIR||'/unconfigured-b0-observations',
++  experimentId:/^[a-zA-Z0-9_-]{1,100}$/.test(process.env.B0_EXPERIMENT_ID||'')?process.env.B0_EXPERIMENT_ID!:'unconfigured',
++  service:['api','worker','source','runner'].includes(process.env.B0_SERVICE||'')?process.env.B0_SERVICE!:'runner',
++  maxRecords:clamp(process.env.B0_BUFFER_RECORDS,8192,32768),
++  maxBufferBytes:clamp(process.env.B0_BUFFER_BYTES,8*1024*1024,32*1024*1024),
++  maxFileBytes:clamp(process.env.B0_FILE_BYTES,256*1024*1024,512*1024*1024)});
++// Exposed close is awaited by the existing service shutdown paths; natural CLI exit also flushes.
++if(recorder.enabled)process.once('beforeExit',()=>{void recorder.close();});
++export function observe(kind:Kind,label:Label,fields:Fields={}){try{recorder.emit({kind,label,...fields});}catch{/* observation cannot fail a business operation */}}
++export function candidate(kind:Kind,label:Label,fields:Fields={}){
++  if(!recorder.enabled)return;
++  try{const context=pending.getStore();if(!context)return;
++    if(context.events.length>=2048){context.overflow=true;return;}
++    context.events.push({kind,label,...fields});
++  }catch{recorder.lostCandidates(1);}
++}
++export async function measure<T>(label:Label,work:()=>Promise<T>,fields:Fields={}):Promise<T>{
++  if(!recorder.enabled)return work();
++  const t=performance.now(),counter={count:0},started={startedWallTime:new Date().toISOString(),startedMonotonicNs:process.hrtime.bigint().toString()};try{const result=await counters.run([...(counters.getStore()||[]),counter],work);observe('span',label,{...fields,...started,durationMs:performance.now()-t,sqlCount:counter.count,outcome:'ok'});return result;}
++  catch(error){observe('span',label,{...fields,...started,durationMs:performance.now()-t,sqlCount:counter.count,outcome:'error'});throw error;}
++}
++export function measureSync<T>(label:Label,work:()=>T):T{
++  if(!recorder.enabled)return work();
++  const t=performance.now(),started={startedWallTime:new Date().toISOString(),startedMonotonicNs:process.hrtime.bigint().toString()};try{const value=work();observe('span',label,{...started,durationMs:performance.now()-t,outcome:'ok'});return value;}
++  catch(error){observe('span',label,{...started,durationMs:performance.now()-t,outcome:'error'});throw error;}
++}
++export async function committed<T>(label:Label,work:(callbackResolved:()=>void)=>Promise<T>):Promise<T>{
++  if(!recorder.enabled)return work(()=>{});
++  const context:Pending={events:[],sqlCount:0,overflow:false};const t=performance.now(),started={startedWallTime:new Date().toISOString(),startedMonotonicNs:process.hrtime.bigint().toString()};let resolved=false;
++  try{
++    const result=await pending.run(context,()=>work(()=>{resolved=true;}));
++    // Everything below must remain nonthrowing, outside transaction work and business catches.
++    observe('transaction',label,{...started,outcome:'ok',durationMs:performance.now()-t,sqlCount:context.sqlCount});
++    for(const event of context.events)try{recorder.emit(event);}catch{recorder.lostCandidates(1);}
++    if(context.overflow)recorder.lostCandidates(1);
++    return result;
++  }catch(error){
++    observe('transaction',label,{...started,outcome:resolved?'commit_outcome_unknown':'callback_failed',durationMs:performance.now()-t,sqlCount:context.sqlCount});
++    throw error;
++  }
++}
++export function sqlLabel(sql:string):Label{
++  if(/source_checkpoints/i.test(sql))return 'sql.checkpoint';
++  if(/SELECT status,COUNT\(\*\).*orders/i.test(sql))return 'sql.status';
++  if(/\bproducts\b/i.test(sql))return 'sql.products';
++  if(/\bsellers\b/i.test(sql))return 'sql.sellers';
++  if(/SELECT.*raw_orders/i.test(sql))return 'sql.raw.identity';
++  if(/INSERT INTO raw_orders/i.test(sql))return 'sql.raw.insert';
++  if(/INSERT INTO orders/i.test(sql))return 'sql.order.insert';
++  if(/INSERT INTO order_items/i.test(sql))return 'sql.items.insert';
++  if(/INSERT INTO outbox_jobs/i.test(sql))return 'sql.outbox.insert';
++  if(/SELECT id FROM outbox_jobs WHERE/i.test(sql))return 'sql.dispatch.scan';
++  if(/SELECT.*outbox_jobs.*FOR UPDATE/i.test(sql))return 'sql.job.lock';
++  if(/UPDATE outbox_jobs/i.test(sql))return 'sql.job.update';
++  if(/INSERT INTO job_attempts/i.test(sql))return 'sql.attempt.insert';
++  if(/INSERT INTO tasks\(/i.test(sql))return 'sql.task.insert';
++  if(/task_items/i.test(sql))return 'sql.task.items';
++  if(/SELECT.*tasks/i.test(sql))return 'sql.task.read';
++  if(/SELECT.*orders/i.test(sql))return 'sql.order.read';
++  if(/UPDATE orders/i.test(sql))return 'sql.order.update';
++  return 'sql.other';
++}
++export async function observedSql<T>(sql:string,work:()=>Promise<T>):Promise<T>{
++  if(!recorder.enabled)return work();
++  const context=pending.getStore();if(context)context.sqlCount++;
++  for(const counter of counters.getStore()||[])counter.count++;
++  const t=performance.now(),started={startedWallTime:new Date().toISOString(),startedMonotonicNs:process.hrtime.bigint().toString()};const label=sqlLabel(sql);
++  try{const result=await work();observe('sql',label,{...started,durationMs:performance.now()-t,count:1,outcome:'ok'});return result;}
++  catch(error){observe('sql',label,{...started,durationMs:performance.now()-t,count:1,outcome:'error'});throw error;}
++}
+diff --git a/src/server/db.ts b/src/server/db.ts
+index 01e2a21..d8b6330 100644
+--- a/src/server/db.ts
++++ b/src/server/db.ts
+@@ -1,5 +1,6 @@
+ import { MikroORM } from '@mikro-orm/mysql';
+ import { EntitySchema } from '@mikro-orm/core';
++import { committed, observedSql, type Label } from '../observability/b0.js';
+ 
+ const DatasetRun = new EntitySchema({ name: 'DatasetRun', tableName: 'dataset_runs', properties: {
+   id: { type: 'string', primary: true }, datasetVersion: { type: 'string', fieldName: 'dataset_version' },
+@@ -13,9 +14,21 @@ export async function connectDb() {
+ }
+ export type Db = Awaited<ReturnType<typeof connectDb>>;
+ export type Tx = { execute(sql: string, params?: any[]): Promise<any> };
+-export function connection(db: Db): Tx { return db.em.fork().getConnection(); }
+-export async function transaction<T>(db: Db, run: (tx: Tx) => Promise<T>): Promise<T> {
+-  const em = db.em.fork();
+-  return em.transactional(async inner => ({ value: await run({ execute: (sql, params = []) =>
+-    inner.getConnection().execute(sql, params, 'all', inner.getTransactionContext()) }) })).then(x => x.value);
++export function connection(db: Db): Tx {
++  const native = db.em.fork().getConnection();
++  return new Proxy(native, { get(target, key) {
++    if(key==='execute')return (sql:string,...args:any[])=>observedSql(sql,()=> (target.execute as any)(sql,...args));
++    const value=Reflect.get(target,key,target);return typeof value==='function'?value.bind(target):value;
++  }});
++}
++export async function transaction<T>(db: Db, run: (tx: Tx) => Promise<T>, label:Label='other'): Promise<T> {
++  return committed(label,async callbackResolved=>{
++    const em = db.em.fork();
++    const result=await em.transactional(async inner=>{
++      const value=await run({execute:(sql,params=[])=>observedSql(sql,()=>
++        inner.getConnection().execute(sql,params,'all',inner.getTransactionContext()))});
++      callbackResolved();return {value};
++    });
++    return result.value;
++  });
+ }
+diff --git a/src/server/main.ts b/src/server/main.ts
+index 059a619..d5b82e2 100644
+--- a/src/server/main.ts
++++ b/src/server/main.ts
+@@ -1,3 +1,4 @@
++import { recorder } from '../observability/b0.js';
+ import { connectDb, connection } from './db.js';
+ import { requireSecrets } from './auth.js';
+ import { httpApp } from './http.js';
+@@ -31,4 +32,4 @@ const app = await httpApp('/api/v1', {
+ const express=createRequire(import.meta.url)('express'),bundle=resolve('dist/web');
+ if(existsSync(bundle)){app.use(express.static(bundle));app.use('/admin',(_req:any,res:any)=>res.sendFile(resolve(bundle,'index.html')));}
+ await app.listen(Number(process.env.API_PORT||3000),process.env.API_HOST||'127.0.0.1');
+-for(const signal of ['SIGINT','SIGTERM'] as const)process.once(signal,async()=>{await app.close();await api.close();redis.disconnect();await db.close(true);});
++for(const signal of ['SIGINT','SIGTERM'] as const)process.once(signal,async()=>{await app.close();await api.close();redis.disconnect();await db.close(true);await recorder.close();});
+diff --git a/src/server/worker-main.ts b/src/server/worker-main.ts
+index 8f0cfec..da18bf9 100644
+--- a/src/server/worker-main.ts
++++ b/src/server/worker-main.ts
+@@ -1,4 +1,5 @@
++import { recorder } from '../observability/b0.js';
+ import { connectDb } from './db.js';
+ import { startJobs } from '../jobs/jobs.js';
+ const db=await connectDb();const jobs=startJobs(db);
+-for(const signal of ['SIGINT','SIGTERM'] as const)process.once(signal,async()=>{await jobs.close();await db.close(true);});
++for(const signal of ['SIGINT','SIGTERM'] as const)process.once(signal,async()=>{await jobs.close();await db.close(true);await recorder.close();});
+diff --git a/src/source/main.ts b/src/source/main.ts
+index b16b889..4252a4b 100644
+--- a/src/source/main.ts
++++ b/src/source/main.ts
+@@ -1,3 +1,4 @@
++import { recorder } from '../observability/b0.js';
+ import { Source } from './source.js';
+ import { httpApp } from '../server/http.js';
+ import { Problem } from '../shared/contracts.js';
+@@ -7,4 +8,4 @@ const app=await httpApp('/source/v1',{source_orders:async req=>{
+   return source.page(req.query.cursor,req.query.limit);
+ }});
+ await app.listen(Number(process.env.SOURCE_PORT||3100),process.env.SOURCE_HOST||'127.0.0.1');
+-for(const signal of ['SIGINT','SIGTERM'] as const)process.once(signal,async()=>{await app.close();source.close();});
++for(const signal of ['SIGINT','SIGTERM'] as const)process.once(signal,async()=>{await app.close();source.close();await recorder.close();});

@@ -1,0 +1,7 @@
+{
+  "alignment": "BRACKETED_AT_START",
+  "hostBefore": "2026-11-03T04:57:40.352136+00:00",
+  "containerWallMs": 1793681860467,
+  "hostAfter": "2026-11-03T04:57:40.487803+00:00",
+  "precision": "Wall millisecond sample bounded by host request interval; no exact cross-process commit order guarantee"
+}

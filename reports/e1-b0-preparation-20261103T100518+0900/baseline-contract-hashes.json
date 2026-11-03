@@ -1,0 +1,19 @@
+{
+  "baseline": "954bb692a244803b8aad695539d81afdcb81a091",
+  "unchangedProtected": {
+    "package-lock.json": "4cf789861217e64c793a9ddbe73f5b4b608d0a92486fd4c730431f4e5c68ab1e",
+    "package.json": "f6a5f60280760572c8c2c1d63b8e4c609769eaa809c724a9dabd0e680e7a8799",
+    "docs/openapi.yaml": "aa07ebe6c800df843361a5718d1b5b721b4ce5e19a1e5917bb1cd3761cd7eb0e",
+    "src/shared/contracts.ts": "d5df263d268bbd9c7caf1b7df6d3471ad35eafc0bea8f74311b117b6c95d5e15",
+    "src/ingestion/normalize.ts": "78beca692db113cbab1e1fdec0a46869e7c0576bf6f949bb55538a41294410d1",
+    "src/source/source.ts": "aa94961f01b836278ba7ad6455faf57a88315308cc5fede2981e95bea6699da9",
+    "src/sync/events.ts": "620cf7ddf7d657fdb998f6bc6c11bd69aa4153d901bc737f92671ac12f89a2f7",
+    "migrations/004_domain_checks.sql": "62f88fb879b28c20789839ec0161618488cb518b4a37d5e2ac7a82b3a273d7b6",
+    "migrations/001_initial.sql": "9150253e58612d761a59a49e1106d1d296be81e8254f89f442331ec141e726a9",
+    "migrations/002_admin_serialization.sql": "6577db0b4d6b0fd667dbc1dea7340dd9c090ee5be4208bfaae5c40df9e678e23",
+    "migrations/003_scenario_manifest.sql": "af717b3b555f2ce34895890ccb4f2823347ceeddbdd1e56220424af7fb908978"
+  },
+  "instrumentOnlyPatchSha256": "643d1bea4622dd9dd2bd2b45472f37d0ed535bdb797c146cb110657cb1d17696",
+  "instrumentCommit": "85663cd",
+  "toolsCommit": "65d052d"
+}

@@ -1,0 +1,9 @@
+{
+  "stage": "sandbox readiness before ingestion",
+  "status": "FAIL",
+  "lab": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-smoke-off-01",
+  "reason": "Host loopback HTTP unreachable with the internal Docker network on this host; same source returned HTTP200 inside its container. Dedicated bridge network will be checked in a new lab.",
+  "ingestionStarted": false,
+  "legacyServicesControlled": false,
+  "preservation": "Failed experiment stopped; containers, volumes and private diagnostics retained."
+}

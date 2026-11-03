@@ -1,0 +1,144 @@
+{
+  "status": "PASS",
+  "fixture": "4 fixed synthetic source IDs, 2 READY/1 DATA_HOLD/1 UNSUPPORTED, required task quantity 4",
+  "ignoredDifferences": [
+    "generated internal IDs",
+    "run/experiment IDs",
+    "timestamps",
+    "manifest preparedAt"
+  ],
+  "actualCanonicalBusiness": {
+    "orders": [
+      {
+        "sourceId": "00000000000000000000000000000001",
+        "sourceStatus": "delivered",
+        "status": "TASK_CREATED",
+        "revision": 1,
+        "holdReasons": [],
+        "qualityFlags": [],
+        "taskStatus": "CREATED",
+        "deviceId": null,
+        "assignmentVersion": 0,
+        "lastProcessedSeq": 0
+      },
+      {
+        "sourceId": "00000000000000000000000000000002",
+        "sourceStatus": "delivered",
+        "status": "TASK_CREATED",
+        "revision": 1,
+        "holdReasons": [],
+        "qualityFlags": [],
+        "taskStatus": "CREATED",
+        "deviceId": null,
+        "assignmentVersion": 0,
+        "lastProcessedSeq": 0
+      },
+      {
+        "sourceId": "00000000000000000000000000000003",
+        "sourceStatus": "delivered",
+        "status": "DATA_HOLD",
+        "revision": 1,
+        "holdReasons": [
+          "NO_ITEMS"
+        ],
+        "qualityFlags": [],
+        "taskStatus": null,
+        "deviceId": null,
+        "assignmentVersion": null,
+        "lastProcessedSeq": null
+      },
+      {
+        "sourceId": "00000000000000000000000000000004",
+        "sourceStatus": "canceled",
+        "status": "UNSUPPORTED",
+        "revision": 1,
+        "holdReasons": [
+          "UNSUPPORTED_SOURCE_STATUS"
+        ],
+        "qualityFlags": [],
+        "taskStatus": null,
+        "deviceId": null,
+        "assignmentVersion": null,
+        "lastProcessedSeq": null
+      }
+    ],
+    "items": [
+      {
+        "sourceId": "00000000000000000000000000000001",
+        "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "requiredQty": 2,
+        "taskRequiredQty": 2,
+        "appliedQty": 0
+      },
+      {
+        "sourceId": "00000000000000000000000000000001",
+        "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "requiredQty": 1,
+        "taskRequiredQty": 1,
+        "appliedQty": 0
+      },
+      {
+        "sourceId": "00000000000000000000000000000002",
+        "productId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "requiredQty": 1,
+        "taskRequiredQty": 1,
+        "appliedQty": 0
+      },
+      {
+        "sourceId": "00000000000000000000000000000004",
+        "productId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "requiredQty": 1,
+        "taskRequiredQty": null,
+        "appliedQty": null
+      }
+    ],
+    "variables": {
+      "bufferPoolBytes": 536870912,
+      "flushCommit": 1,
+      "syncBinlog": 1
+    },
+    "migrations": [
+      {
+        "version": "001_initial.sql",
+        "sha256": "9150253e58612d761a59a49e1106d1d296be81e8254f89f442331ec141e726a9"
+      },
+      {
+        "version": "002_admin_serialization.sql",
+        "sha256": "6577db0b4d6b0fd667dbc1dea7340dd9c090ee5be4208bfaae5c40df9e678e23"
+      },
+      {
+        "version": "003_scenario_manifest.sql",
+        "sha256": "af717b3b555f2ce34895890ccb4f2823347ceeddbdd1e56220424af7fb908978"
+      },
+      {
+        "version": "004_domain_checks.sql",
+        "sha256": "62f88fb879b28c20789839ec0161618488cb518b4a37d5e2ac7a82b3a273d7b6"
+      }
+    ],
+    "counts": {
+      "rawCount": 4,
+      "taskCount": 2,
+      "badTasks": 0,
+      "eventCount": 0,
+      "reports": 0,
+      "requiredQty": "4",
+      "appliedQty": "0"
+    },
+    "classifications": [
+      {
+        "status": "DATA_HOLD",
+        "count": 1
+      },
+      {
+        "status": "TASK_CREATED",
+        "count": 2
+      },
+      {
+        "status": "UNSUPPORTED",
+        "count": 1
+      }
+    ]
+  },
+  "sameImmutableImage": "sha256:f0c759799003ce71a90dcc6b687e30ca20396b1ce63586061eba0e845feb9fa1",
+  "source": "Actual saved final OFF/ON SQL snapshots; no timings used for performance claims."
+}

@@ -1,0 +1,24 @@
+{
+  "actualExecution": {
+    "status": "FAIL",
+    "input": "smoke",
+    "reason": "EXECUTION_ERROR",
+    "timeline": [
+      {
+        "at": "2026-11-03T01:30:56.007831+00:00",
+        "action": "DRAIN_STABLE",
+        "firstZeroObservedAt": "2026-11-03T01:30:24.915Z",
+        "note": "Three complete observations at the observer sample times; stable confirmation includes waiting."
+      }
+    ],
+    "preserved": true
+  },
+  "cause": "Python3.10 fromisoformat rejected JS UTC Z in postprocessing after the synthetic DB had completed. Parser fixed to explicit +00:00; original failure retained; preserved sidecars/snapshot reprocessed successfully.",
+  "recoveryReview": {
+    "status": "PASS",
+    "scope": "Postprocess the saved actual smoke DB snapshot and preserved sidecars; original execution failures remain unchanged",
+    "coverage": "VALID",
+    "reviewedAt": "2026-11-03T01:33:01.247281+00:00",
+    "reviewToolSha256": "951b7e0cdb4fb8c47023bb51f6c5c3c6df4f3ec688e9ec11724afe066c2418b4"
+  }
+}

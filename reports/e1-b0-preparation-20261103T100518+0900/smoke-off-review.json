@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "scope": "Postprocess the saved actual smoke DB snapshot and preserved sidecars; original execution failures remain unchanged",
+  "coverage": "OFF_CONFIRMED",
+  "reviewedAt": "2026-11-03T04:57:03.342784+00:00",
+  "reviewToolSha256": "652870e2c7a5930d7ee51656624e1b78596f3c34839567111518a8a4336150bf"
+}

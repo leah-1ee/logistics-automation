@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "createdAt": "2026-11-03T01:37:10.421255+00:00",
+  "baseline": "954bb692a244803b8aad695539d81afdcb81a091",
+  "root": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-off",
+  "project": "e1b0-e018d86163dc49d9",
+  "database": "e1b0_26b0fd1915c7442e",
+  "runId": "e6c58288-af88-45bd-9d1b-ee91c94e4506",
+  "mode": "smoke",
+  "observation": false,
+  "imageId": "sha256:f0c759799003ce71a90dcc6b687e30ca20396b1ce63586061eba0e845feb9fa1",
+  "expected": {
+    "raw": 4,
+    "task": 2,
+    "qty": 4,
+    "classifications": {
+      "TASK_CREATED": 2,
+      "DATA_HOLD": 1,
+      "UNSUPPORTED": 1
+    }
+  },
+  "ports": {
+    "api": 13000,
+    "source": 13100,
+    "mysql": 13307,
+    "redis": 16380
+  },
+  "quotas": {
+    "mysql": 1.5,
+    "api": 0.75,
+    "worker": 0.75,
+    "source": 0.5,
+    "redis": 0.5,
+    "runner": 0.25
+  },
+  "limits": {
+    "mysql": 2147483648,
+    "api": 1073741824,
+    "worker": 1073741824,
+    "source": 1073741824,
+    "redis": 536870912,
+    "runner": 536870912
+  },
+  "cpuMeaning": "Product+DB+Redis quota ceilings sum 4.0 CPU equivalents; runner adds 0.25 only while running. No cpuset pinning; shared host/cache/IO and unbounded host driver remain. This is not exclusive 4-core hardware.",
+  "inputs": {
+    "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-off/inputs/raw/olist_orders_dataset.csv": "f29a42d4059bbddc92aac04802016af2c630fedde2e2cb9ac5dc88bb845489bd",
+    "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-off/inputs/raw/olist_order_items_dataset.csv": "4b2490b44f78dc3a6c2ed9f027d688c1fc96b6521a78f614f977d00d33aa2b2e",
+    "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-off/inputs/raw/olist_products_dataset.csv": "119795cc0303015611131feca8f0e4f704e8758085c0739feead211071fb46be",
+    "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-off/inputs/raw/olist_sellers_dataset.csv": "2b27d6d8e952047ddd3d31be592cbd664856ad66a01b76e6c2b03e4829b71685",
+    "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-off/inputs/prepared.sqlite": "3545cb3d79d418050dafcef4c2d791ab5457676fccabddae3c6c4920789f0653",
+    "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-final-off/inputs/manifest.json": "c27f880fb1c5238c625f9092a8f167c0e29feee037ac9305646c89deb64053ae"
+  },
+  "composeSha256": "8c78fead48b92f0052929821105d8221e00cd496c9fc297df670be33e127b5fc"
+}

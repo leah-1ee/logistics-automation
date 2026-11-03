@@ -1,0 +1,31 @@
+{
+  "status": "READY_FOR_EXPLICIT_SINGLE_PILOT_NOT_RUN",
+  "mode": "olist",
+  "root": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-pilot-ready",
+  "project": "e1b0-3eb1e3c436004f80",
+  "imageId": "sha256:f0c759799003ce71a90dcc6b687e30ca20396b1ce63586061eba0e845feb9fa1",
+  "baseline": "954bb692a244803b8aad695539d81afdcb81a091",
+  "instrumentSourceCommit": "85663cd533be0039b4dd4ef4af53ef94eac194dc",
+  "inputFiles": {
+    "/home/leah/logistics-automation/data/raw/olist-v2/olist_orders_dataset.csv": "8df58ef3d2d7e9944010f7beecd9b75367f5588ec6e3c91cec19ae3345ef9ecf",
+    "/home/leah/logistics-automation/data/raw/olist-v2/olist_order_items_dataset.csv": "0bc4d068c4fe38cbb01bd90e8746e3c613fe7b4baef75fab7b0e329701c3e279",
+    "/home/leah/logistics-automation/data/raw/olist-v2/olist_products_dataset.csv": "3e6569628a17fbc75fd206ee357b59e20364b9afa90f5b6cd5b4d624c58aa9cc",
+    "/home/leah/logistics-automation/data/raw/olist-v2/olist_sellers_dataset.csv": "1f643d2b950373b85735e7794b20986f528d7a000432e7c6f9bcbb44d0846a0e",
+    "/home/leah/logistics-automation/data/prepared/olist-indexed.sqlite": "ca226c4f3ae6b7c561279bf2645aedcd0371d784b4b7c5e16781119605ec7863",
+    "/home/leah/logistics-automation/manifests/olist-v2.json": "f2933ffcb5ffd2cd6d6d6dd1efb619907ae64eab2a417c2d581d85d7e10be323"
+  },
+  "resourcesStarted": false,
+  "olistSeedExecuted": false,
+  "olistIngestionExecuted": false,
+  "hostDriverSha256": "8a7d65f1ee748d9f11d46861796e2ad2131c84047db4eb3ac5792b978ae595e4",
+  "normalCoverage": "VALID",
+  "limitations": [
+    "pool wait UNKNOWN",
+    "lock duration UNKNOWN; instantaneous snapshot may be unavailable",
+    "raw-to-task exact latency UNKNOWN",
+    "sidecar not atomic with database",
+    "no quantitative observer overhead measured",
+    "shared host CPU/IO/cache interference remains",
+    "first pilot must validate full-size coverage and stop conditions"
+  ]
+}

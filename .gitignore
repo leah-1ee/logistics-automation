@@ -18,3 +18,9 @@ reports/runtime/
 
 # Local preparation preservation inventory; select compact summaries for publication.
 reports/e1-b0-preparation-*/original-before.json
+reports/e1-b0-preparation-*/build-0*.txt
+reports/e1-b0-preparation-*/observability-unit.txt
+reports/e1-b0-preparation-*/observation-schema-check.json
+reports/e1-b0-preparation-*/original-after.json
+reports/e1-b0-preparation-*/preflight-readonly.json
+reports/e1-b0-preparation-*/push-result.json

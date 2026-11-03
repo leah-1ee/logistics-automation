@@ -1,0 +1,6 @@
+{
+  "maxmemory-policy": "noeviction",
+  "appendonly": "yes",
+  "appendfsync": "everysec",
+  "maxmemory": "0"
+}

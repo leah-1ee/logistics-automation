@@ -1,0 +1,11 @@
+✔ transaction candidates survive successful resolution only; original return/error identities survive (3.273853ms)
+✔ bounded asynchronous sink: overflow and failed writes are visible; records never contain arbitrary strings (109.378502ms)
+✔ ON/OFF preserve DB wrapper arguments, connection methods, values and product exceptions (4.012505ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2191.730705

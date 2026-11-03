@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "input": "SYNTHETIC_ONLY",
+  "maxFixtureOrders": 4,
+  "cases": [
+    {
+      "name": "page rollback discards durable candidates and preserves exception identity",
+      "status": "PASS"
+    },
+    {
+      "name": "existing-task, superseded-revision, DONE redelivery do not count new tasks",
+      "status": "PASS"
+    },
+    {
+      "name": "asynchronous sink failure leaves committed job DONE/attempt1/errorNULL",
+      "status": "PASS"
+    },
+    {
+      "name": "bounded buffer saturation does not fail/retry business success",
+      "status": "PASS"
+    },
+    {
+      "name": "DONE checkpoint repeated page remains no-op",
+      "status": "PASS"
+    }
+  ],
+  "taskCount": 2,
+  "observerLossIsExpected": true,
+  "observerStats": {
+    "attempted": 83,
+    "written": 60,
+    "dropped": 22,
+    "errors": 4,
+    "candidateDrops": 0,
+    "closed": false
+  },
+  "note": "Observer loss is deliberately injected; this runner sidecar is INVALID and excluded from smoke coverage."
+}

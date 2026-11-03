@@ -1,0 +1,53 @@
+[
+  {
+    "version": 1,
+    "experimentId": "e1b0-74f542ae36134a12",
+    "service": "api",
+    "processIdentity": "1-9d60dddb-45d6-48cd-b1e6-15fc52327168",
+    "pid": 1,
+    "sequence": 51,
+    "wallTime": "2026-11-03T04:57:40.767Z",
+    "monotonicNs": "5218584819077",
+    "kind": "outbox_write_resolved",
+    "label": "ingestion.page",
+    "runId": "d5e51bdb-a959-4e78-a9b6-4503ebe8d5fb",
+    "orderId": "d041b7a8-bf48-4c67-aa9d-b3669baa1acd",
+    "jobId": "728a58ab-0775-4e67-b250-61422c22f867"
+  },
+  {
+    "version": 1,
+    "experimentId": "e1b0-74f542ae36134a12",
+    "service": "api",
+    "processIdentity": "1-9d60dddb-45d6-48cd-b1e6-15fc52327168",
+    "pid": 1,
+    "sequence": 52,
+    "wallTime": "2026-11-03T04:57:40.767Z",
+    "monotonicNs": "5218584866055",
+    "kind": "raw_order_created",
+    "label": "ingestion.page",
+    "runId": "d5e51bdb-a959-4e78-a9b6-4503ebe8d5fb",
+    "rawId": "d3f0315a-b946-47b9-b736-b198b84935a7",
+    "orderId": "d041b7a8-bf48-4c67-aa9d-b3669baa1acd",
+    "count": 1,
+    "itemCount": 3,
+    "outboxCount": 1,
+    "classification": "READY"
+  },
+  {
+    "version": 1,
+    "experimentId": "e1b0-74f542ae36134a12",
+    "service": "worker",
+    "processIdentity": "1-752f937b-be48-430d-8674-3b4f765a9e6f",
+    "pid": 1,
+    "sequence": 34,
+    "wallTime": "2026-11-03T04:57:41.422Z",
+    "monotonicNs": "5219239474570",
+    "kind": "task_created",
+    "label": "job.process",
+    "runId": "d5e51bdb-a959-4e78-a9b6-4503ebe8d5fb",
+    "orderId": "d041b7a8-bf48-4c67-aa9d-b3669baa1acd",
+    "taskId": "165e1ae0-a9bf-4071-b6ac-b7c276e5705d",
+    "jobId": "728a58ab-0775-4e67-b250-61422c22f867",
+    "count": 1
+  }
+]

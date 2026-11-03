@@ -1,0 +1,8 @@
+{
+  "at": "2026-11-03T04:57:03.228236+00:00",
+  "status": "INTERRUPTED_AFTER_BUSINESS_VALIDATION",
+  "project": "e1b0-e018d86163dc49d9",
+  "businessSnapshotPreserved": true,
+  "legacyServiceControl": "NONE",
+  "action": "Stopped only project-labeled remaining observer/mysql/redis; volumes and failure evidence retained."
+}
