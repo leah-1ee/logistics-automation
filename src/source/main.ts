@@ -1,3 +1,4 @@
+import { recorder } from '../observability/b0.js';
 import { Source } from './source.js';
 import { httpApp } from '../server/http.js';
 import { Problem } from '../shared/contracts.js';
@@ -7,4 +8,4 @@ const app=await httpApp('/source/v1',{source_orders:async req=>{
   return source.page(req.query.cursor,req.query.limit);
 }});
 await app.listen(Number(process.env.SOURCE_PORT||3100),process.env.SOURCE_HOST||'127.0.0.1');
-for(const signal of ['SIGINT','SIGTERM'] as const)process.once(signal,async()=>{await app.close();source.close();});
+for(const signal of ['SIGINT','SIGTERM'] as const)process.once(signal,async()=>{await app.close();source.close();await recorder.close();});

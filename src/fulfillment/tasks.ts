@@ -2,20 +2,22 @@ import { randomUUID } from 'node:crypto';
 import { type Db,type Tx } from '../server/db.js';
 import { now,parseJson,Problem,snapshotHash } from '../shared/contracts.js';
 import { adminRequest,audit } from '../operations/requests.js';
+import { candidate } from '../observability/b0.js';
 export async function createTask(tx:Tx,job:any) {
   const p=parseJson(job.payload);
   const [order]=await tx.execute('SELECT * FROM orders WHERE id=? FOR UPDATE',[p.orderId]);
   if(!order)throw new Problem('ORDER_NOT_FOUND');
-  if(order.revision!==p.revision)return 'SUPERSEDED';
+  if(order.revision!==p.revision){candidate('task_noop','job.process',{runId:order.run_id,jobId:job.id,orderId:order.id});return 'SUPERSEDED';}
   const [existing]=await tx.execute('SELECT id FROM tasks WHERE order_id=?',[order.id]);
-  if(existing)return existing.id;
-  if(order.status!=='READY')return 'SUPERSEDED';
+  if(existing){candidate('task_noop','job.process',{runId:order.run_id,jobId:job.id,orderId:order.id,taskId:existing.id});return existing.id;}
+  if(order.status!=='READY'){candidate('task_noop','job.process',{runId:order.run_id,jobId:job.id,orderId:order.id});return 'SUPERSEDED';}
   const items=await tx.execute('SELECT * FROM order_items WHERE order_id=?',[order.id]);
   if(!items.length)throw new Problem('ORDER_ITEMS_MISSING');
   const taskId=randomUUID();
   await tx.execute('INSERT INTO tasks(id,run_id,order_id,status) VALUES(?,?,?,?)',[taskId,order.run_id,order.id,'CREATED']);
   for(const item of items)await tx.execute('INSERT INTO task_items VALUES(?,?,?,0)',[taskId,item.product_id,item.required_qty]);
   await tx.execute('UPDATE orders SET status=? WHERE id=?',['TASK_CREATED',order.id]);
+  candidate('task_created','job.process',{runId:order.run_id,jobId:job.id,orderId:order.id,taskId,count:1});
   return taskId;
 }
 export async function taskView(tx:Tx,id:string) {

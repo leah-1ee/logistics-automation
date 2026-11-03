@@ -1,3 +1,4 @@
+import { recorder } from '../observability/b0.js';
 import { connectDb, connection } from './db.js';
 import { requireSecrets } from './auth.js';
 import { httpApp } from './http.js';
@@ -31,4 +32,4 @@ const app = await httpApp('/api/v1', {
 const express=createRequire(import.meta.url)('express'),bundle=resolve('dist/web');
 if(existsSync(bundle)){app.use(express.static(bundle));app.use('/admin',(_req:any,res:any)=>res.sendFile(resolve(bundle,'index.html')));}
 await app.listen(Number(process.env.API_PORT||3000),process.env.API_HOST||'127.0.0.1');
-for(const signal of ['SIGINT','SIGTERM'] as const)process.once(signal,async()=>{await app.close();await api.close();redis.disconnect();await db.close(true);});
+for(const signal of ['SIGINT','SIGTERM'] as const)process.once(signal,async()=>{await app.close();await api.close();redis.disconnect();await db.close(true);await recorder.close();});

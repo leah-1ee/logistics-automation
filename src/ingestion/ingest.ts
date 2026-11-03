@@ -3,9 +3,12 @@ import { type Db, type Tx, transaction, connection } from '../server/db.js';
 import { hash, now, parseJson, Problem, validate } from '../shared/contracts.js';
 import { normalize } from './normalize.js';
 import { setTimeout as delay } from 'node:timers/promises';
+import { candidate, observe, measure, measureSync } from '../observability/b0.js';
 export async function enqueue(tx:Tx,runId:string,type:string,aggregateId:string,dedupe:string,payload:any) {
+  const observationId=randomUUID();
   await tx.execute('INSERT INTO outbox_jobs(id,run_id,type,aggregate_id,dedupe_key,payload,status,available_at) VALUES(?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE id=id',
-    [randomUUID(),runId,type,aggregateId,dedupe,JSON.stringify(payload),'PENDING',now()]);
+    [observationId,runId,type,aggregateId,dedupe,JSON.stringify(payload),'PENDING',now()]);
+  candidate('outbox_write_resolved','ingestion.page',{runId,jobId:observationId,orderId:type==='CREATE_TASK'?aggregateId:undefined});
 }
 export async function ingestPage(db:Db,runId:string,page:any,expectedCursor:string|null,fault?:(stage:string)=>void) {
   if(page.datasetRunId!==runId)throw new Problem('CURSOR_RUN_MISMATCH');
@@ -39,26 +42,32 @@ export async function ingestPage(db:Db,runId:string,page:any,expectedCursor:stri
       await tx.execute('INSERT INTO orders VALUES(?,?,?,?,?,?,?,?,?,?)',[orderId,rawId,runId,1,source.sourceOrderId||source.sourceRecordId,source.sourceStatus||'',n.status,n.sellerId,JSON.stringify(n.holdReasons),JSON.stringify(n.qualityFlags)]);
       for(const item of n.items)await tx.execute('INSERT INTO order_items VALUES(?,?,?)',[orderId,item.productId,item.requiredQty]);
       if(n.status==='READY')await enqueue(tx,runId,'CREATE_TASK',orderId,`${orderId}:1`,{orderId,revision:1});
+      candidate('raw_order_created','ingestion.page',{runId,rawId,orderId,classification:n.status as 'READY'|'DATA_HOLD'|'UNSUPPORTED',count:1,itemCount:n.items.reduce((sum,i)=>sum+i.requiredQty,0),outboxCount:n.status==='READY'?1:0});
       fault?.('during');
     }
     await tx.execute('UPDATE source_checkpoints SET cursor_token=?,status=?,updated_at=? WHERE run_id=? AND source=?',[page.nextCursor,page.exhausted?'DONE':'RUNNING',now(),runId,'olist']);
     fault?.('before_commit');return true;
-  });
+  },'ingestion.page');
 }
 export async function ingestionStatus(db:Db,runId:string) {
+  return measure('ingestion.status',async()=>{
   const c=connection(db);const [cp]=await c.execute('SELECT * FROM source_checkpoints WHERE run_id=? AND source=?',[runId,'olist']);
   if(!cp)throw new Problem('NOT_FOUND',404);
   const rows=await c.execute('SELECT status,COUNT(*) n FROM orders WHERE run_id=? GROUP BY status',[runId]);
   const counts=Object.fromEntries(rows.map((r:any)=>[r.status,Number(r.n)]));
   return {id:runId,datasetRunId:runId,status:cp.status,cursor:cp.cursor_token,receivedCount:Object.values(counts).reduce((a:any,b:any)=>a+b,0),readyCount:(counts.READY||0)+(counts.TASK_CREATED||0),holdCount:counts.DATA_HOLD||0,unsupportedCount:counts.UNSUPPORTED||0};
+  },{runId});
 }
 export async function collect(db:Db,runId:string,sourceUrl:string,signal?:AbortSignal) {
   while(!signal?.aborted) {
     const state=await ingestionStatus(db,runId);if(state.status==='DONE')return state;
     const url=new URL('/source/v1/orders',sourceUrl);url.searchParams.set('datasetRunId',runId);url.searchParams.set('limit','200');if(state.cursor)url.searchParams.set('cursor',state.cursor);
-    const res=await fetch(url,{signal:signal?AbortSignal.any([signal,AbortSignal.timeout(15000)]):AbortSignal.timeout(15000)});
+    const res=await measure('source.fetch',()=>fetch(url,{signal:signal?AbortSignal.any([signal,AbortSignal.timeout(15000)]):AbortSignal.timeout(15000)}),{runId});
+    observe('span','source.fetch',{runId,httpStatus:res.status,outcome:res.ok?'ok':'error'});
     if(!res.ok)throw new Problem('SOURCE_HTTP_'+res.status,503);
-    const page=await res.json();validate('SourcePage',page);
+    const page=await measure('source.body',()=>res.json(),{runId});measureSync('source.validation',()=>validate('SourcePage',page));
+    observe('source_page','source.fetch',{runId,count:page.items.length});
+    if(page.exhausted)observe('source_eof','source.fetch',{runId,count:page.items.length});
     await ingestPage(db,runId,page,state.cursor);
     if(!page.items.length&&!page.exhausted) await delay(Math.max(100,Math.min(page.nextPollAfterMs,60000)),undefined,{signal});
   }
