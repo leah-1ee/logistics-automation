@@ -15,3 +15,6 @@ reports/olist-metadata.json
 reports/olist-download-page.html
 reports/olist-files.json
 reports/runtime/
+
+# Local preparation preservation inventory; select compact summaries for publication.
+reports/e1-b0-preparation-*/original-before.json

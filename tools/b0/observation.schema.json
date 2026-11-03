@@ -1,0 +1,178 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "B0 best-effort observation v1 (not an atomic commit journal)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "experimentId",
+    "service",
+    "processIdentity",
+    "pid",
+    "sequence",
+    "wallTime",
+    "monotonicNs",
+    "kind",
+    "label"
+  ],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "experimentId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,100}$"
+    },
+    "service": {
+      "enum": [
+        "api",
+        "worker",
+        "source",
+        "runner"
+      ]
+    },
+    "processIdentity": {
+      "type": "string"
+    },
+    "pid": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "wallTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "monotonicNs": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "startedWallTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "startedMonotonicNs": {
+      "type": "string",
+      "pattern": "^[0-9]+$"
+    },
+    "kind": {
+      "enum": [
+        "span",
+        "sql",
+        "transaction",
+        "raw_order_created",
+        "outbox_write_resolved",
+        "task_created",
+        "task_noop",
+        "job_completed",
+        "dispatch_committed",
+        "source_page",
+        "source_eof"
+      ]
+    },
+    "label": {
+      "enum": [
+        "other",
+        "source.fetch",
+        "source.body",
+        "source.validation",
+        "ingestion.status",
+        "ingestion.page",
+        "dispatch.scan",
+        "dispatch.transaction",
+        "dispatch.redis.get",
+        "dispatch.redis.state",
+        "dispatch.redis.remove",
+        "dispatch.redis.add",
+        "job.process",
+        "job.failure",
+        "sql.checkpoint",
+        "sql.status",
+        "sql.products",
+        "sql.sellers",
+        "sql.raw.identity",
+        "sql.raw.insert",
+        "sql.order.insert",
+        "sql.items.insert",
+        "sql.outbox.insert",
+        "sql.dispatch.scan",
+        "sql.job.lock",
+        "sql.job.update",
+        "sql.attempt.insert",
+        "sql.task.read",
+        "sql.task.insert",
+        "sql.task.items",
+        "sql.order.read",
+        "sql.order.update",
+        "sql.other"
+      ]
+    },
+    "runId": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9-]{32,36}$"
+    },
+    "rawId": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9-]{32,36}$"
+    },
+    "orderId": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9-]{32,36}$"
+    },
+    "taskId": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9-]{32,36}$"
+    },
+    "jobId": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9-]{32,36}$"
+    },
+    "count": {
+      "type": "number",
+      "minimum": 0
+    },
+    "itemCount": {
+      "type": "number",
+      "minimum": 0
+    },
+    "outboxCount": {
+      "type": "number",
+      "minimum": 0
+    },
+    "attempt": {
+      "type": "number",
+      "minimum": 0
+    },
+    "durationMs": {
+      "type": "number",
+      "minimum": 0
+    },
+    "sqlCount": {
+      "type": "number",
+      "minimum": 0
+    },
+    "classification": {
+      "enum": [
+        "READY",
+        "DATA_HOLD",
+        "UNSUPPORTED"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "ok",
+        "error",
+        "callback_failed",
+        "commit_outcome_unknown"
+      ]
+    },
+    "httpStatus": {
+      "type": "integer",
+      "minimum": 100,
+      "maximum": 599
+    }
+  }
+}
