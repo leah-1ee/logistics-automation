@@ -1,0 +1,69 @@
+diff --git a/src/observability/b0.ts b/src/observability/b0.ts
+index b342c8d..5eb15c4 100644
+--- a/src/observability/b0.ts
++++ b/src/observability/b0.ts
+@@ -116,7 +116,7 @@ export const recorder = new Recorder({enabled:process.env.B0_OBSERVE==='1',
+   service:['api','worker','source','runner'].includes(process.env.B0_SERVICE||'')?process.env.B0_SERVICE!:'runner',
+   maxRecords:clamp(process.env.B0_BUFFER_RECORDS,8192,32768),
+   maxBufferBytes:clamp(process.env.B0_BUFFER_BYTES,8*1024*1024,32*1024*1024),
+-  maxFileBytes:clamp(process.env.B0_FILE_BYTES,256*1024*1024,512*1024*1024)});
++  maxFileBytes:clamp(process.env.B0_FILE_BYTES,2*1024**3,2*1024**3)});
+ // Exposed close is awaited by the existing service shutdown paths; natural CLI exit also flushes.
+ if(recorder.enabled)process.once('beforeExit',()=>{void recorder.close();});
+ export function observe(kind:Kind,label:Label,fields:Fields={}){try{recorder.emit({kind,label,...fields});}catch{/* observation cannot fail a business operation */}}
+diff --git a/tests/b0/file-limit.test.ts b/tests/b0/file-limit.test.ts
+new file mode 100644
+index 0000000..f2a0038
+--- /dev/null
++++ b/tests/b0/file-limit.test.ts
+@@ -0,0 +1,28 @@
++import {test} from 'node:test';
++import assert from 'node:assert/strict';
++import {spawnSync} from 'node:child_process';
++import {mkdtemp,stat,rm} from 'node:fs/promises';
++import {join} from 'node:path';
++import {tmpdir} from 'node:os';
++import {Recorder} from '../../src/observability/b0.js';
++
++test('2GiB default/environment/clamp preserve existing memory buffer limits',()=>{
++  for(const value of [undefined,'2147483648','3221225472','-1','not-a-number']){
++    const env:NodeJS.ProcessEnv={...process.env,B0_OBSERVE:'0'};if(value===undefined)delete env.B0_FILE_BYTES;else env.B0_FILE_BYTES=value;
++    const child=spawnSync(process.execPath,['--input-type=module','-e',"const {recorder}=await import('./dist/src/observability/b0.js');console.log(JSON.stringify(recorder.options));"],{env,encoding:'utf8'});
++    assert.equal(child.status,0);const options=JSON.parse(child.stdout);
++    assert.equal(options.maxFileBytes,2*1024**3);assert.equal(options.maxBufferBytes,8*1024**2);assert.equal(options.maxRecords,8192);
++  }
++});
++
++test('file byte budget remains cumulative across flushes without writing a multi-GiB test file',async()=>{
++  const directory=await mkdtemp(join(tmpdir(),'b0-file-limit-'));
++  const r=new Recorder({enabled:true,directory,experimentId:'limit-only',service:'runner',maxRecords:8192,maxBufferBytes:8*1024**2,maxFileBytes:600});
++  try{
++    r.emit({kind:'span',label:'source.fetch',count:1});await r.flush();assert.equal(r.stats.written,1);
++    const size=(await stat(join(directory,`${r.processIdentity}.jsonl`))).size;assert.ok(size>0&&size<=600);
++    for(let i=0;i<20;i++){r.emit({kind:'span',label:'source.fetch',count:1});await r.flush();}
++    assert.ok(r.stats.dropped>0);assert.ok(r.stats.written<21);
++    const finalSize=(await stat(join(directory,`${r.processIdentity}.jsonl`))).size;assert.ok(finalSize>=size&&finalSize<=600);
++  }finally{await r.close();await rm(directory,{recursive:true,force:true});}
++});
+diff --git a/tools/b0/lab.py b/tools/b0/lab.py
+index cb71c01..5c9d692 100644
+--- a/tools/b0/lab.py
++++ b/tools/b0/lab.py
+@@ -84,7 +84,7 @@ def init(root,image,mode,observe):
+  envfile(root/'runtime/mysql.env',{k:v for k,v in env.items() if k.startswith('MYSQL_')}|{'MYSQL_ROOT_PASSWORD':secrets.token_hex(32)})
+  inputs=[{'type':'bind','source':str((raw/n).resolve()),'target':'/inputs/raw/'+n,'read_only':True} for n in CSV_NAMES]
+  inputs.extend([{'type':'bind','source':str(prepared.resolve()),'target':'/inputs/prepared.sqlite','read_only':True},{'type':'bind','source':str(manifest.resolve()),'target':'/inputs/manifest.json','read_only':True}])
+- environment={'MYSQL_HOST':'mysql','MYSQL_PORT':'3306','REDIS_HOST':'redis','REDIS_PORT':'6379','API_HOST':'0.0.0.0','API_PORT':'3000','SOURCE_HOST':'0.0.0.0','SOURCE_PORT':'3100','SOURCE_URL':'http://source:3100','PREPARED_DB':'/inputs/prepared.sqlite','RAW_DIR':'/inputs/raw','SOURCE_MANIFEST':'/inputs/manifest.json','OUTBOX_LEASE_MS':'30000','B0_EXPERIMENT_ID':experiment,'B0_OBSERVE':'1' if observe else '0','B0_FILE_BYTES':str(512*1024**2),'B0_OBSERVATION_DIR':'/observations','TMPDIR':'/scratch'}
++ environment={'MYSQL_HOST':'mysql','MYSQL_PORT':'3306','REDIS_HOST':'redis','REDIS_PORT':'6379','API_HOST':'0.0.0.0','API_PORT':'3000','SOURCE_HOST':'0.0.0.0','SOURCE_PORT':'3100','SOURCE_URL':'http://source:3100','PREPARED_DB':'/inputs/prepared.sqlite','RAW_DIR':'/inputs/raw','SOURCE_MANIFEST':'/inputs/manifest.json','OUTBOX_LEASE_MS':'30000','B0_EXPERIMENT_ID':experiment,'B0_OBSERVE':'1' if observe else '0','B0_FILE_BYTES':str(2*1024**3),'B0_OBSERVATION_DIR':'/observations','TMPDIR':'/scratch'}
+  services={}
+  for name,entry in [('api','src/server/main'),('worker','src/server/worker-main'),('source','src/source/main'),('runner','tools/b0/monitor')]:
+   services[name]={'image':image_id,'pull_policy':'never','env_file':[str(root/'runtime/app.env')],
+@@ -102,7 +102,7 @@ def init(root,image,mode,observe):
+  for name in ['mysql','redis']:services[name].update({'cpus':QUOTAS[name],'mem_limit':LIMITS[name],'cpu_shares':1024})
+  compose={'name':experiment,'services':services,'networks':{'isolated':{'driver':'bridge','name':experiment+'-network'}},'volumes':{k:{'name':experiment+'-'+k} for k in ['mysql-data','redis-data']}}
+  save(root/'runtime/compose.json',compose)
+- m={'version':1,'createdAt':now(),'baseline':BASELINE,'root':str(root),'project':experiment,'database':db,'runId':run,'mode':mode,'observation':observe,'imageId':image_id,'imageProof':image_proof,'expected':expected,'ports':PORTS,'quotas':QUOTAS,'limits':LIMITS,'cpuMeaning':'Product+DB+Redis quota ceilings sum 4.0 CPU equivalents; runner adds 0.25 only while running. No cpuset pinning; shared host/cache/IO and unbounded host driver remain. This is not exclusive 4-core hardware.',
++ m={'version':1,'createdAt':now(),'baseline':BASELINE,'root':str(root),'project':experiment,'database':db,'runId':run,'mode':mode,'observation':observe,'observationLimits':{'maxRecords':8192,'maxBufferBytes':8*1024**2,'maxFileBytesPerProcess':2*1024**3,'flushIntervalMs':250,'candidateLimitPerTransaction':2048},'imageId':image_id,'imageProof':image_proof,'expected':expected,'ports':PORTS,'quotas':QUOTAS,'limits':LIMITS,'cpuMeaning':'Product+DB+Redis quota ceilings sum 4.0 CPU equivalents; runner adds 0.25 only while running. No cpuset pinning; shared host/cache/IO and unbounded host driver remain. This is not exclusive 4-core hardware.',
+     'inputs':{str(p):sha(p) for p in [*[raw/n for n in CSV_NAMES],prepared,manifest]},'codeFiles':artifact_files(),'composeSha256':sha(root/'runtime/compose.json')}
+  save(root/'manifest.json',m);guard(root);print(json.dumps({'lab':str(root),'mode':mode,'project':experiment,'status':'CONFIGURED_NOT_STARTED'}))
+ 

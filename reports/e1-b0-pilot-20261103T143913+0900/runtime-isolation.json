@@ -1,0 +1,255 @@
+[
+  {
+    "service": "mysql",
+    "containerId": "767a161db0ed8952759f8de47a555937788d154fbbd18ac56b3774644fd886f4",
+    "imageId": "sha256:2068651a18ac6048578647ea57b940ca2daed3f504ebe7fba6a93beeb39aaa1f",
+    "cpuNano": 1500000000,
+    "memoryLimit": 2147483648,
+    "mounts": [
+      {
+        "Type": "volume",
+        "Source": "/var/lib/docker/volumes/e1b0-667d5488dfe143ba-mysql-data/_data",
+        "Destination": "/var/lib/mysql",
+        "RW": true,
+        "Name": "e1b0-667d5488dfe143ba-mysql-data"
+      }
+    ],
+    "running": true
+  },
+  {
+    "service": "redis",
+    "containerId": "ed41f6da73e25955af265feffa5927bdc9e8c65ddfc29712370fdde7f894eb49",
+    "imageId": "sha256:1cf73a2f04808e55a8bd2f5706c2aa0ebb0f71938f93deb7af79f48311cd5cb9",
+    "cpuNano": 500000000,
+    "memoryLimit": 536870912,
+    "mounts": [
+      {
+        "Type": "volume",
+        "Source": "/var/lib/docker/volumes/e1b0-667d5488dfe143ba-redis-data/_data",
+        "Destination": "/data",
+        "RW": true,
+        "Name": "e1b0-667d5488dfe143ba-redis-data"
+      }
+    ],
+    "running": true
+  },
+  {
+    "service": "api",
+    "containerId": "c729b448cd925b1e924916a6c7b9a53f9491a88a6b5d17160fe32ec248b2ffb9",
+    "imageId": "sha256:b85e8fde1616c1acf5cc3ea8d0df9beac475f4ccaa9a4756176e1ef78d8ed200",
+    "cpuNano": 750000000,
+    "memoryLimit": 1073741824,
+    "mounts": [
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/metrics/api",
+        "Destination": "/observations",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/scratch",
+        "Destination": "/scratch",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/manifests",
+        "Destination": "/app/manifests",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/manifests/olist-v2.json",
+        "Destination": "/inputs/manifest.json",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/prepared/olist-indexed.sqlite",
+        "Destination": "/inputs/prepared.sqlite",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_order_items_dataset.csv",
+        "Destination": "/inputs/raw/olist_order_items_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_orders_dataset.csv",
+        "Destination": "/inputs/raw/olist_orders_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_products_dataset.csv",
+        "Destination": "/inputs/raw/olist_products_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_sellers_dataset.csv",
+        "Destination": "/inputs/raw/olist_sellers_dataset.csv",
+        "RW": false,
+        "Name": null
+      }
+    ],
+    "running": true
+  },
+  {
+    "service": "worker",
+    "containerId": "0da0f120ebc089bb1242b85bb9e79797330e4c5dd8b71bc3123230283eb3acb7",
+    "imageId": "sha256:b85e8fde1616c1acf5cc3ea8d0df9beac475f4ccaa9a4756176e1ef78d8ed200",
+    "cpuNano": 750000000,
+    "memoryLimit": 1073741824,
+    "mounts": [
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/metrics/worker",
+        "Destination": "/observations",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/scratch",
+        "Destination": "/scratch",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/manifests",
+        "Destination": "/app/manifests",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/manifests/olist-v2.json",
+        "Destination": "/inputs/manifest.json",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/prepared/olist-indexed.sqlite",
+        "Destination": "/inputs/prepared.sqlite",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_order_items_dataset.csv",
+        "Destination": "/inputs/raw/olist_order_items_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_orders_dataset.csv",
+        "Destination": "/inputs/raw/olist_orders_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_products_dataset.csv",
+        "Destination": "/inputs/raw/olist_products_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_sellers_dataset.csv",
+        "Destination": "/inputs/raw/olist_sellers_dataset.csv",
+        "RW": false,
+        "Name": null
+      }
+    ],
+    "running": true
+  },
+  {
+    "service": "source",
+    "containerId": "f380b906999272b317a3271a9923f87216bf37ae7eba93088bf1b2771f1dcdd0",
+    "imageId": "sha256:b85e8fde1616c1acf5cc3ea8d0df9beac475f4ccaa9a4756176e1ef78d8ed200",
+    "cpuNano": 500000000,
+    "memoryLimit": 1073741824,
+    "mounts": [
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/metrics/source",
+        "Destination": "/observations",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/scratch",
+        "Destination": "/scratch",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/manifests",
+        "Destination": "/app/manifests",
+        "RW": true,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/manifests/olist-v2.json",
+        "Destination": "/inputs/manifest.json",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/prepared/olist-indexed.sqlite",
+        "Destination": "/inputs/prepared.sqlite",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_order_items_dataset.csv",
+        "Destination": "/inputs/raw/olist_order_items_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_orders_dataset.csv",
+        "Destination": "/inputs/raw/olist_orders_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_products_dataset.csv",
+        "Destination": "/inputs/raw/olist_products_dataset.csv",
+        "RW": false,
+        "Name": null
+      },
+      {
+        "Type": "bind",
+        "Source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_sellers_dataset.csv",
+        "Destination": "/inputs/raw/olist_sellers_dataset.csv",
+        "RW": false,
+        "Name": null
+      }
+    ],
+    "running": true
+  }
+]

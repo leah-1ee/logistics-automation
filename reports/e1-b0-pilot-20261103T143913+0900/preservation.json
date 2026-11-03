@@ -1,0 +1,47 @@
+{
+  "at": "2026-11-03T06:21:41.079141+00:00",
+  "status": "PASS",
+  "checks": {
+    "originalTracked": true,
+    "preparationReports": true,
+    "oldPilotReady": true,
+    "originalGitStatus": true,
+    "originalInputFiles": true,
+    "pilotContainersStopped": true
+  },
+  "legacyRuntimeReadOnlyMetadata": [
+    {
+      "service": "api",
+      "sameImage": true,
+      "sameStartTimeAsDiscovery": true,
+      "running": true
+    },
+    {
+      "service": "worker",
+      "sameImage": true,
+      "sameStartTimeAsDiscovery": true,
+      "running": true
+    },
+    {
+      "service": "source",
+      "sameImage": true,
+      "sameStartTimeAsDiscovery": true,
+      "running": true
+    },
+    {
+      "service": "mysql",
+      "sameImage": true,
+      "sameStartTimeAsDiscovery": true,
+      "running": true
+    },
+    {
+      "service": "redis",
+      "sameImage": true,
+      "sameStartTimeAsDiscovery": true,
+      "running": true
+    }
+  ],
+  "scope": "Original tracked/preparation/old-ready/input file hashes and original Git status preserved. No new original DB fingerprint or device access. Only new experiment services controlled; volumes retained.",
+  "lastExperimentStopVerifiedAt": "2026-11-03T06:41:28.859341+00:00",
+  "readOnlyFinalMysqlRedisChecksCompleted": true
+}

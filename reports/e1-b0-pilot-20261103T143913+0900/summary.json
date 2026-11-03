@@ -1,0 +1,868 @@
+{
+  "manifest": {
+    "baseline": "954bb692a244803b8aad695539d81afdcb81a091",
+    "project": "e1b0-667d5488dfe143ba",
+    "runId": "b9f51d1d-f749-4186-8470-443892c260f6",
+    "imageId": "sha256:b85e8fde1616c1acf5cc3ea8d0df9beac475f4ccaa9a4756176e1ef78d8ed200",
+    "observationLimits": {
+      "maxRecords": 8192,
+      "maxBufferBytes": 8388608,
+      "maxFileBytesPerProcess": 2147483648,
+      "flushIntervalMs": 250,
+      "candidateLimitPerTransaction": 2048
+    }
+  },
+  "adapterResult": {
+    "status": "FAIL",
+    "at": "2026-11-03T06:17:03.974131+00:00",
+    "failure": "RuntimeError: Bounded drain deadline",
+    "singlePilot": true,
+    "noReplayOrOptimization": true,
+    "dataAndVolumesRetained": true
+  },
+  "t0": "2026-11-03T05:51:01.386776+00:00",
+  "processingObservationEnd": "2026-11-03T06:16:40.206000+00:00",
+  "rawCreatedObservations": 99441,
+  "taskCreatedObservations": 65973,
+  "rawCommitSuccessObservationSeconds": 243.836224,
+  "taskCommitSuccessObservationSeconds": 1538.819224,
+  "rawOrdersPerSecondObserved": 407.81881530448896,
+  "newTasksPerSecondObserved": 42.872482336495686,
+  "sourceEofObservedAt": "2026-11-03T05:55:05.133000+00:00",
+  "lastRawCommitSuccessObservedAt": "2026-11-03T05:55:05.223000+00:00",
+  "lastTaskCommitSuccessObservedAt": "2026-11-03T06:16:40.206000+00:00",
+  "phaseCostMs": {
+    "api:sql:sql.other": {
+      "n": 504,
+      "sum": 120.29490600001009,
+      "min": 0.12555799999972805,
+      "p50": 0.21227200000430457,
+      "p95": 0.3766349999932572,
+      "p99": 1.0923639999964507,
+      "max": 2.366387999994913
+    },
+    "api:sql:sql.checkpoint": {
+      "n": 1498,
+      "sum": 625.3197930002134,
+      "min": 0.12893700000131503,
+      "p50": 0.3250700000207871,
+      "p95": 0.6491120000137016,
+      "p99": 1.053090000001248,
+      "max": 52.571335000000545
+    },
+    "api:sql:sql.status": {
+      "n": 500,
+      "sum": 14146.430672999712,
+      "min": 0.6325339999966673,
+      "p50": 28.15664000000106,
+      "p95": 54.24782499999856,
+      "p99": 72.61079399997834,
+      "max": 87.66401700000279
+    },
+    "api:span:ingestion.status": {
+      "n": 500,
+      "sum": 14520.297619999968,
+      "min": 1.587219000000914,
+      "p50": 28.830908000003546,
+      "p95": 54.78773100001854,
+      "p99": 73.22193599998718,
+      "max": 88.27488099999027
+    },
+    "api:transaction:other": {
+      "n": 1,
+      "sum": 26.518701000000874,
+      "min": 26.518701000000874,
+      "p50": 26.518701000000874,
+      "p95": 26.518701000000874,
+      "p99": 26.518701000000874,
+      "max": 26.518701000000874
+    },
+    "api:span:source.fetch": {
+      "n": 498,
+      "sum": 6494.513210000208,
+      "min": 9.039998999985983,
+      "p50": 12.747652000005473,
+      "p95": 16.833442999981344,
+      "p99": 22.88115000000107,
+      "max": 36.17463700000371
+    },
+    "api:span:source.body": {
+      "n": 498,
+      "sum": 232.87460799994733,
+      "min": 0.17353600001661107,
+      "p50": 0.4403370000072755,
+      "p95": 0.6406209999986459,
+      "p99": 0.9294769999978598,
+      "max": 2.8662159999948926
+    },
+    "api:span:source.validation": {
+      "n": 498,
+      "sum": 76.14544899995963,
+      "min": 0.05276400002185255,
+      "p50": 0.13084999998682179,
+      "p95": 0.20183399997767992,
+      "p99": 0.3054969999939203,
+      "max": 5.554460999999719
+    },
+    "api:sql:sql.products": {
+      "n": 498,
+      "sum": 10064.969378999776,
+      "min": 14.492863000006764,
+      "p50": 19.416651999999885,
+      "p95": 27.430784000025596,
+      "p99": 35.77551200000744,
+      "max": 67.25854100001743
+    },
+    "api:sql:sql.sellers": {
+      "n": 498,
+      "sum": 1281.2663019999236,
+      "min": 1.5348829999566078,
+      "p50": 1.9507720000110567,
+      "p95": 3.079630000022007,
+      "p99": 38.021848000003956,
+      "max": 61.660364000010304
+    },
+    "api:sql:sql.raw.identity": {
+      "n": 198882,
+      "sum": 38244.42113900433,
+      "min": 0.08542499999748543,
+      "p50": 0.16843999999400694,
+      "p95": 0.31290900000021793,
+      "p99": 0.5027769999942393,
+      "max": 82.12547900000209
+    },
+    "api:sql:sql.raw.insert": {
+      "n": 99441,
+      "sum": 37835.645874003574,
+      "min": 0.11903000000165775,
+      "p50": 0.2067209999950137,
+      "p95": 0.3728889999911189,
+      "p99": 0.9528690000006463,
+      "max": 117.96408900001552
+    },
+    "api:sql:sql.order.insert": {
+      "n": 99441,
+      "sum": 37586.07650099803,
+      "min": 0.10176000000501517,
+      "p50": 0.18595500000810716,
+      "p95": 0.34195200000249315,
+      "p99": 0.810819000005722,
+      "max": 193.03083100001095
+    },
+    "api:sql:sql.items.insert": {
+      "n": 102425,
+      "sum": 23022.679434998325,
+      "min": 0.07458899999619462,
+      "p50": 0.15314099998795427,
+      "p95": 0.2881970000162255,
+      "p99": 0.4926569999952335,
+      "max": 128.82015400001546
+    },
+    "api:sql:sql.outbox.insert": {
+      "n": 96596,
+      "sum": 35416.507212993936,
+      "min": 0.11096000000543427,
+      "p50": 0.19849099998828024,
+      "p95": 0.36101399996550754,
+      "p99": 0.8352360000135377,
+      "max": 116.33106599998428
+    },
+    "api:transaction:ingestion.page": {
+      "n": 498,
+      "sum": 211424.29325300036,
+      "min": 90.01410299999407,
+      "p50": 383.4767129999964,
+      "p95": 703.2121179999958,
+      "p99": 788.9130259999656,
+      "max": 1493.5714789999765
+    },
+    "worker:sql:sql.dispatch.scan": {
+      "n": 661,
+      "sum": 17876.027613996666,
+      "min": 1.0271339999962947,
+      "p50": 26.39656499994453,
+      "p95": 42.25052300002426,
+      "p99": 48.16457800002536,
+      "max": 53.05892199999653
+    },
+    "worker:span:dispatch.scan": {
+      "n": 661,
+      "sum": 17984.72361999948,
+      "min": 1.2137890000012703,
+      "p50": 26.739271999977063,
+      "p95": 42.327974999992875,
+      "p99": 48.337922999984585,
+      "max": 53.21772499999497
+    },
+    "worker:sql:sql.job.lock": {
+      "n": 131949,
+      "sum": 51840.19907197595,
+      "min": 0.12268199981190264,
+      "p50": 0.31799499999033287,
+      "p95": 0.5548120000166818,
+      "p99": 0.9405549999792129,
+      "max": 34.90010300002177
+    },
+    "worker:span:dispatch.redis.get": {
+      "n": 65976,
+      "sum": 16157.257075009293,
+      "min": 0.0888059998396784,
+      "p50": 0.2252899999730289,
+      "p95": 0.3874859999632463,
+      "p99": 0.6154509999323636,
+      "max": 39.141002999967895
+    },
+    "worker:span:dispatch.redis.add": {
+      "n": 65976,
+      "sum": 25832.619423987948,
+      "min": 0.15116699994541705,
+      "p50": 0.3601580000249669,
+      "p95": 0.6192710000032093,
+      "p99": 0.9538010000251234,
+      "max": 35.74129699997138
+    },
+    "worker:sql:sql.job.update": {
+      "n": 131949,
+      "sum": 65944.08369002718,
+      "min": 0.12453099992126226,
+      "p50": 0.30733300000429153,
+      "p95": 0.6035680000204593,
+      "p99": 1.8528060000098776,
+      "max": 74.92020299998694
+    },
+    "worker:transaction:dispatch.transaction": {
+      "n": 65977,
+      "sum": 1179958.6801280158,
+      "min": 2.569980999920517,
+      "p50": 16.595137999975123,
+      "p95": 27.380439000204206,
+      "p99": 35.89530799999193,
+      "max": 321.32755099999486
+    },
+    "worker:sql:sql.order.read": {
+      "n": 65973,
+      "sum": 17858.358544982046,
+      "min": 0.10001499997451901,
+      "p50": 0.2446260000579059,
+      "p95": 0.447963000042364,
+      "p99": 0.688698000041768,
+      "max": 53.65614199999254
+    },
+    "worker:sql:sql.task.read": {
+      "n": 65973,
+      "sum": 14365.309633008903,
+      "min": 0.08204300003126264,
+      "p50": 0.20008699999016244,
+      "p95": 0.3699509999714792,
+      "p99": 0.5710179999587126,
+      "max": 11.589818999986164
+    },
+    "worker:sql:sql.other": {
+      "n": 65973,
+      "sum": 16057.91477998656,
+      "min": 0.09277599980123341,
+      "p50": 0.22139900003094226,
+      "p95": 0.3967689999844879,
+      "p99": 0.6084499999415129,
+      "max": 52.591834999999264
+    },
+    "worker:sql:sql.task.insert": {
+      "n": 65973,
+      "sum": 29984.553840003755,
+      "min": 0.12358799995854497,
+      "p50": 0.2766439999686554,
+      "p95": 0.488604000012856,
+      "p99": 1.2190190000692382,
+      "max": 89.07288700000208
+    },
+    "worker:sql:sql.task.items": {
+      "n": 67593,
+      "sum": 16706.281486996544,
+      "min": 0.0748479999601841,
+      "p50": 0.20083700004033744,
+      "p95": 0.37832500017248094,
+      "p99": 0.6133159999735653,
+      "max": 127.08326499999384
+    },
+    "worker:sql:sql.order.update": {
+      "n": 65973,
+      "sum": 24243.97607199492,
+      "min": 0.12125200009904802,
+      "p50": 0.2548889999743551,
+      "p95": 0.46879299997817725,
+      "p99": 0.874880999996094,
+      "max": 69.82998300000327
+    },
+    "worker:sql:sql.attempt.insert": {
+      "n": 65973,
+      "sum": 18668.454805982074,
+      "min": 0.09079300006851554,
+      "p50": 0.19797099998686463,
+      "p95": 0.3908289999817498,
+      "p99": 0.6824759999290109,
+      "max": 96.70031299999391
+    },
+    "worker:transaction:job.process": {
+      "n": 65973,
+      "sum": 1184688.0508069824,
+      "min": 7.594965000171214,
+      "p50": 16.189107999991393,
+      "p95": 28.624813000002177,
+      "p99": 46.934093999967445,
+      "max": 324.22706400000607
+    }
+  },
+  "phaseCostLimits": "Nested/parallel spans overlap; do not add these totals as wall time. Fixed-label client durations include instrumentation/pool/network/DB; not DB engine time or general API p95.",
+  "observedErrors": {
+    "worker:transaction:dispatch.transaction:callback_failed": 1
+  },
+  "backlog": {
+    "sampleCount": 263,
+    "firstCheckpointDoneAt": "2026-11-03T05:55:09.966Z",
+    "firstQueueAndDbZeroAt": null,
+    "sampledDbUnfinishedPeak": 87750,
+    "sampledRedisPendingPeak": 20,
+    "oldestEnqueueAgeSeconds": {
+      "n": 263,
+      "sum": 182921.23900000003,
+      "min": 0.979,
+      "p50": 699.865,
+      "p95": 1312.141,
+      "p99": 1368.337,
+      "max": 1378.966
+    },
+    "ageUnknownSampleCount": 13,
+    "lastSample": {
+      "version": 1,
+      "wallTime": "2026-11-03T06:16:34.707Z",
+      "monotonicNs": "9765548739057",
+      "runId": "b9f51d1d-f749-4186-8470-443892c260f6",
+      "checkpoint": "DONE",
+      "classifications": [
+        {
+          "status": "DATA_HOLD",
+          "count": 789
+        },
+        {
+          "status": "READY",
+          "count": 30936
+        },
+        {
+          "status": "TASK_CREATED",
+          "count": 65660
+        },
+        {
+          "status": "UNSUPPORTED",
+          "count": 2056
+        }
+      ],
+      "jobs": [
+        {
+          "status": "DISPATCHED",
+          "count": 3
+        },
+        {
+          "status": "DONE",
+          "count": 65661
+        },
+        {
+          "status": "PENDING",
+          "count": 30932
+        }
+      ],
+      "counts": {
+        "rawCount": 99441,
+        "taskCount": 65666,
+        "badTasks": 0,
+        "eventCount": 0,
+        "reports": 0,
+        "requiredQty": "74000",
+        "appliedQty": "0"
+      },
+      "oldestAge": {
+        "seconds": 1378.966,
+        "knownPending": 30932,
+        "unknownPending": 0,
+        "enqueueReadLag": false,
+        "coverage": "OBSERVED",
+        "negativeAgeCount": 0,
+        "definition": "first post-commit enqueue-write observation; available_at is not substituted; sidecar is not atomic"
+      },
+      "queue": {
+        "waiting": 2,
+        "active": 1,
+        "delayed": 0,
+        "failed": 0
+      },
+      "observerDurationMs": 619.9826109998394,
+      "poolWait": "UNKNOWN",
+      "lockDuration": "UNKNOWN",
+      "lockSnapshot": "UNKNOWN"
+    }
+  },
+  "drain": {
+    "lastRawToLastTaskObservedSeconds": 1294.983,
+    "sourceEofToFirstQueueZeroObservedSeconds": null,
+    "limits": "First zero is a 5s observer sample; controller/resource collection adds confirmation delay. Negative intervals remain visible."
+  },
+  "resources": {
+    "api": {
+      "samples": 147,
+      "sampledRssPeakMiB": 192.23046875,
+      "processLifetimeHwmMiB": 195.046875,
+      "sampleBracketCpuSeconds": 93.94,
+      "sampleBracketSeconds": 1527.485821,
+      "sampleBracketCpuCoreEquivalent": 0.06149975254009248,
+      "dockerCpuPercentMax": 48.63,
+      "memoryLimitFractionMax": 0.1466,
+      "quotaCpus": 0.75,
+      "limitations": "RSS sampled peak lower bound; HWM includes process lifetime; CPU first/last sample bracket excludes prefix/suffix; Docker CPU includes exec sampler overhead.",
+      "sampleBracketCpuCoreEquivalentValidity": "UNVALIDATED wall-time denominator; CPU tick seconds retained separately"
+    },
+    "worker": {
+      "samples": 147,
+      "sampledRssPeakMiB": 137.93359375,
+      "processLifetimeHwmMiB": 140.2890625,
+      "sampleBracketCpuSeconds": 239.64,
+      "sampleBracketSeconds": 1527.485821,
+      "sampleBracketCpuCoreEquivalent": 0.15688525333944817,
+      "dockerCpuPercentMax": 27.6,
+      "memoryLimitFractionMax": 0.09849999999999999,
+      "quotaCpus": 0.75,
+      "limitations": "RSS sampled peak lower bound; HWM includes process lifetime; CPU first/last sample bracket excludes prefix/suffix; Docker CPU includes exec sampler overhead.",
+      "sampleBracketCpuCoreEquivalentValidity": "UNVALIDATED wall-time denominator; CPU tick seconds retained separately"
+    },
+    "source": {
+      "samples": 147,
+      "sampledRssPeakMiB": 150.33984375,
+      "processLifetimeHwmMiB": 150.33984375,
+      "sampleBracketCpuSeconds": 11.9,
+      "sampleBracketSeconds": 1527.485821,
+      "sampleBracketCpuCoreEquivalent": 0.0077905796809357095,
+      "dockerCpuPercentMax": 4.95,
+      "memoryLimitFractionMax": 0.0933,
+      "quotaCpus": 0.5,
+      "limitations": "RSS sampled peak lower bound; HWM includes process lifetime; CPU first/last sample bracket excludes prefix/suffix; Docker CPU includes exec sampler overhead.",
+      "sampleBracketCpuCoreEquivalentValidity": "UNVALIDATED wall-time denominator; CPU tick seconds retained separately"
+    },
+    "mysql": {
+      "samples": 147,
+      "sampledRssPeakMiB": 910.6796875,
+      "processLifetimeHwmMiB": 910.6796875,
+      "sampleBracketCpuSeconds": 551.72,
+      "sampleBracketSeconds": 1527.485821,
+      "sampleBracketCpuCoreEquivalent": 0.36119484214839076,
+      "dockerCpuPercentMax": 103.78,
+      "memoryLimitFractionMax": 0.44,
+      "quotaCpus": 1.5,
+      "limitations": "RSS sampled peak lower bound; HWM includes process lifetime; CPU first/last sample bracket excludes prefix/suffix; Docker CPU includes exec sampler overhead.",
+      "sampleBracketCpuCoreEquivalentValidity": "UNVALIDATED wall-time denominator; CPU tick seconds retained separately"
+    },
+    "redis": {
+      "samples": 147,
+      "sampledRssPeakMiB": 11.1640625,
+      "processLifetimeHwmMiB": 11.1640625,
+      "sampleBracketCpuSeconds": 46.8,
+      "sampleBracketSeconds": 1527.485821,
+      "sampleBracketCpuCoreEquivalent": 0.030638582274604302,
+      "dockerCpuPercentMax": 8.22,
+      "memoryLimitFractionMax": 0.023,
+      "quotaCpus": 0.5,
+      "limitations": "RSS sampled peak lower bound; HWM includes process lifetime; CPU first/last sample bracket excludes prefix/suffix; Docker CPU includes exec sampler overhead.",
+      "sampleBracketCpuCoreEquivalentValidity": "UNVALIDATED wall-time denominator; CPU tick seconds retained separately"
+    }
+  },
+  "host": {
+    "minMemAvailableBytes": 10686164992,
+    "minDiskFreeBytes": 1007324721152
+  },
+  "actualSidecarFiles": [
+    {
+      "service": "api",
+      "file": "1-8581d457-56d5-403f-b246-50ddfab1d43e.jsonl",
+      "bytes": 330893082,
+      "MiB": 315.5642337799072,
+      "fractionOf2GiB": 0.15408409852534533
+    },
+    {
+      "service": "worker",
+      "file": "1-903eb149-d665-4b4e-8be8-7f3eac65bce8.jsonl",
+      "bytes": 509570184,
+      "MiB": 485.96399688720703,
+      "fractionOf2GiB": 0.23728710785508156
+    }
+  ],
+  "totalSidecarBytes": 840463266,
+  "health": [
+    {
+      "version": 1,
+      "experimentId": "e1b0-667d5488dfe143ba",
+      "service": "api",
+      "processIdentity": "1-8581d457-56d5-403f-b246-50ddfab1d43e",
+      "pid": 1,
+      "wallTime": "2026-11-03T06:16:40.193Z",
+      "sequence": 799811,
+      "attempted": 799811,
+      "written": 799811,
+      "dropped": 0,
+      "errors": 0,
+      "candidateDrops": 0,
+      "closed": true,
+      "bytes": 330893082,
+      "queued": 0,
+      "cleanClose": true,
+      "coverage": "CANDIDATE_VALID",
+      "limits": {
+        "maxRecords": 8192,
+        "maxBufferBytes": 8388608,
+        "maxFileBytes": 2147483648
+      }
+    },
+    {
+      "version": 1,
+      "experimentId": "e1b0-667d5488dfe143ba",
+      "service": "worker",
+      "processIdentity": "1-903eb149-d665-4b4e-8be8-7f3eac65bce8",
+      "pid": 1,
+      "wallTime": "2026-11-03T06:16:40.210Z",
+      "sequence": 1257292,
+      "attempted": 1257292,
+      "written": 1257292,
+      "dropped": 0,
+      "errors": 0,
+      "candidateDrops": 0,
+      "closed": true,
+      "bytes": 509570184,
+      "queued": 0,
+      "cleanClose": true,
+      "coverage": "CANDIDATE_VALID",
+      "limits": {
+        "maxRecords": 8192,
+        "maxBufferBytes": 8388608,
+        "maxFileBytes": 2147483648
+      }
+    },
+    {
+      "version": 1,
+      "experimentId": "e1b0-667d5488dfe143ba",
+      "service": "source",
+      "processIdentity": "1-d1bcb08f-7128-4d0a-9ad3-1156611bc2a7",
+      "pid": 1,
+      "wallTime": "2026-11-03T06:16:40.189Z",
+      "sequence": 0,
+      "attempted": 0,
+      "written": 0,
+      "dropped": 0,
+      "errors": 0,
+      "candidateDrops": 0,
+      "closed": true,
+      "bytes": 0,
+      "queued": 0,
+      "cleanClose": true,
+      "coverage": "CANDIDATE_VALID",
+      "limits": {
+        "maxRecords": 8192,
+        "maxBufferBytes": 8388608,
+        "maxFileBytes": 2147483648
+      }
+    }
+  ],
+  "coverage": {
+    "status": "INVALID",
+    "anomalies": [
+      "CLOCK_INTERVAL_ANOMALY"
+    ],
+    "kindCounts": {
+      "sql": 1328335,
+      "span": 201861,
+      "transaction": 132449,
+      "source_page": 498,
+      "outbox_write_resolved": 96596,
+      "raw_order_created": 99441,
+      "source_eof": 1,
+      "dispatch_committed": 65976,
+      "task_created": 65973,
+      "job_completed": 65973
+    },
+    "sqlCounts": {
+      "sql.other": 66478,
+      "sql.checkpoint": 1498,
+      "sql.status": 500,
+      "sql.products": 498,
+      "sql.sellers": 498,
+      "sql.raw.identity": 198882,
+      "sql.raw.insert": 99441,
+      "sql.order.insert": 99441,
+      "sql.items.insert": 102425,
+      "sql.outbox.insert": 96596,
+      "sql.dispatch.scan": 722,
+      "sql.job.lock": 131949,
+      "sql.job.update": 131949,
+      "sql.order.read": 65973,
+      "sql.task.read": 65973,
+      "sql.task.insert": 65973,
+      "sql.task.items": 67593,
+      "sql.order.update": 65973,
+      "sql.attempt.insert": 65973
+    },
+    "sqlCountsScope": "process lifetime including readiness/idle/drain; not the processing-window total",
+    "processingWindow": {
+      "start": "2026-11-03T05:51:01.386776+00:00",
+      "end": "2026-11-03T06:16:40.206000+00:00",
+      "definition": "SQL completion observed between t0 and the last raw/task/EOF observation"
+    },
+    "processingWindowSqlCounts": {
+      "sql.other": 66477,
+      "sql.checkpoint": 1498,
+      "sql.status": 500,
+      "sql.products": 498,
+      "sql.sellers": 498,
+      "sql.raw.identity": 198882,
+      "sql.raw.insert": 99441,
+      "sql.order.insert": 99441,
+      "sql.items.insert": 102425,
+      "sql.outbox.insert": 96596,
+      "sql.dispatch.scan": 661,
+      "sql.job.lock": 131949,
+      "sql.job.update": 131949,
+      "sql.order.read": 65973,
+      "sql.task.read": 65973,
+      "sql.task.insert": 65973,
+      "sql.task.items": 67593,
+      "sql.order.update": 65973,
+      "sql.attempt.insert": 65973
+    },
+    "clientDurationHistogramsScope": "process lifetime; raw timestamped records permit window selection",
+    "health": [
+      {
+        "version": 1,
+        "experimentId": "e1b0-667d5488dfe143ba",
+        "service": "api",
+        "processIdentity": "1-8581d457-56d5-403f-b246-50ddfab1d43e",
+        "pid": 1,
+        "wallTime": "2026-11-03T06:16:40.193Z",
+        "sequence": 799811,
+        "attempted": 799811,
+        "written": 799811,
+        "dropped": 0,
+        "errors": 0,
+        "candidateDrops": 0,
+        "closed": true,
+        "bytes": 330893082,
+        "queued": 0,
+        "cleanClose": true,
+        "coverage": "CANDIDATE_VALID",
+        "limits": {
+          "maxRecords": 8192,
+          "maxBufferBytes": 8388608,
+          "maxFileBytes": 2147483648
+        }
+      },
+      {
+        "version": 1,
+        "experimentId": "e1b0-667d5488dfe143ba",
+        "service": "worker",
+        "processIdentity": "1-903eb149-d665-4b4e-8be8-7f3eac65bce8",
+        "pid": 1,
+        "wallTime": "2026-11-03T06:16:40.210Z",
+        "sequence": 1257292,
+        "attempted": 1257292,
+        "written": 1257292,
+        "dropped": 0,
+        "errors": 0,
+        "candidateDrops": 0,
+        "closed": true,
+        "bytes": 509570184,
+        "queued": 0,
+        "cleanClose": true,
+        "coverage": "CANDIDATE_VALID",
+        "limits": {
+          "maxRecords": 8192,
+          "maxBufferBytes": 8388608,
+          "maxFileBytes": 2147483648
+        }
+      },
+      {
+        "version": 1,
+        "experimentId": "e1b0-667d5488dfe143ba",
+        "service": "source",
+        "processIdentity": "1-d1bcb08f-7128-4d0a-9ad3-1156611bc2a7",
+        "pid": 1,
+        "wallTime": "2026-11-03T06:16:40.189Z",
+        "sequence": 0,
+        "attempted": 0,
+        "written": 0,
+        "dropped": 0,
+        "errors": 0,
+        "candidateDrops": 0,
+        "closed": true,
+        "bytes": 0,
+        "queued": 0,
+        "cleanClose": true,
+        "coverage": "CANDIDATE_VALID",
+        "limits": {
+          "maxRecords": 8192,
+          "maxBufferBytes": 8388608,
+          "maxFileBytes": 2147483648
+        }
+      }
+    ],
+    "newRawObserved": 99441,
+    "newTaskObserved": 65973,
+    "enqueueCoverage": {
+      "observedFinalJobs": 96596,
+      "finalJobs": 96596,
+      "note": "Successful ON DUPLICATE KEY write candidates are filtered by final DB IDs, never counted as inserts solely from a log."
+    },
+    "rawToTaskLatency": "UNKNOWN (cross-process observation order/clock precision not validated as exact commit order)",
+    "poolWait": "UNKNOWN",
+    "lockDuration": "UNKNOWN",
+    "generalApiP95": "NOT_MEASURED (one start POST)",
+    "atomicity": "Sidecar is not atomic with DB. Missing health, sequence gaps, loss, crash or DB ID mismatch invalidates detailed coverage."
+  },
+  "t0ToTaskSeconds": {
+    "n": 65973,
+    "sum": 52595416.658951946,
+    "min": 1.602224,
+    "p50": 804.888224,
+    "p95": 1469.113224,
+    "p99": 1524.733224,
+    "max": 1538.819224
+  },
+  "businessFinal": {
+    "wallTime": "2026-11-03T06:17:53.709Z",
+    "checkpoint": "DONE",
+    "classifications": [
+      {
+        "status": "DATA_HOLD",
+        "count": 789
+      },
+      {
+        "status": "READY",
+        "count": 30623
+      },
+      {
+        "status": "TASK_CREATED",
+        "count": 65973
+      },
+      {
+        "status": "UNSUPPORTED",
+        "count": 2056
+      }
+    ],
+    "jobs": [
+      {
+        "status": "DISPATCHED",
+        "count": 3
+      },
+      {
+        "status": "DONE",
+        "count": 65973
+      },
+      {
+        "status": "PENDING",
+        "count": 30620
+      }
+    ],
+    "counts": {
+      "rawCount": 99441,
+      "taskCount": 65973,
+      "badTasks": 0,
+      "eventCount": 0,
+      "reports": 0,
+      "requiredQty": "74342",
+      "appliedQty": "0",
+      "products": 32951,
+      "sellers": 3095
+    },
+    "queue": "NOT_CHECKED_AFTER_STOP",
+    "scope": "Frozen experiment DB, read-only consistent snapshot after pilot; not a replay"
+  },
+  "independentAudit": {
+    "status": "FAIL",
+    "at": "2026-11-03T06:17:02.537Z",
+    "scope": "Independent CSV oracle with disposable SQLite index and read-only consistent MySQL snapshot; no Source/normalize/reconcile/LocalStore imports",
+    "input": "ACTUAL_OLIST",
+    "datasetRunId": "b9f51d1d-f749-4186-8470-443892c260f6",
+    "codeCommit": "3e246da0a027e622c669f893ba2f52c89658364d",
+    "oracleSha256": "43dd2ae26206492c946b1b32d73c3560485367fee4512c5a341c47373f23f58a",
+    "sourceIndexSha256": "ab9a1bb2bf45c75c14a212898b3e2e0a3a6b3adf329e3ee3354b1bd004fc8f3a",
+    "lockfileSha256": "4cf789861217e64c793a9ddbe73f5b4b608d0a92486fd4c730431f4e5c68ab1e",
+    "fileChecks": 4,
+    "sourceOrders": 99441,
+    "sourceItems": 112650,
+    "sourceProducts": 32951,
+    "sourceSellers": 3095,
+    "orderChecks": 99441,
+    "taskChecks": 65973,
+    "quantityChecks": 67593,
+    "eventChecks": 0,
+    "confirmed": 0,
+    "classifications": {
+      "TASK_CREATED": 96596,
+      "UNSUPPORTED": 2056,
+      "DATA_HOLD": 789
+    },
+    "unfinishedJobs": 30623,
+    "errors": {
+      "NORMALIZATION": 30623,
+      "ELIGIBLE_TASK_BIJECTION": 30623,
+      "OUTBOX_NOT_DRAINED": 1
+    },
+    "sourceCsvRows": {
+      "orders": 99441,
+      "products": 32951,
+      "sellers": 3095,
+      "items": 112650
+    },
+    "sourceKeyDiagnostics": {
+      "duplicateRows": {
+        "orders": 0,
+        "products": 0,
+        "sellers": 0,
+        "items": 0
+      },
+      "conflictingKeys": {
+        "orders": 0,
+        "products": 0,
+        "sellers": 0
+      }
+    },
+    "bounds": {
+      "sqliteCacheKiB": 8192,
+      "mmapBytes": 0,
+      "rawPageRows": 200,
+      "streamHighWaterRows": 16,
+      "maxRawRows": 200,
+      "maxNormalizedRows": 220,
+      "maxTaskItemRows": 156,
+      "maxOrderItems": 21,
+      "maxPageEvents": 0,
+      "sqlStatements": 2004
+    },
+    "temporaryStorage": {
+      "logicalBytes": 61100032,
+      "retained": false,
+      "scope": "Disposable disk index only; excludes source files and MySQL disk"
+    },
+    "reports": []
+  },
+  "limits": [
+    "Single instrumented finite-backlog pilot, no repeat or performance-improvement comparison",
+    "Source all initially published; this is not stable finite lambda capacity",
+    "Same host shares CPU/IO/cache with original services",
+    "API/collector same process",
+    "Exact pool wait, lock duration and raw-to-task commit interval UNKNOWN",
+    "Sidecar non-atomic with database; detail validity depends on coverage checks",
+    "Large raw metrics, generated secrets and DB volumes remain outside Git"
+  ],
+  "performanceBaselineValidity": "INVALID: drain incomplete and CLOCK_INTERVAL_ANOMALY. Wall times/rates and cross-process latency are nominal reference observations only; no correction or repeat.",
+  "wallTimeMetricsValidated": false,
+  "taskLatencyDenominator": {
+    "observedCreatedTasks": 65973,
+    "expectedEligibleTasks": 96596,
+    "uncreatedTasks": 30623,
+    "note": "Completed subset only; not the p95 for all eligible tasks. Uncreated tasks are censored."
+  },
+  "durationQuantileMethod": "nearest rank; milliseconds from recorded same-process monotonic durations; nested spans overlap"
+}

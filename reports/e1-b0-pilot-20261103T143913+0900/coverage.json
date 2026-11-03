@@ -1,0 +1,153 @@
+{
+  "status": "INVALID",
+  "anomalies": [
+    "CLOCK_INTERVAL_ANOMALY"
+  ],
+  "kindCounts": {
+    "sql": 1328335,
+    "span": 201861,
+    "transaction": 132449,
+    "source_page": 498,
+    "outbox_write_resolved": 96596,
+    "raw_order_created": 99441,
+    "source_eof": 1,
+    "dispatch_committed": 65976,
+    "task_created": 65973,
+    "job_completed": 65973
+  },
+  "sqlCounts": {
+    "sql.other": 66478,
+    "sql.checkpoint": 1498,
+    "sql.status": 500,
+    "sql.products": 498,
+    "sql.sellers": 498,
+    "sql.raw.identity": 198882,
+    "sql.raw.insert": 99441,
+    "sql.order.insert": 99441,
+    "sql.items.insert": 102425,
+    "sql.outbox.insert": 96596,
+    "sql.dispatch.scan": 722,
+    "sql.job.lock": 131949,
+    "sql.job.update": 131949,
+    "sql.order.read": 65973,
+    "sql.task.read": 65973,
+    "sql.task.insert": 65973,
+    "sql.task.items": 67593,
+    "sql.order.update": 65973,
+    "sql.attempt.insert": 65973
+  },
+  "sqlCountsScope": "process lifetime including readiness/idle/drain; not the processing-window total",
+  "processingWindow": {
+    "start": "2026-11-03T05:51:01.386776+00:00",
+    "end": "2026-11-03T06:16:40.206000+00:00",
+    "definition": "SQL completion observed between t0 and the last raw/task/EOF observation"
+  },
+  "processingWindowSqlCounts": {
+    "sql.other": 66477,
+    "sql.checkpoint": 1498,
+    "sql.status": 500,
+    "sql.products": 498,
+    "sql.sellers": 498,
+    "sql.raw.identity": 198882,
+    "sql.raw.insert": 99441,
+    "sql.order.insert": 99441,
+    "sql.items.insert": 102425,
+    "sql.outbox.insert": 96596,
+    "sql.dispatch.scan": 661,
+    "sql.job.lock": 131949,
+    "sql.job.update": 131949,
+    "sql.order.read": 65973,
+    "sql.task.read": 65973,
+    "sql.task.insert": 65973,
+    "sql.task.items": 67593,
+    "sql.order.update": 65973,
+    "sql.attempt.insert": 65973
+  },
+  "clientDurationHistogramsScope": "process lifetime; raw timestamped records permit window selection",
+  "health": [
+    {
+      "version": 1,
+      "experimentId": "e1b0-667d5488dfe143ba",
+      "service": "api",
+      "processIdentity": "1-8581d457-56d5-403f-b246-50ddfab1d43e",
+      "pid": 1,
+      "wallTime": "2026-11-03T06:16:40.193Z",
+      "sequence": 799811,
+      "attempted": 799811,
+      "written": 799811,
+      "dropped": 0,
+      "errors": 0,
+      "candidateDrops": 0,
+      "closed": true,
+      "bytes": 330893082,
+      "queued": 0,
+      "cleanClose": true,
+      "coverage": "CANDIDATE_VALID",
+      "limits": {
+        "maxRecords": 8192,
+        "maxBufferBytes": 8388608,
+        "maxFileBytes": 2147483648
+      }
+    },
+    {
+      "version": 1,
+      "experimentId": "e1b0-667d5488dfe143ba",
+      "service": "worker",
+      "processIdentity": "1-903eb149-d665-4b4e-8be8-7f3eac65bce8",
+      "pid": 1,
+      "wallTime": "2026-11-03T06:16:40.210Z",
+      "sequence": 1257292,
+      "attempted": 1257292,
+      "written": 1257292,
+      "dropped": 0,
+      "errors": 0,
+      "candidateDrops": 0,
+      "closed": true,
+      "bytes": 509570184,
+      "queued": 0,
+      "cleanClose": true,
+      "coverage": "CANDIDATE_VALID",
+      "limits": {
+        "maxRecords": 8192,
+        "maxBufferBytes": 8388608,
+        "maxFileBytes": 2147483648
+      }
+    },
+    {
+      "version": 1,
+      "experimentId": "e1b0-667d5488dfe143ba",
+      "service": "source",
+      "processIdentity": "1-d1bcb08f-7128-4d0a-9ad3-1156611bc2a7",
+      "pid": 1,
+      "wallTime": "2026-11-03T06:16:40.189Z",
+      "sequence": 0,
+      "attempted": 0,
+      "written": 0,
+      "dropped": 0,
+      "errors": 0,
+      "candidateDrops": 0,
+      "closed": true,
+      "bytes": 0,
+      "queued": 0,
+      "cleanClose": true,
+      "coverage": "CANDIDATE_VALID",
+      "limits": {
+        "maxRecords": 8192,
+        "maxBufferBytes": 8388608,
+        "maxFileBytes": 2147483648
+      }
+    }
+  ],
+  "newRawObserved": 99441,
+  "newTaskObserved": 65973,
+  "enqueueCoverage": {
+    "observedFinalJobs": 96596,
+    "finalJobs": 96596,
+    "note": "Successful ON DUPLICATE KEY write candidates are filtered by final DB IDs, never counted as inserts solely from a log."
+  },
+  "rawToTaskLatency": "UNKNOWN (cross-process observation order/clock precision not validated as exact commit order)",
+  "poolWait": "UNKNOWN",
+  "lockDuration": "UNKNOWN",
+  "generalApiP95": "NOT_MEASURED (one start POST)",
+  "atomicity": "Sidecar is not atomic with DB. Missing health, sequence gaps, loss, crash or DB ID mismatch invalidates detailed coverage."
+}

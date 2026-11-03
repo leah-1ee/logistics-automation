@@ -1,0 +1,8 @@
+{
+  "timestamp": "20261103T143913+0900",
+  "previousHead": "ed4c8cb2a9ec7d280d364a57c3741918ea5fc8ed",
+  "branch": "e1/b0-preparation-20261103T100518-0900",
+  "oldReadyPreserved": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-pilot-ready",
+  "statePath": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/pilot-state-20261103T143913+0900",
+  "allowedChange": "2GiB cumulative sidecar file cap only; memory buffers unchanged; one actual B0 pilot"
+}

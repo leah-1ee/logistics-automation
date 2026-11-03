@@ -1,0 +1,1 @@
+{"status":"PASS","checked":162,"omittedOptional":55,"mismatches":[],"missingRequired":[],"scope":"Installed package metadata vs unchanged lock; no installation or version change; not a byte audit of every dependency file."}

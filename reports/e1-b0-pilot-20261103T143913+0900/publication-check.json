@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "at": "2026-11-03T06:38:08.842731+00:00",
+  "linksChecked": true,
+  "pilotInvocationCount": 1,
+  "collectionPostCount": 1,
+  "experimentalContainersStopped": true,
+  "generatedSecretValuesChecked": 4,
+  "secretFindings": [],
+  "codeCommit": "3e246da0a027e622c669f893ba2f52c89658364d",
+  "largestSelectedArtifactBytes": 26931,
+  "rawStorage": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g",
+  "noRawMetricsOrDBFilesSelected": true
+}

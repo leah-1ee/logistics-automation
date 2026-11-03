@@ -1,0 +1,96 @@
+{
+  "status": "INVALID_CLOCK_COVERAGE",
+  "anomalyCountByService": {
+    "api": 1,
+    "worker": 6
+  },
+  "maxAbsoluteIntervalSkewSeconds": 2.6021247739263345,
+  "thresholdSeconds": 1,
+  "examples": [
+    {
+      "service": "api",
+      "previousSequence": 1,
+      "sequence": 2,
+      "previousWallTime": "2026-11-03T05:49:57.756Z",
+      "wallTime": "2026-11-03T05:51:01.401Z",
+      "wallDeltaSeconds": 63.644999980926514,
+      "monotonicDeltaSeconds": 61.04287520700018,
+      "skewSeconds": 2.6021247739263345,
+      "kind": "sql",
+      "label": "sql.other"
+    },
+    {
+      "service": "worker",
+      "previousSequence": 54,
+      "sequence": 55,
+      "previousWallTime": "2026-11-03T05:50:15.316Z",
+      "wallTime": "2026-11-03T05:50:17.622Z",
+      "wallDeltaSeconds": 2.305999994277954,
+      "monotonicDeltaSeconds": 0.9996595310003613,
+      "skewSeconds": 1.3063404632775928,
+      "kind": "sql",
+      "label": "sql.dispatch.scan"
+    },
+    {
+      "service": "worker",
+      "previousSequence": 144,
+      "sequence": 145,
+      "previousWallTime": "2026-11-03T05:50:46.631Z",
+      "wallTime": "2026-11-03T05:50:48.928Z",
+      "wallDeltaSeconds": 2.296999931335449,
+      "monotonicDeltaSeconds": 1.0008423889994447,
+      "skewSeconds": 1.2961575423360046,
+      "kind": "sql",
+      "label": "sql.dispatch.scan"
+    },
+    {
+      "service": "worker",
+      "previousSequence": 30685,
+      "sequence": 30686,
+      "previousWallTime": "2026-11-03T05:51:49.502Z",
+      "wallTime": "2026-11-03T05:51:51.564Z",
+      "wallDeltaSeconds": 2.061999797821045,
+      "monotonicDeltaSeconds": 0.7857216240008711,
+      "skewSeconds": 1.2762781738201738,
+      "kind": "sql",
+      "label": "sql.dispatch.scan"
+    },
+    {
+      "service": "worker",
+      "previousSequence": 234603,
+      "sequence": 234604,
+      "previousWallTime": "2026-11-03T05:56:31.412Z",
+      "wallTime": "2026-11-03T05:56:33.446Z",
+      "wallDeltaSeconds": 2.0340001583099365,
+      "monotonicDeltaSeconds": 0.7221749179989274,
+      "skewSeconds": 1.311825240311009,
+      "kind": "sql",
+      "label": "sql.dispatch.scan"
+    },
+    {
+      "service": "worker",
+      "previousSequence": 425153,
+      "sequence": 425154,
+      "previousWallTime": "2026-11-03T06:00:10.574Z",
+      "wallTime": "2026-11-03T06:00:12.775Z",
+      "wallDeltaSeconds": 2.201000213623047,
+      "monotonicDeltaSeconds": 0.8960651480010711,
+      "skewSeconds": 1.3049350656219758,
+      "kind": "sql",
+      "label": "sql.dispatch.scan"
+    },
+    {
+      "service": "worker",
+      "previousSequence": 474686,
+      "sequence": 474687,
+      "previousWallTime": "2026-11-03T06:01:13.173Z",
+      "wallTime": "2026-11-03T06:01:15.411Z",
+      "wallDeltaSeconds": 2.23799991607666,
+      "monotonicDeltaSeconds": 0.942550003001088,
+      "skewSeconds": 1.2954499130755721,
+      "kind": "sql",
+      "label": "sql.dispatch.scan"
+    }
+  ],
+  "cause": "UNKNOWN: the saved records alone do not distinguish clock steps from scheduling/recording gaps. No timestamps adjusted; original coverage INVALID retained."
+}

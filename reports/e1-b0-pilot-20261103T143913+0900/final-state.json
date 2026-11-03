@@ -1,0 +1,63 @@
+{
+  "state": {
+    "wallTime": "2026-11-03T06:17:53.709Z",
+    "checkpoint": "DONE",
+    "classifications": [
+      {
+        "status": "DATA_HOLD",
+        "count": 789
+      },
+      {
+        "status": "READY",
+        "count": 30623
+      },
+      {
+        "status": "TASK_CREATED",
+        "count": 65973
+      },
+      {
+        "status": "UNSUPPORTED",
+        "count": 2056
+      }
+    ],
+    "jobs": [
+      {
+        "status": "DISPATCHED",
+        "count": 3
+      },
+      {
+        "status": "DONE",
+        "count": 65973
+      },
+      {
+        "status": "PENDING",
+        "count": 30620
+      }
+    ],
+    "counts": {
+      "rawCount": 99441,
+      "taskCount": 65973,
+      "badTasks": 0,
+      "eventCount": 0,
+      "reports": 0,
+      "requiredQty": "74342",
+      "appliedQty": "0",
+      "products": 32951,
+      "sellers": 3095
+    },
+    "queue": "NOT_CHECKED_AFTER_STOP",
+    "scope": "Frozen experiment DB, read-only consistent snapshot after pilot; not a replay"
+  },
+  "variables": {
+    "version": "8.4.13",
+    "bufferPoolBytes": 536870912,
+    "flushCommit": 1,
+    "syncBinlog": 1
+  },
+  "attempts": [
+    {
+      "errorCode": null,
+      "count": 65973
+    }
+  ]
+}

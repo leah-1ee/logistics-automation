@@ -1,0 +1,5 @@
+{
+  "wallTime": "2026-11-03T05:51:01.386776+00:00",
+  "monotonicNs": 8296913355518,
+  "definition": "Immediately before driver sends ingestion start POST; payload sourceAvailableAt unchanged"
+}

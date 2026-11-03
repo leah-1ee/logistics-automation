@@ -1,0 +1,67 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 401B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/logistics-mvp-app:0.1.0
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 117B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 DONE 0.0s
+
+#5 [ 1/11] FROM docker.io/library/logistics-mvp-app:0.1.0@sha256:e169ff09657c6b80362439bfb299318eeaf220562e4bc891f449002f0cdb0e18
+#5 resolve docker.io/library/logistics-mvp-app:0.1.0@sha256:e169ff09657c6b80362439bfb299318eeaf220562e4bc891f449002f0cdb0e18 0.0s done
+#5 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 8.36kB done
+#4 DONE 0.0s
+
+#6 [ 5/11] COPY src ./src
+#6 CACHED
+
+#7 [ 2/11] COPY package-lock.json /tmp/b0-lock.json
+#7 CACHED
+
+#8 [ 3/11] RUN cmp package-lock.json /tmp/b0-lock.json
+#8 CACHED
+
+#9 [ 4/11] COPY tsconfig.json ./
+#9 CACHED
+
+#10 [ 6/11] COPY tools ./tools
+#10 CACHED
+
+#11 [ 7/11] COPY tests ./tests
+#11 DONE 0.1s
+
+#12 [ 8/11] COPY web ./web
+#12 DONE 0.1s
+
+#13 [ 9/11] COPY docs ./docs
+#13 DONE 0.1s
+
+#14 [10/11] COPY migrations ./migrations
+#14 DONE 0.1s
+
+#15 [11/11] RUN node tools/b0/verify-dependencies.mjs && ./node_modules/.bin/tsc
+#15 0.189 {"status":"PASS","checked":162,"omittedOptional":55,"mismatches":[],"missingRequired":[],"scope":"Installed package metadata vs unchanged lock; no installation or version change; not a byte audit of every dependency file."}
+#15 DONE 2.8s
+
+#16 exporting to image
+#16 exporting layers
+#16 exporting layers 0.8s done
+#16 exporting manifest sha256:fea4bd1e8a545c56c408a226f29e25248e323cb40fbd7bce2753e7e9b88c0f1e 0.0s done
+#16 exporting config sha256:c395bef9fd3b1173e84945b6cc9d8a0ea257689b5d299e2228c55c233561fac9 0.0s done
+#16 exporting attestation manifest sha256:ff760d6498ea18f575a79255114fe463fafd7796f9a9d40737f24ef72f9f0d11 0.0s done
+#16 exporting manifest list sha256:b85e8fde1616c1acf5cc3ea8d0df9beac475f4ccaa9a4756176e1ef78d8ed200
+#16 exporting manifest list sha256:b85e8fde1616c1acf5cc3ea8d0df9beac475f4ccaa9a4756176e1ef78d8ed200 0.0s done
+#16 naming to docker.io/library/e1-b0-pilot:20261103t143913-2g done
+#16 unpacking to docker.io/library/e1-b0-pilot:20261103t143913-2g
+#16 unpacking to docker.io/library/e1-b0-pilot:20261103t143913-2g 0.2s done
+#16 DONE 1.2s

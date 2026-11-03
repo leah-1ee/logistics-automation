@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "at": "2026-11-03T05:49:21.772954+00:00",
+  "codeCommit": "3e246da0a027e622c669f893ba2f52c89658364d",
+  "imageId": "sha256:b85e8fde1616c1acf5cc3ea8d0df9beac475f4ccaa9a4756176e1ef78d8ed200",
+  "newRoot": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g",
+  "oldRootUnchanged": true,
+  "cumulativeFileLimitBytes": 2147483648,
+  "memoryBufferBytes": 8388608,
+  "bufferRecords": 8192,
+  "unitScope": "Only two changed file-limit checks executed; no repeat smoke/F1/full workload",
+  "executionAdapterSha256": "d39ede9bf5da151e6b16d8a8813416b9c42b59dd87827fa160de916fcc57a96e",
+  "hostNodeSha256": "e32e2d16081cf644f88392934288086e7662529d0d43277c34f7aad2207cfafb"
+}

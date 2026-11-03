@@ -1,0 +1,474 @@
+{
+  "name": "e1b0-667d5488dfe143ba",
+  "services": {
+    "api": {
+      "image": "sha256:b85e8fde1616c1acf5cc3ea8d0df9beac475f4ccaa9a4756176e1ef78d8ed200",
+      "pull_policy": "never",
+      "env_file": [
+        "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/runtime/app.env"
+      ],
+      "environment": {
+        "MYSQL_HOST": "mysql",
+        "MYSQL_PORT": "3306",
+        "REDIS_HOST": "redis",
+        "REDIS_PORT": "6379",
+        "API_HOST": "0.0.0.0",
+        "API_PORT": "3000",
+        "SOURCE_HOST": "0.0.0.0",
+        "SOURCE_PORT": "3100",
+        "SOURCE_URL": "http://source:3100",
+        "PREPARED_DB": "/inputs/prepared.sqlite",
+        "RAW_DIR": "/inputs/raw",
+        "SOURCE_MANIFEST": "/inputs/manifest.json",
+        "OUTBOX_LEASE_MS": "30000",
+        "B0_EXPERIMENT_ID": "e1b0-667d5488dfe143ba",
+        "B0_OBSERVE": "1",
+        "B0_FILE_BYTES": "2147483648",
+        "B0_OBSERVATION_DIR": "/observations",
+        "TMPDIR": "/scratch",
+        "B0_SERVICE": "api"
+      },
+      "command": [
+        "node",
+        "dist/src/server/main.js"
+      ],
+      "volumes": [
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_orders_dataset.csv",
+          "target": "/inputs/raw/olist_orders_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_order_items_dataset.csv",
+          "target": "/inputs/raw/olist_order_items_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_products_dataset.csv",
+          "target": "/inputs/raw/olist_products_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_sellers_dataset.csv",
+          "target": "/inputs/raw/olist_sellers_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/prepared/olist-indexed.sqlite",
+          "target": "/inputs/prepared.sqlite",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/manifests/olist-v2.json",
+          "target": "/inputs/manifest.json",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/metrics/api",
+          "target": "/observations"
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/manifests",
+          "target": "/app/manifests"
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/scratch",
+          "target": "/scratch"
+        }
+      ],
+      "cpus": 0.75,
+      "mem_limit": 1073741824,
+      "cpu_shares": 1024,
+      "networks": [
+        "isolated"
+      ],
+      "restart": "no",
+      "ports": [
+        "127.0.0.1:13000:3000"
+      ]
+    },
+    "worker": {
+      "image": "sha256:b85e8fde1616c1acf5cc3ea8d0df9beac475f4ccaa9a4756176e1ef78d8ed200",
+      "pull_policy": "never",
+      "env_file": [
+        "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/runtime/app.env"
+      ],
+      "environment": {
+        "MYSQL_HOST": "mysql",
+        "MYSQL_PORT": "3306",
+        "REDIS_HOST": "redis",
+        "REDIS_PORT": "6379",
+        "API_HOST": "0.0.0.0",
+        "API_PORT": "3000",
+        "SOURCE_HOST": "0.0.0.0",
+        "SOURCE_PORT": "3100",
+        "SOURCE_URL": "http://source:3100",
+        "PREPARED_DB": "/inputs/prepared.sqlite",
+        "RAW_DIR": "/inputs/raw",
+        "SOURCE_MANIFEST": "/inputs/manifest.json",
+        "OUTBOX_LEASE_MS": "30000",
+        "B0_EXPERIMENT_ID": "e1b0-667d5488dfe143ba",
+        "B0_OBSERVE": "1",
+        "B0_FILE_BYTES": "2147483648",
+        "B0_OBSERVATION_DIR": "/observations",
+        "TMPDIR": "/scratch",
+        "B0_SERVICE": "worker"
+      },
+      "command": [
+        "node",
+        "dist/src/server/worker-main.js"
+      ],
+      "volumes": [
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_orders_dataset.csv",
+          "target": "/inputs/raw/olist_orders_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_order_items_dataset.csv",
+          "target": "/inputs/raw/olist_order_items_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_products_dataset.csv",
+          "target": "/inputs/raw/olist_products_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_sellers_dataset.csv",
+          "target": "/inputs/raw/olist_sellers_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/prepared/olist-indexed.sqlite",
+          "target": "/inputs/prepared.sqlite",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/manifests/olist-v2.json",
+          "target": "/inputs/manifest.json",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/metrics/worker",
+          "target": "/observations"
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/manifests",
+          "target": "/app/manifests"
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/scratch",
+          "target": "/scratch"
+        }
+      ],
+      "cpus": 0.75,
+      "mem_limit": 1073741824,
+      "cpu_shares": 1024,
+      "networks": [
+        "isolated"
+      ],
+      "restart": "no"
+    },
+    "source": {
+      "image": "sha256:b85e8fde1616c1acf5cc3ea8d0df9beac475f4ccaa9a4756176e1ef78d8ed200",
+      "pull_policy": "never",
+      "env_file": [
+        "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/runtime/app.env"
+      ],
+      "environment": {
+        "MYSQL_HOST": "mysql",
+        "MYSQL_PORT": "3306",
+        "REDIS_HOST": "redis",
+        "REDIS_PORT": "6379",
+        "API_HOST": "0.0.0.0",
+        "API_PORT": "3000",
+        "SOURCE_HOST": "0.0.0.0",
+        "SOURCE_PORT": "3100",
+        "SOURCE_URL": "http://source:3100",
+        "PREPARED_DB": "/inputs/prepared.sqlite",
+        "RAW_DIR": "/inputs/raw",
+        "SOURCE_MANIFEST": "/inputs/manifest.json",
+        "OUTBOX_LEASE_MS": "30000",
+        "B0_EXPERIMENT_ID": "e1b0-667d5488dfe143ba",
+        "B0_OBSERVE": "1",
+        "B0_FILE_BYTES": "2147483648",
+        "B0_OBSERVATION_DIR": "/observations",
+        "TMPDIR": "/scratch",
+        "B0_SERVICE": "source"
+      },
+      "command": [
+        "node",
+        "dist/src/source/main.js"
+      ],
+      "volumes": [
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_orders_dataset.csv",
+          "target": "/inputs/raw/olist_orders_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_order_items_dataset.csv",
+          "target": "/inputs/raw/olist_order_items_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_products_dataset.csv",
+          "target": "/inputs/raw/olist_products_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_sellers_dataset.csv",
+          "target": "/inputs/raw/olist_sellers_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/prepared/olist-indexed.sqlite",
+          "target": "/inputs/prepared.sqlite",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/manifests/olist-v2.json",
+          "target": "/inputs/manifest.json",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/metrics/source",
+          "target": "/observations"
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/manifests",
+          "target": "/app/manifests"
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/scratch",
+          "target": "/scratch"
+        }
+      ],
+      "cpus": 0.5,
+      "mem_limit": 1073741824,
+      "cpu_shares": 1024,
+      "networks": [
+        "isolated"
+      ],
+      "restart": "no",
+      "ports": [
+        "127.0.0.1:13100:3100"
+      ]
+    },
+    "runner": {
+      "image": "sha256:b85e8fde1616c1acf5cc3ea8d0df9beac475f4ccaa9a4756176e1ef78d8ed200",
+      "pull_policy": "never",
+      "env_file": [
+        "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/runtime/app.env"
+      ],
+      "environment": {
+        "MYSQL_HOST": "mysql",
+        "MYSQL_PORT": "3306",
+        "REDIS_HOST": "redis",
+        "REDIS_PORT": "6379",
+        "API_HOST": "0.0.0.0",
+        "API_PORT": "3000",
+        "SOURCE_HOST": "0.0.0.0",
+        "SOURCE_PORT": "3100",
+        "SOURCE_URL": "http://source:3100",
+        "PREPARED_DB": "/inputs/prepared.sqlite",
+        "RAW_DIR": "/inputs/raw",
+        "SOURCE_MANIFEST": "/inputs/manifest.json",
+        "OUTBOX_LEASE_MS": "30000",
+        "B0_EXPERIMENT_ID": "e1b0-667d5488dfe143ba",
+        "B0_OBSERVE": "0",
+        "B0_FILE_BYTES": "2147483648",
+        "B0_OBSERVATION_DIR": "/observations",
+        "TMPDIR": "/scratch",
+        "B0_SERVICE": "runner"
+      },
+      "command": [
+        "node",
+        "dist/tools/b0/monitor.js"
+      ],
+      "volumes": [
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_orders_dataset.csv",
+          "target": "/inputs/raw/olist_orders_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_order_items_dataset.csv",
+          "target": "/inputs/raw/olist_order_items_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_products_dataset.csv",
+          "target": "/inputs/raw/olist_products_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/raw/olist-v2/olist_sellers_dataset.csv",
+          "target": "/inputs/raw/olist_sellers_dataset.csv",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/data/prepared/olist-indexed.sqlite",
+          "target": "/inputs/prepared.sqlite",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/logistics-automation/manifests/olist-v2.json",
+          "target": "/inputs/manifest.json",
+          "read_only": true
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/metrics/runner",
+          "target": "/observations"
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/manifests",
+          "target": "/app/manifests"
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/scratch",
+          "target": "/scratch"
+        },
+        {
+          "type": "bind",
+          "source": "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/metrics/api",
+          "target": "/api-observations",
+          "read_only": true
+        }
+      ],
+      "cpus": 0.25,
+      "mem_limit": 536870912,
+      "cpu_shares": 1024,
+      "networks": [
+        "isolated"
+      ],
+      "restart": "no",
+      "profiles": [
+        "tools"
+      ]
+    },
+    "mysql": {
+      "image": "mysql:8.4@sha256:2068651a18ac6048578647ea57b940ca2daed3f504ebe7fba6a93beeb39aaa1f",
+      "pull_policy": "never",
+      "env_file": [
+        "/home/leah/e1-lab/e1-b0-preparation-20261103T100518+0900/runtime-b0-single-20261103T143913-2g/runtime/mysql.env"
+      ],
+      "command": [
+        "--innodb-buffer-pool-size=512M",
+        "--innodb-flush-log-at-trx-commit=1",
+        "--sync-binlog=1"
+      ],
+      "ports": [
+        "127.0.0.1:13307:3306"
+      ],
+      "volumes": [
+        "mysql-data:/var/lib/mysql"
+      ],
+      "healthcheck": {
+        "test": [
+          "CMD-SHELL",
+          "MYSQL_PWD=$$MYSQL_PASSWORD mysql -h 127.0.0.1 -u$$MYSQL_USER -e \"SELECT 1\" $$MYSQL_DATABASE"
+        ],
+        "interval": "2s",
+        "timeout": "3s",
+        "retries": 60
+      },
+      "networks": [
+        "isolated"
+      ],
+      "restart": "no",
+      "cpus": 1.5,
+      "mem_limit": 2147483648,
+      "cpu_shares": 1024
+    },
+    "redis": {
+      "image": "redis:7.4-alpine@sha256:1cf73a2f04808e55a8bd2f5706c2aa0ebb0f71938f93deb7af79f48311cd5cb9",
+      "pull_policy": "never",
+      "command": [
+        "redis-server",
+        "--appendonly",
+        "yes",
+        "--appendfsync",
+        "everysec",
+        "--maxmemory-policy",
+        "noeviction",
+        "--maxmemory",
+        "0"
+      ],
+      "ports": [
+        "127.0.0.1:16380:6379"
+      ],
+      "volumes": [
+        "redis-data:/data"
+      ],
+      "healthcheck": {
+        "test": [
+          "CMD",
+          "redis-cli",
+          "ping"
+        ],
+        "interval": "2s",
+        "timeout": "3s",
+        "retries": 30
+      },
+      "networks": [
+        "isolated"
+      ],
+      "restart": "no",
+      "cpus": 0.5,
+      "mem_limit": 536870912,
+      "cpu_shares": 1024
+    }
+  },
+  "networks": {
+    "isolated": {
+      "driver": "bridge",
+      "name": "e1b0-667d5488dfe143ba-network"
+    }
+  },
+  "volumes": {
+    "mysql-data": {
+      "name": "e1b0-667d5488dfe143ba-mysql-data"
+    },
+    "redis-data": {
+      "name": "e1b0-667d5488dfe143ba-redis-data"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "containerClockTicksPerSecond": 100,
+  "resourceSamplerClockTicksPerSecond": 100,
+  "scope": "read-only OS metadata after pilot; no workload"
+}

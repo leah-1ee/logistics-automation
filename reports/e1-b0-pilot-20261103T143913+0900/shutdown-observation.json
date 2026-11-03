@@ -1,0 +1,17 @@
+{
+  "lateFailureObservations": [
+    {
+      "wallTime": "2026-11-03T06:16:40.203Z",
+      "monotonicNs": "9771044333186",
+      "sequence": 1257289,
+      "kind": "transaction",
+      "label": "dispatch.transaction",
+      "durationMs": 2.569980999920517,
+      "outcome": "callback_failed",
+      "sqlCount": 0
+    }
+  ],
+  "workerLogHasDispatchDelayed": true,
+  "workerLogHasClosedConnection": false,
+  "note": "Private raw service log retained outside Git; error messages/payloads not copied. Temporal proximity to shutdown does not prove an exact underlying cause."
+}

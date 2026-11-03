@@ -1,0 +1,29 @@
+✔ 2GiB default/environment/clamp preserve existing memory buffer limits (319.62481ms)
+✖ file byte budget remains cumulative across flushes without writing a multi-GiB test file (83.076952ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 1
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 518.721101
+
+✖ failing tests:
+
+test at dist/tests/b0/file-limit.test.js:23:1
+✖ file byte budget remains cumulative across flushes without writing a multi-GiB test file (83.076952ms)
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+  
+    assert.ok(size > 300 && size <= 600)
+  
+      at TestContext.<anonymous> (file:///app/dist/tests/b0/file-limit.test.js:31:16)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

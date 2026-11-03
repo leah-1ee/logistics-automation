@@ -1,0 +1,149 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 401B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/logistics-mvp-app:0.1.0
+#2 DONE 0.2s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 117B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 DONE 0.0s
+
+#5 [ 1/11] FROM docker.io/library/logistics-mvp-app:0.1.0@sha256:e169ff09657c6b80362439bfb299318eeaf220562e4bc891f449002f0cdb0e18
+#5 resolve docker.io/library/logistics-mvp-app:0.1.0@sha256:e169ff09657c6b80362439bfb299318eeaf220562e4bc891f449002f0cdb0e18 0.1s done
+#5 DONE 0.1s
+
+#4 [internal] load build context
+#4 transferring context: 57.45kB done
+#4 DONE 0.0s
+
+#6 [ 2/11] COPY package-lock.json /tmp/b0-lock.json
+#6 CACHED
+
+#7 [ 3/11] RUN cmp package-lock.json /tmp/b0-lock.json
+#7 CACHED
+
+#8 [ 4/11] COPY tsconfig.json ./
+#8 CACHED
+
+#9 [ 5/11] COPY src ./src
+#9 DONE 0.1s
+
+#10 [ 6/11] COPY tools ./tools
+#10 DONE 0.1s
+
+#11 [ 7/11] COPY tests ./tests
+#11 DONE 0.1s
+
+#12 [ 8/11] COPY web ./web
+#12 DONE 0.1s
+
+#13 [ 9/11] COPY docs ./docs
+#13 DONE 0.1s
+
+#14 [10/11] COPY migrations ./migrations
+#14 DONE 0.1s
+
+#15 [11/11] RUN node tools/b0/verify-dependencies.mjs && ./node_modules/.bin/tsc
+#15 0.221 {"status":"PASS","checked":162,"omittedOptional":55,"mismatches":[],"missingRequired":[],"scope":"Installed package metadata vs unchanged lock; no installation or version change; not a byte audit of every dependency file."}
+#15 3.268 tests/b0/file-limit.test.ts(11,79): error TS2339: Property 'B0_FILE_BYTES' does not exist on type '{ B0_OBSERVE: string; TZ?: string | undefined; }'.
+#15 3.268 tests/b0/file-limit.test.ts(11,102): error TS2339: Property 'B0_FILE_BYTES' does not exist on type '{ B0_OBSERVE: string; TZ?: string | undefined; }'.
+#15 ERROR: process "/bin/sh -c node tools/b0/verify-dependencies.mjs && ./node_modules/.bin/tsc" did not complete successfully: exit code: 2
+------
+ > [11/11] RUN node tools/b0/verify-dependencies.mjs && ./node_modules/.bin/tsc:
+0.221 {"status":"PASS","checked":162,"omittedOptional":55,"mismatches":[],"missingRequired":[],"scope":"Installed package metadata vs unchanged lock; no installation or version change; not a byte audit of every dependency file."}
+3.268 tests/b0/file-limit.test.ts(11,79): error TS2339: Property 'B0_FILE_BYTES' does not exist on type '{ B0_OBSERVE: string; TZ?: string | undefined; }'.
+3.268 tests/b0/file-limit.test.ts(11,102): error TS2339: Property 'B0_FILE_BYTES' does not exist on type '{ B0_OBSERVE: string; TZ?: string | undefined; }'.
+------
+Dockerfile:13
+--------------------
+  11 |     COPY docs ./docs
+  12 |     COPY migrations ./migrations
+  13 | >>> RUN node tools/b0/verify-dependencies.mjs && ./node_modules/.bin/tsc
+  14 |     USER node
+  15 |     
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c node tools/b0/verify-dependencies.mjs && ./node_modules/.bin/tsc" did not complete successfully: exit code: 2
+65058 v0.38.1 /usr/local/lib/docker/cli-plugins/docker-buildx buildx build --network=none --pull=false -f tools/b0/Dockerfile -t e1-b0-pilot:20261103t143913-2g .
+github.com/docker/buildx/commands.runBuildWithOptions
+	github.com/docker/buildx/commands/build.go:506
+github.com/docker/buildx/commands.runBuild
+	github.com/docker/buildx/commands/build.go:421
+github.com/docker/buildx/commands.buildCmd.func1
+	github.com/docker/buildx/commands/build.go:542
+github.com/docker/cli/cli-plugins/plugin.RunPlugin.func1.1.2
+	github.com/docker/cli@v29.8.2+incompatible/cli-plugins/plugin/plugin.go:68
+github.com/spf13/cobra.(*Command).execute
+	github.com/spf13/cobra@v1.10.2/command.go:1015
+github.com/spf13/cobra.(*Command).ExecuteC
+	github.com/spf13/cobra@v1.10.2/command.go:1148
+github.com/spf13/cobra.(*Command).Execute
+	github.com/spf13/cobra@v1.10.2/command.go:1071
+github.com/docker/cli/cli-plugins/plugin.RunPlugin
+	github.com/docker/cli@v29.8.2+incompatible/cli-plugins/plugin/plugin.go:83
+main.runPlugin
+	github.com/docker/buildx/cmd/buildx/main.go:66
+main.run
+	github.com/docker/buildx/cmd/buildx/main.go:80
+main.main
+	github.com/docker/buildx/cmd/buildx/main.go:90
+runtime.main
+	runtime/proc.go:290
+runtime.goexit
+	runtime/asm_amd64.s:1771
+
+117  /usr/local/bin/dockerd --config-file /run/config/docker/daemon.json
+github.com/moby/buildkit/executor/runcexecutor.exitError
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/executor/runcexecutor/executor.go:457
+github.com/moby/buildkit/executor/runcexecutor.(*runcExecutor).Run
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/executor/runcexecutor/executor.go:405
+github.com/moby/buildkit/solver/llbsolver/ops.(*ExecOp).Exec
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/solver/llbsolver/ops/exec.go:521
+github.com/moby/buildkit/solver.(*sharedOp).Exec.func2
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/solver/jobs.go:1272
+github.com/moby/buildkit/util/flightcontrol.(*call[...]).run
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/util/flightcontrol/flightcontrol.go:122
+sync.(*Once).doSlow
+	/usr/local/go/src/sync/once.go:78
+sync.(*Once).Do
+	/usr/local/go/src/sync/once.go:69
+runtime.goexit
+	/usr/local/go/src/runtime/asm_amd64.s:1771
+
+65058 v0.38.1 /usr/local/lib/docker/cli-plugins/docker-buildx buildx build --network=none --pull=false -f tools/b0/Dockerfile -t e1-b0-pilot:20261103t143913-2g .
+google.golang.org/grpc.(*ClientConn).Invoke
+	google.golang.org/grpc@v1.84.0/call.go:39
+github.com/moby/buildkit/api/services/control.(*controlClient).Solve
+	github.com/moby/buildkit@v0.34.0/api/services/control/control_grpc.pb.go:88
+github.com/moby/buildkit/client.(*Client).solve.func2
+	github.com/moby/buildkit@v0.34.0/client/solve.go:356
+golang.org/x/sync/errgroup.(*Group).Go.func1
+	golang.org/x/sync@v0.23.0/errgroup/errgroup.go:93
+runtime.goexit
+	runtime/asm_amd64.s:1771
+
+117  /usr/local/bin/dockerd --config-file /run/config/docker/daemon.json
+github.com/moby/buildkit/solver.(*edge).execOp
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/solver/edge.go:979
+github.com/moby/buildkit/solver/internal/pipe.NewWithFunction[...].func2
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/solver/internal/pipe/pipe.go:78
+runtime.goexit
+	/usr/local/go/src/runtime/asm_amd64.s:1771
+
+65058 v0.38.1 /usr/local/lib/docker/cli-plugins/docker-buildx buildx build --network=none --pull=false -f tools/b0/Dockerfile -t e1-b0-pilot:20261103t143913-2g .
+github.com/moby/buildkit/client.(*Client).solve.func2
+	github.com/moby/buildkit@v0.34.0/client/solve.go:358
+golang.org/x/sync/errgroup.(*Group).Go.func1
+	golang.org/x/sync@v0.23.0/errgroup/errgroup.go:93
+
+117  /usr/local/bin/dockerd --config-file /run/config/docker/daemon.json
+github.com/moby/buildkit/solver/llbsolver/ops.(*ExecOp).Exec
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/solver/llbsolver/ops/exec.go:552
+github.com/moby/buildkit/solver.(*sharedOp).Exec.func2
+	/root/build-deb/engine/vendor/github.com/moby/buildkit/solver/jobs.go:1272
+
