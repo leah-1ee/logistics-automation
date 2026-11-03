@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "scope": "saved-log arithmetic and provenance checks only; no services, workload, DB connections or product tests",
+  "checks": {
+    "basisHeadMatches": true,
+    "workerSequenceContiguous": true,
+    "workerMonotonicNondecreasing": true,
+    "allBatchCandidateCountsAccounted": true,
+    "allBatchTransactionsAccounted": true,
+    "redisIdsUnique": true,
+    "batchCommittedEqualsExistingCoverage": true,
+    "taskCompletedEqualsExistingCoverage": true,
+    "sqlOwnershipCountAccounted": true,
+    "transactionSqlCountAccounted": true,
+    "clock7MatchesExisting": true,
+    "clockWorkerHashMatchesAnalysis": true,
+    "gapBusinessUnionMatchesWindow": true,
+    "overlapUnionIdentity": true,
+    "markdownLocalLinksResolved": true,
+    "priorTrackedAndRawMetadataPreserved": true
+  }
+}

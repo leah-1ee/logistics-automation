@@ -1,0 +1,697 @@
+{
+  "sourceWorkerSha256": "dff018d8fc0a0376a4471710715412c7aaef65c2cf49db45ce17af22b02e5f43",
+  "workerSequence": 1257292,
+  "sequenceGapRecords": 0,
+  "monotonicBackwardsRecords": 0,
+  "units": "seconds except explicitly Ms; worker process monotonic only unless marked monitor/wall",
+  "window": {
+    "start": 8298.454160111,
+    "end": 9771.04727671,
+    "seconds": 1472.5931165990005,
+    "definition": "first nonempty dispatch scan start to last transaction/job-completed observation; stop tail included"
+  },
+  "batches": {
+    "total": 722,
+    "nonempty": 660,
+    "empty": 62,
+    "candidateHistogram": {
+      "100": 660
+    },
+    "candidateTotal": 66000,
+    "committedTotal": 65976,
+    "redisAddTotal": 65976,
+    "distinctRedisAddJobIds": 65976,
+    "nonemptyBatchSeconds": {
+      "n": 660,
+      "sum": 1200.7181514850072,
+      "min": 1.3840412210010982,
+      "p50": 1.791580110999348,
+      "p95": 2.211091482999109,
+      "p99": 2.523839045999921,
+      "max": 2.823813651000819
+    },
+    "full100BatchSeconds": {
+      "n": 659,
+      "sum": 1199.334110264006,
+      "min": 1.4006829609988927,
+      "p50": 1.7947583410004881,
+      "p95": 2.2116179160002503,
+      "p99": 2.523839045999921,
+      "max": 2.823813651000819
+    },
+    "nonemptyStartIntervalSeconds": {
+      "n": 659,
+      "sum": 1471.206131854,
+      "min": 1.9990285040003073,
+      "p50": 2.00040924699897,
+      "p95": 3.0007729939989076,
+      "p99": 3.0016156260007847,
+      "max": 3.003269716000432
+    },
+    "postBatchWaitSeconds": {
+      "n": 659,
+      "sum": 271.8720215899939,
+      "min": 0.0011210479988221778,
+      "p50": 0.36295176900057413,
+      "p95": 0.9732365939998999,
+      "p99": 0.9934726249994128,
+      "max": 1.000621143999524
+    },
+    "batchesOver1Second": 660,
+    "nominalOneSecondSlotsSpanned": 813,
+    "slotInterpretation": "not actual busy callback count; callbacks are unlogged; timer phase/event-loop delays unknown",
+    "truncatedLastBatch": {
+      "index": 722,
+      "scanStartMonoSec": 9769.660291965,
+      "scanEndMonoSec": 9769.678432255,
+      "scanSequence": 1255885,
+      "scanMs": 18.163676999974996,
+      "wallStart": "2026-11-03T06:16:38.819Z",
+      "candidates": 100,
+      "transactionCount": 77,
+      "committed": 76,
+      "redisAdds": 76,
+      "lastEndMonoSec": 9771.044333186,
+      "dispatchTxSeconds": 1.3636076800001322,
+      "firstAddMonoSec": 9769.679793198,
+      "lastAddMonoSec": 9771.025213968,
+      "batchSeconds": 1.3840412210010982
+    }
+  },
+  "worker": {
+    "deliveries": 65973,
+    "successfulCompletions": 65973,
+    "firstDeliveryToLastCompletionSeconds": 1472.5841097840002,
+    "observedBusinessSpanSeconds": 1189.0366368793002,
+    "transactionSeconds": 1184.6880508069908,
+    "betweenJobGapSeconds": {
+      "n": 65972,
+      "sum": 283.54747290470004,
+      "min": 0.00025297300089732744,
+      "p50": 0.0006892210003570653,
+      "p95": 0.0010684049993869849,
+      "p99": 0.002842476000296301,
+      "max": 1.009597266000128
+    },
+    "gapsOver100ms": 527,
+    "gapsOver1s": 1,
+    "gapsOver60s": 0,
+    "gapMeaning": "includes callback return/BullMQ ACK/client delivery/scheduling; not pure blocking Redis wait",
+    "maxCommitProgressGapSeconds": 1.0446063340004912,
+    "progressStop60sObserved": false,
+    "observedSubsetTasksPerMonotonicSecond": 44.80083654418692,
+    "rateMeaning": "worker-local completed subset only; not host t0 TPS nor validated whole-workload throughput"
+  },
+  "overlap": {
+    "dispatchBatchUnionSeconds": 1200.7181514850072,
+    "jobBusinessUnionSeconds": 1189.0366368793002,
+    "dispatchAndJobIntersectionSeconds": 1138.6880618922623,
+    "combinedUnionSeconds": 1251.066726472045
+  },
+  "schedulerIdle": {
+    "postBatchWaitUnionSeconds": 271.8720215899939,
+    "workerGapWithinPostBatchWaitSeconds": 221.52639012695545,
+    "noUndeliveredPublicationAndWorkerGapInPostBatchWaitSeconds": 219.25085633498202
+  },
+  "emptyDeliveryProxy": {
+    "outstandingAtEnd": 3,
+    "negativeCounterEvents": 0,
+    "noObservedJobAndNoUndeliveredSuccessfulPublicationWithinCandidateBatchSeconds": 1.2518908300044131,
+    "segments": 606,
+    "maxSegmentSeconds": 0.0056492629992135335,
+    "meaning": "candidate-selected but not all published plus no processJob interval and zero add-success-minus-delivery counter; proxy only, not exact Redis empty/ACK state"
+  },
+  "monitor": {
+    "sampleCount": 275,
+    "dbBacklogAndQueueEmptySampleCount": 34,
+    "dbBacklogAndQueueEmptySamples": [
+      {
+        "sampleIndex": 18,
+        "wallTime": "2026-11-03T05:51:35.725Z",
+        "monitorMonotonicNs": "8329919224472",
+        "dbUnfinished": 15132,
+        "observerDurationMs": 229.29037600000447
+      },
+      {
+        "sampleIndex": 29,
+        "wallTime": "2026-11-03T05:52:36.833Z",
+        "monitorMonotonicNs": "8388411777857",
+        "dbUnfinished": 40356,
+        "observerDurationMs": 417.93202500001644
+      },
+      {
+        "sampleIndex": 30,
+        "wallTime": "2026-11-03T05:52:42.246Z",
+        "monitorMonotonicNs": "8393825288024",
+        "dbUnfinished": 42516,
+        "observerDurationMs": 412.96280899998965
+      },
+      {
+        "sampleIndex": 56,
+        "wallTime": "2026-11-03T05:55:15.653Z",
+        "monitorMonotonicNs": "8540727140719",
+        "dbUnfinished": 87525,
+        "observerDurationMs": 685.1426400000346
+      },
+      {
+        "sampleIndex": 58,
+        "wallTime": "2026-11-03T05:55:26.964Z",
+        "monitorMonotonicNs": "8552038197626",
+        "dbUnfinished": 87009,
+        "observerDurationMs": 670.2357779999729
+      },
+      {
+        "sampleIndex": 67,
+        "wallTime": "2026-11-03T05:56:20.118Z",
+        "monitorMonotonicNs": "8602548750108",
+        "dbUnfinished": 84812,
+        "observerDurationMs": 591.2541450000135
+      },
+      {
+        "sampleIndex": 72,
+        "wallTime": "2026-11-03T05:56:49.638Z",
+        "monitorMonotonicNs": "8630757330591",
+        "dbUnfinished": 83519,
+        "observerDurationMs": 601.611596999981
+      },
+      {
+        "sampleIndex": 81,
+        "wallTime": "2026-11-03T05:57:42.951Z",
+        "monitorMonotonicNs": "8681365350142",
+        "dbUnfinished": 81218,
+        "observerDurationMs": 583.2971210000105
+      },
+      {
+        "sampleIndex": 89,
+        "wallTime": "2026-11-03T05:58:29.167Z",
+        "monitorMonotonicNs": "8726285821511",
+        "dbUnfinished": 79134,
+        "observerDurationMs": 596.282005999994
+      },
+      {
+        "sampleIndex": 93,
+        "wallTime": "2026-11-03T05:58:53.015Z",
+        "monitorMonotonicNs": "8748818322340",
+        "dbUnfinished": 78026,
+        "observerDurationMs": 695.0035339999595
+      },
+      {
+        "sampleIndex": 97,
+        "wallTime": "2026-11-03T05:59:17.054Z",
+        "monitorMonotonicNs": "8771503878377",
+        "dbUnfinished": 76922,
+        "observerDurationMs": 768.1706569999224
+      },
+      {
+        "sampleIndex": 113,
+        "wallTime": "2026-11-03T06:00:51.767Z",
+        "monitorMonotonicNs": "8862239439160",
+        "dbUnfinished": 72696,
+        "observerDurationMs": 683.6326249999693
+      },
+      {
+        "sampleIndex": 129,
+        "wallTime": "2026-11-03T06:02:26.002Z",
+        "monitorMonotonicNs": "8952487650535",
+        "dbUnfinished": 68516,
+        "observerDurationMs": 531.9017860000022
+      },
+      {
+        "sampleIndex": 130,
+        "wallTime": "2026-11-03T06:02:31.600Z",
+        "monitorMonotonicNs": "8958086165757",
+        "dbUnfinished": 68311,
+        "observerDurationMs": 593.6547300000675
+      },
+      {
+        "sampleIndex": 133,
+        "wallTime": "2026-11-03T06:02:49.726Z",
+        "monitorMonotonicNs": "8974903617686",
+        "dbUnfinished": 67516,
+        "observerDurationMs": 583.1168629999738
+      },
+      {
+        "sampleIndex": 139,
+        "wallTime": "2026-11-03T06:03:24.641Z",
+        "monitorMonotonicNs": "9008511761031",
+        "dbUnfinished": 66121,
+        "observerDurationMs": 680.2451890000375
+      },
+      {
+        "sampleIndex": 140,
+        "wallTime": "2026-11-03T06:03:30.142Z",
+        "monitorMonotonicNs": "9014012468168",
+        "dbUnfinished": 65907,
+        "observerDurationMs": 497.91064299992286
+      },
+      {
+        "sampleIndex": 141,
+        "wallTime": "2026-11-03T06:03:35.643Z",
+        "monitorMonotonicNs": "9019514071935",
+        "dbUnfinished": 65696,
+        "observerDurationMs": 499.3058960000053
+      },
+      {
+        "sampleIndex": 144,
+        "wallTime": "2026-11-03T06:03:53.879Z",
+        "monitorMonotonicNs": "9036390826002",
+        "dbUnfinished": 64996,
+        "observerDurationMs": 623.3821969999699
+      },
+      {
+        "sampleIndex": 148,
+        "wallTime": "2026-11-03T06:04:16.355Z",
+        "monitorMonotonicNs": "9058866214917",
+        "dbUnfinished": 64019,
+        "observerDurationMs": 630.459422999993
+      },
+      {
+        "sampleIndex": 159,
+        "wallTime": "2026-11-03T06:05:20.582Z",
+        "monitorMonotonicNs": "9120471779052",
+        "dbUnfinished": 61305,
+        "observerDurationMs": 536.9059789999155
+      },
+      {
+        "sampleIndex": 161,
+        "wallTime": "2026-11-03T06:05:32.982Z",
+        "monitorMonotonicNs": "9131539033944",
+        "dbUnfinished": 60809,
+        "observerDurationMs": 486.9039730000077
+      },
+      {
+        "sampleIndex": 168,
+        "wallTime": "2026-11-03T06:06:13.220Z",
+        "monitorMonotonicNs": "9170439900725",
+        "dbUnfinished": 59096,
+        "observerDurationMs": 500.5744110000087
+      },
+      {
+        "sampleIndex": 175,
+        "wallTime": "2026-11-03T06:06:53.641Z",
+        "monitorMonotonicNs": "9209547393590",
+        "dbUnfinished": 57309,
+        "observerDurationMs": 593.8788169999607
+      },
+      {
+        "sampleIndex": 210,
+        "wallTime": "2026-11-03T06:10:21.005Z",
+        "monitorMonotonicNs": "9407628900144",
+        "dbUnfinished": 48096,
+        "observerDurationMs": 578.5770100001246
+      },
+      {
+        "sampleIndex": 211,
+        "wallTime": "2026-11-03T06:10:26.758Z",
+        "monitorMonotonicNs": "9413382135486",
+        "dbUnfinished": 47828,
+        "observerDurationMs": 752.936742000049
+      },
+      {
+        "sampleIndex": 226,
+        "wallTime": "2026-11-03T06:11:54.635Z",
+        "monitorMonotonicNs": "9497301623393",
+        "dbUnfinished": 43729,
+        "observerDurationMs": 546.804581000004
+      },
+      {
+        "sampleIndex": 233,
+        "wallTime": "2026-11-03T06:12:34.992Z",
+        "monitorMonotonicNs": "9536426345242",
+        "dbUnfinished": 41827,
+        "observerDurationMs": 629.081491000019
+      },
+      {
+        "sampleIndex": 235,
+        "wallTime": "2026-11-03T06:12:47.527Z",
+        "monitorMonotonicNs": "9547535621189",
+        "dbUnfinished": 41304,
+        "observerDurationMs": 576.3541900001001
+      },
+      {
+        "sampleIndex": 240,
+        "wallTime": "2026-11-03T06:13:16.596Z",
+        "monitorMonotonicNs": "9575355325095",
+        "dbUnfinished": 40028,
+        "observerDurationMs": 627.4861620001029
+      },
+      {
+        "sampleIndex": 242,
+        "wallTime": "2026-11-03T06:13:27.752Z",
+        "monitorMonotonicNs": "9586510901915",
+        "dbUnfinished": 39510,
+        "observerDurationMs": 536.8844300000928
+      },
+      {
+        "sampleIndex": 254,
+        "wallTime": "2026-11-03T06:14:37.336Z",
+        "monitorMonotonicNs": "9653379965487",
+        "dbUnfinished": 36326,
+        "observerDurationMs": 648.8320689999964
+      },
+      {
+        "sampleIndex": 256,
+        "wallTime": "2026-11-03T06:14:49.853Z",
+        "monitorMonotonicNs": "9664576034303",
+        "dbUnfinished": 35809,
+        "observerDurationMs": 592.2078690000344
+      },
+      {
+        "sampleIndex": 272,
+        "wallTime": "2026-11-03T06:16:22.809Z",
+        "monitorMonotonicNs": "9754303202521",
+        "dbUnfinished": 31422,
+        "observerDurationMs": 623.1432699998841
+      }
+    ],
+    "consistency": "DB and Redis reads are sequential, not atomic; no exact-duration conversion/cross-process clock alignment"
+  },
+  "sqlOwnership": {
+    "outsideTransactionScan": 722,
+    "unique": 473413,
+    "ambiguous": 253916
+  },
+  "ambiguousSqlLabels": {
+    "sql.job.lock": 127323,
+    "sql.job.update": 126593
+  },
+  "transactionSql": {
+    "dispatch.transaction": {
+      "transactionMs": {
+        "n": 65976,
+        "sum": 1179956.110147016,
+        "min": 7.219217999838293,
+        "p50": 16.595137999975123,
+        "p95": 27.380439000204206,
+        "p99": 35.89530799999193,
+        "max": 321.32755099999486
+      },
+      "sqlCountExpectedTotal": 131952,
+      "unambiguouslyAssignedSqlCount": 1838,
+      "unambiguouslyAssignedSqlMs": 8117.188226997809,
+      "includingAllPossibleAmbiguousSqlMs": 99467.40983001568,
+      "unattributedRemainderMsBounds": {
+        "lowerBoundSum": 1080610.2404830032,
+        "upperBoundSum": 1171838.9219200201
+      },
+      "remainderLowerBoundMsDistribution": {
+        "n": 65976,
+        "sum": 1080610.2404830095,
+        "min": 0,
+        "p50": 15.197888000053354,
+        "p95": 25.398501000134274,
+        "p99": 31.3695899999002,
+        "max": 320.2155629999761
+      },
+      "remainderUpperBoundMsDistribution": {
+        "n": 65976,
+        "sum": 1171838.9219200192,
+        "min": 6.800650999881327,
+        "p50": 16.569731999887154,
+        "p95": 27.075684000039473,
+        "p99": 33.58175300003495,
+        "max": 321.32755099999486
+      },
+      "nonOk": [
+        {
+          "seq": 1257289,
+          "durationMs": 2.569980999920517,
+          "outcome": "callback_failed",
+          "sqlCount": 0
+        }
+      ]
+    },
+    "job.process": {
+      "transactionMs": {
+        "n": 65973,
+        "sum": 1184688.0508069824,
+        "min": 7.594965000171214,
+        "p50": 16.189107999991393,
+        "p95": 28.624813000002177,
+        "p99": 46.934093999967445,
+        "max": 324.22706400000607
+      },
+      "sqlCountExpectedTotal": 595377,
+      "unambiguouslyAssignedSqlCount": 471575,
+      "unambiguouslyAssignedSqlMs": 156201.72209494226,
+      "includingAllPossibleAmbiguousSqlMs": 247551.94369796012,
+      "unattributedRemainderMsBounds": {
+        "lowerBoundSum": 937329.6859990235,
+        "upperBoundSum": 1028486.3287120414
+      },
+      "remainderLowerBoundMsDistribution": {
+        "n": 65973,
+        "sum": 937329.6859990204,
+        "min": 0,
+        "p50": 12.928281000000425,
+        "p95": 23.063484999991488,
+        "p99": 29.373813999962294,
+        "max": 321.6480089999677
+      },
+      "remainderUpperBoundMsDistribution": {
+        "n": 65973,
+        "sum": 1028486.3287120421,
+        "min": 6.395059000467882,
+        "p50": 14.281125999521464,
+        "p95": 24.77709999959916,
+        "p99": 31.781935000035446,
+        "max": 322.8108540000103
+      },
+      "nonOk": []
+    }
+  },
+  "largestGaps": [
+    {
+      "s": 8861.568960093,
+      "e": 8862.578557359,
+      "seconds": 1.009597266000128,
+      "previousCompletedSequence": 455638,
+      "nextDeliverySequence": 455645
+    },
+    {
+      "s": 8846.609989835,
+      "e": 8847.598801579,
+      "seconds": 0.9888117440004862,
+      "previousCompletedSequence": 442299,
+      "nextDeliverySequence": 442306
+    },
+    {
+      "s": 9140.629275098,
+      "e": 9141.610941464,
+      "seconds": 0.9816663660003542,
+      "previousCompletedSequence": 690049,
+      "nextDeliverySequence": 690056
+    },
+    {
+      "s": 8710.594231384,
+      "e": 8711.573202048,
+      "seconds": 0.9789706640003715,
+      "previousCompletedSequence": 320353,
+      "nextDeliverySequence": 320360
+    },
+    {
+      "s": 8566.580993447,
+      "e": 8567.558738275,
+      "seconds": 0.9777448280001408,
+      "previousCompletedSequence": 194582,
+      "nextDeliverySequence": 194589
+    },
+    {
+      "s": 8914.61276192,
+      "e": 8915.586377615,
+      "seconds": 0.9736156950002623,
+      "previousCompletedSequence": 501369,
+      "nextDeliverySequence": 501376
+    },
+    {
+      "s": 8826.611020296,
+      "e": 8827.58440974,
+      "seconds": 0.973389443999622,
+      "previousCompletedSequence": 427059,
+      "nextDeliverySequence": 427066
+    },
+    {
+      "s": 8665.59942737,
+      "e": 8666.572694408,
+      "seconds": 0.9732670379999036,
+      "previousCompletedSequence": 280345,
+      "nextDeliverySequence": 280352
+    },
+    {
+      "s": 9085.63480121,
+      "e": 9086.606649256,
+      "seconds": 0.9718480459996499,
+      "previousCompletedSequence": 644281,
+      "nextDeliverySequence": 644288
+    },
+    {
+      "s": 9044.629305262,
+      "e": 9045.599916146,
+      "seconds": 0.9706108840000525,
+      "previousCompletedSequence": 609992,
+      "nextDeliverySequence": 609999
+    },
+    {
+      "s": 8886.614296404,
+      "e": 8887.58450894,
+      "seconds": 0.9702125360017817,
+      "previousCompletedSequence": 476595,
+      "nextDeliverySequence": 476602
+    },
+    {
+      "s": 9176.655909338,
+      "e": 9177.621754377,
+      "seconds": 0.9658450389997597,
+      "previousCompletedSequence": 720545,
+      "nextDeliverySequence": 720552
+    },
+    {
+      "s": 9679.711504913,
+      "e": 9680.671810811,
+      "seconds": 0.9603058979992056,
+      "previousCompletedSequence": 1172063,
+      "nextDeliverySequence": 1172070
+    },
+    {
+      "s": 9542.712941983,
+      "e": 9543.66402815,
+      "seconds": 0.9510861670005397,
+      "previousCompletedSequence": 1050164,
+      "nextDeliverySequence": 1050171
+    },
+    {
+      "s": 9179.675758355,
+      "e": 9180.626215335,
+      "seconds": 0.9504569799992169,
+      "previousCompletedSequence": 722452,
+      "nextDeliverySequence": 722459
+    }
+  ],
+  "progressWindows": [
+    {
+      "startRelativeSec": 0,
+      "endRelativeSec": 60,
+      "completed": 2200
+    },
+    {
+      "startRelativeSec": 60,
+      "endRelativeSec": 120,
+      "completed": 2334
+    },
+    {
+      "startRelativeSec": 120,
+      "endRelativeSec": 180,
+      "completed": 2266
+    },
+    {
+      "startRelativeSec": 180,
+      "endRelativeSec": 240,
+      "completed": 2200
+    },
+    {
+      "startRelativeSec": 240,
+      "endRelativeSec": 300,
+      "completed": 2600
+    },
+    {
+      "startRelativeSec": 300,
+      "endRelativeSec": 360,
+      "completed": 2751
+    },
+    {
+      "startRelativeSec": 360,
+      "endRelativeSec": 420,
+      "completed": 2749
+    },
+    {
+      "startRelativeSec": 420,
+      "endRelativeSec": 480,
+      "completed": 2960
+    },
+    {
+      "startRelativeSec": 480,
+      "endRelativeSec": 540,
+      "completed": 2740
+    },
+    {
+      "startRelativeSec": 540,
+      "endRelativeSec": 600,
+      "completed": 2700
+    },
+    {
+      "startRelativeSec": 600,
+      "endRelativeSec": 660,
+      "completed": 2800
+    },
+    {
+      "startRelativeSec": 660,
+      "endRelativeSec": 720,
+      "completed": 2587
+    },
+    {
+      "startRelativeSec": 720,
+      "endRelativeSec": 780,
+      "completed": 2562
+    },
+    {
+      "startRelativeSec": 780,
+      "endRelativeSec": 840,
+      "completed": 2651
+    },
+    {
+      "startRelativeSec": 840,
+      "endRelativeSec": 900,
+      "completed": 2642
+    },
+    {
+      "startRelativeSec": 900,
+      "endRelativeSec": 960,
+      "completed": 2758
+    },
+    {
+      "startRelativeSec": 960,
+      "endRelativeSec": 1020,
+      "completed": 2952
+    },
+    {
+      "startRelativeSec": 1020,
+      "endRelativeSec": 1080,
+      "completed": 2748
+    },
+    {
+      "startRelativeSec": 1080,
+      "endRelativeSec": 1140,
+      "completed": 2800
+    },
+    {
+      "startRelativeSec": 1140,
+      "endRelativeSec": 1200,
+      "completed": 2952
+    },
+    {
+      "startRelativeSec": 1200,
+      "endRelativeSec": 1260,
+      "completed": 2902
+    },
+    {
+      "startRelativeSec": 1260,
+      "endRelativeSec": 1320,
+      "completed": 2746
+    },
+    {
+      "startRelativeSec": 1320,
+      "endRelativeSec": 1380,
+      "completed": 2840
+    },
+    {
+      "startRelativeSec": 1380,
+      "endRelativeSec": 1440,
+      "completed": 2960
+    },
+    {
+      "startRelativeSec": 1440,
+      "endRelativeSec": 1472.5841097840002,
+      "completed": 1573
+    }
+  ]
+}

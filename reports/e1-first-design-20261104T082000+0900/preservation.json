@@ -1,0 +1,62 @@
+{
+  "checkedAt": "2026-11-04T08:31:35.100553+09:00",
+  "phase": "before document commit; final delivery SHA is reported in chat after remote verification",
+  "basisCommit": "92216b48575d334968d67df638eb143e2095f5a3",
+  "git": {
+    "worktree": {
+      "headBefore": "92216b48575d334968d67df638eb143e2095f5a3",
+      "headAtDocumentReview": "92216b48575d334968d67df638eb143e2095f5a3",
+      "branch": "e1/b0-preparation-20261103T100518-0900",
+      "priorTrackedFiles": 425,
+      "changedPriorTrackedPaths": [],
+      "statusBeforePublicationUnchanged": true
+    },
+    "original": {
+      "headBefore": "0a4c6ee1bda3dd7103525868aa15eec54d573ace",
+      "headAtDocumentReview": "0a4c6ee1bda3dd7103525868aa15eec54d573ace",
+      "branch": "main",
+      "priorTrackedFiles": 343,
+      "changedPriorTrackedPaths": [],
+      "statusBeforePublicationUnchanged": true
+    }
+  },
+  "rawFilesCheckedBySizeMtime": 40,
+  "rawFileSizeMtimeSetUnchanged": true,
+  "priorReadyFileSizeMtimeSetUnchanged": true,
+  "scope": "all prior tracked files rehashed; raw metrics stream hashed for analysis; raw root and old ready compare size/mtime including private config without printing contents; no DB volume fingerprint or runtime state claimed",
+  "actionsExecuted": [
+    "read-only filesystem/git inspection",
+    "saved JSONL arithmetic in /tmp",
+    "prepare new report documents in /tmp"
+  ],
+  "actionsNotExecuted": [
+    "service/container commands",
+    "DB/Redis connection",
+    "pilot/resume/replay/tests/build/install",
+    "product/config/lock/migration changes",
+    "main checkout/reset/pull/stash/merge/tag operations"
+  ],
+  "onlyNewOutputDirectory": "reports/e1-first-design-20261104T082000+0900",
+  "selectedDocuments": [
+    "analysis.md",
+    "design.md",
+    "worker-analysis.json",
+    "clock-analysis.json",
+    "dispatch-batches.csv",
+    "gap-examples.json",
+    "input-hashes.json",
+    "offline-checks.json",
+    "preservation.json"
+  ],
+  "publicationExclusions": [
+    "raw metrics",
+    "secrets/env",
+    "DB/Redis files",
+    "temporary analysis scripts/private preservation snapshot"
+  ],
+  "authorizedDeliveryActions": [
+    "write only the selected new report directory",
+    "selectively commit and push requested branch"
+  ],
+  "priorReportTrackedContentHashesUnchanged": true
+}

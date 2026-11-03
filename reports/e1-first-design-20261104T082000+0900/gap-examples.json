@@ -1,0 +1,186 @@
+{
+  "largest": [
+    {
+      "s": 8861.568960093,
+      "e": 8862.578557359,
+      "seconds": 1.009597266000128,
+      "previousCompletedSequence": 455638,
+      "nextDeliverySequence": 455645
+    },
+    {
+      "s": 8846.609989835,
+      "e": 8847.598801579,
+      "seconds": 0.9888117440004862,
+      "previousCompletedSequence": 442299,
+      "nextDeliverySequence": 442306
+    },
+    {
+      "s": 9140.629275098,
+      "e": 9141.610941464,
+      "seconds": 0.9816663660003542,
+      "previousCompletedSequence": 690049,
+      "nextDeliverySequence": 690056
+    },
+    {
+      "s": 8710.594231384,
+      "e": 8711.573202048,
+      "seconds": 0.9789706640003715,
+      "previousCompletedSequence": 320353,
+      "nextDeliverySequence": 320360
+    },
+    {
+      "s": 8566.580993447,
+      "e": 8567.558738275,
+      "seconds": 0.9777448280001408,
+      "previousCompletedSequence": 194582,
+      "nextDeliverySequence": 194589
+    },
+    {
+      "s": 8914.61276192,
+      "e": 8915.586377615,
+      "seconds": 0.9736156950002623,
+      "previousCompletedSequence": 501369,
+      "nextDeliverySequence": 501376
+    },
+    {
+      "s": 8826.611020296,
+      "e": 8827.58440974,
+      "seconds": 0.973389443999622,
+      "previousCompletedSequence": 427059,
+      "nextDeliverySequence": 427066
+    },
+    {
+      "s": 8665.59942737,
+      "e": 8666.572694408,
+      "seconds": 0.9732670379999036,
+      "previousCompletedSequence": 280345,
+      "nextDeliverySequence": 280352
+    },
+    {
+      "s": 9085.63480121,
+      "e": 9086.606649256,
+      "seconds": 0.9718480459996499,
+      "previousCompletedSequence": 644281,
+      "nextDeliverySequence": 644288
+    },
+    {
+      "s": 9044.629305262,
+      "e": 9045.599916146,
+      "seconds": 0.9706108840000525,
+      "previousCompletedSequence": 609992,
+      "nextDeliverySequence": 609999
+    },
+    {
+      "s": 8886.614296404,
+      "e": 8887.58450894,
+      "seconds": 0.9702125360017817,
+      "previousCompletedSequence": 476595,
+      "nextDeliverySequence": 476602
+    },
+    {
+      "s": 9176.655909338,
+      "e": 9177.621754377,
+      "seconds": 0.9658450389997597,
+      "previousCompletedSequence": 720545,
+      "nextDeliverySequence": 720552
+    },
+    {
+      "s": 9679.711504913,
+      "e": 9680.671810811,
+      "seconds": 0.9603058979992056,
+      "previousCompletedSequence": 1172063,
+      "nextDeliverySequence": 1172070
+    },
+    {
+      "s": 9542.712941983,
+      "e": 9543.66402815,
+      "seconds": 0.9510861670005397,
+      "previousCompletedSequence": 1050164,
+      "nextDeliverySequence": 1050171
+    },
+    {
+      "s": 9179.675758355,
+      "e": 9180.626215335,
+      "seconds": 0.9504569799992169,
+      "previousCompletedSequence": 722452,
+      "nextDeliverySequence": 722459
+    }
+  ],
+  "starvationProxyLargest": [
+    {
+      "startMonoSec": 8321.460723176,
+      "endMonoSec": 8321.466372439,
+      "seconds": 0.0056492629992135335
+    },
+    {
+      "startMonoSec": 8815.576907857,
+      "endMonoSec": 8815.581762582,
+      "seconds": 0.004854725000768667
+    },
+    {
+      "startMonoSec": 9417.638168566,
+      "endMonoSec": 9417.642271749,
+      "seconds": 0.004103183000552235
+    },
+    {
+      "startMonoSec": 9217.618884523,
+      "endMonoSec": 9217.622984567,
+      "seconds": 0.0041000439996423665
+    },
+    {
+      "startMonoSec": 8884.588281912,
+      "endMonoSec": 8884.592330778,
+      "seconds": 0.004048865999720874
+    },
+    {
+      "startMonoSec": 9150.609652949,
+      "endMonoSec": 9150.613458244,
+      "seconds": 0.0038052950003475416
+    },
+    {
+      "startMonoSec": 8327.474313771,
+      "endMonoSec": 8327.478081095,
+      "seconds": 0.0037673240003641695
+    },
+    {
+      "startMonoSec": 8626.566983647,
+      "endMonoSec": 8626.570677611,
+      "seconds": 0.003693963999467087
+    },
+    {
+      "startMonoSec": 9201.615693441,
+      "endMonoSec": 9201.61935798,
+      "seconds": 0.0036645390009653056
+    },
+    {
+      "startMonoSec": 8917.591220984,
+      "endMonoSec": 8917.59488162,
+      "seconds": 0.003660635999040096
+    },
+    {
+      "startMonoSec": 8771.583322444,
+      "endMonoSec": 8771.586982728,
+      "seconds": 0.0036602840009436477
+    },
+    {
+      "startMonoSec": 8697.570884984,
+      "endMonoSec": 8697.5744123,
+      "seconds": 0.0035273160010547144
+    },
+    {
+      "startMonoSec": 8824.573272781,
+      "endMonoSec": 8824.576782249,
+      "seconds": 0.0035094680006295675
+    },
+    {
+      "startMonoSec": 9618.662246385,
+      "endMonoSec": 9618.665698597,
+      "seconds": 0.0034522120004112367
+    },
+    {
+      "startMonoSec": 9384.636791207,
+      "endMonoSec": 9384.640239299,
+      "seconds": 0.0034480920003261417
+    }
+  ]
+}

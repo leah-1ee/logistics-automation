@@ -1,0 +1,235 @@
+{
+  "status": "INVALID_UNCHANGED",
+  "thresholdSeconds": 1,
+  "noCorrectionOrDeletion": true,
+  "services": {
+    "api": {
+      "records": 799811,
+      "fileSha256": "7b415ee2fd0ec3fb8dd20e63350a332f8596524d02b853c198a106f98fa33e6a",
+      "anomalies": [
+        {
+          "process": "api",
+          "processIdentity": "1-8581d457-56d5-403f-b246-50ddfab1d43e",
+          "previousSequence": 1,
+          "sequence": 2,
+          "previousWallTime": "2026-11-03T05:49:57.756Z",
+          "wallTime": "2026-11-03T05:51:01.401Z",
+          "previousMonotonicNs": "8235885462106",
+          "monotonicNs": "8296928337313",
+          "wallDeltaSeconds": 63.644999980926514,
+          "monotonicDeltaSeconds": 61.04287520700018,
+          "skewSeconds": 2.6021247739263345,
+          "intervalEndKind": "sql",
+          "intervalEndLabel": "sql.other",
+          "phase": "warm-up-to-first-collection-SQL"
+        }
+      ],
+      "wholeRecordedLifetime": {
+        "start": {
+          "sequence": 1,
+          "wallTime": "2026-11-03T05:49:57.756Z",
+          "monoSeconds": 8235.885462106,
+          "monotonicNs": "8235885462106",
+          "wallEpochSeconds": 1793684997.756
+        },
+        "end": {
+          "sequence": 799811,
+          "wallTime": "2026-11-03T05:55:05.282Z",
+          "monoSeconds": 8530.356080998,
+          "monotonicNs": "8530356080998",
+          "wallEpochSeconds": 1793685305.282
+        },
+        "wallSeconds": 307.5260000228882,
+        "monotonicSeconds": 294.47061889200086,
+        "differenceSeconds": 13.055381130887326
+      },
+      "observedWorkSubset": {
+        "start": {
+          "sequence": 21,
+          "wallTime": "2026-11-03T05:51:01.473Z",
+          "monoSeconds": 8296.999758335,
+          "monotonicNs": "8296999758335",
+          "wallEpochSeconds": 1793685061.473
+        },
+        "end": {
+          "sequence": 799554,
+          "wallTime": "2026-11-03T05:55:05.133Z",
+          "monoSeconds": 8530.207088558,
+          "monotonicNs": "8530207088558",
+          "wallEpochSeconds": 1793685305.133
+        },
+        "wallSeconds": 243.6599998474121,
+        "monotonicSeconds": 233.2073302230001,
+        "differenceSeconds": 10.45266962441201
+      },
+      "intervalAbsSkewAboveCounts": {
+        "0.01": 17,
+        "0.1": 17,
+        "1": 1
+      },
+      "sumAnomalySkewSeconds": 2.6021247739263345,
+      "sumOtherIntervalSkewSeconds": 10.453256356960992,
+      "performanceDurationVsHrtimeIntervalMs": {
+        "n": 602777,
+        "min": -0.32238500061794184,
+        "p50": 0.002814999592374079,
+        "max": 0.47338600057992153
+      },
+      "cause": "UNKNOWN; no contemporaneous sandwich samples, independent clock reference, suspend/time-namespace/clocksource or scheduler-gap evidence sufficient to identify cause"
+    },
+    "worker": {
+      "records": 1257292,
+      "fileSha256": "dff018d8fc0a0376a4471710715412c7aaef65c2cf49db45ce17af22b02e5f43",
+      "anomalies": [
+        {
+          "process": "worker",
+          "processIdentity": "1-903eb149-d665-4b4e-8be8-7f3eac65bce8",
+          "previousSequence": 54,
+          "sequence": 55,
+          "previousWallTime": "2026-11-03T05:50:15.316Z",
+          "wallTime": "2026-11-03T05:50:17.622Z",
+          "previousMonotonicNs": "8253445317276",
+          "monotonicNs": "8254444976807",
+          "wallDeltaSeconds": 2.305999994277954,
+          "monotonicDeltaSeconds": 0.9996595310003613,
+          "skewSeconds": 1.3063404632775928,
+          "intervalEndKind": "sql",
+          "intervalEndLabel": "sql.dispatch.scan",
+          "phase": "pre-first-job"
+        },
+        {
+          "process": "worker",
+          "processIdentity": "1-903eb149-d665-4b4e-8be8-7f3eac65bce8",
+          "previousSequence": 144,
+          "sequence": 145,
+          "previousWallTime": "2026-11-03T05:50:46.631Z",
+          "wallTime": "2026-11-03T05:50:48.928Z",
+          "previousMonotonicNs": "8283454157807",
+          "monotonicNs": "8284455000196",
+          "wallDeltaSeconds": 2.296999931335449,
+          "monotonicDeltaSeconds": 1.0008423889994447,
+          "skewSeconds": 1.2961575423360046,
+          "intervalEndKind": "sql",
+          "intervalEndLabel": "sql.dispatch.scan",
+          "phase": "pre-first-job"
+        },
+        {
+          "process": "worker",
+          "processIdentity": "1-903eb149-d665-4b4e-8be8-7f3eac65bce8",
+          "previousSequence": 30685,
+          "sequence": 30686,
+          "previousWallTime": "2026-11-03T05:51:49.502Z",
+          "wallTime": "2026-11-03T05:51:51.564Z",
+          "previousMonotonicNs": "8343695837804",
+          "monotonicNs": "8344481559428",
+          "wallDeltaSeconds": 2.061999797821045,
+          "monotonicDeltaSeconds": 0.7857216240008711,
+          "skewSeconds": 1.2762781738201738,
+          "intervalEndKind": "sql",
+          "intervalEndLabel": "sql.dispatch.scan",
+          "phase": "within-job-processing"
+        },
+        {
+          "process": "worker",
+          "processIdentity": "1-903eb149-d665-4b4e-8be8-7f3eac65bce8",
+          "previousSequence": 234603,
+          "sequence": 234604,
+          "previousWallTime": "2026-11-03T05:56:31.412Z",
+          "wallTime": "2026-11-03T05:56:33.446Z",
+          "previousMonotonicNs": "8613843232302",
+          "monotonicNs": "8614565407220",
+          "wallDeltaSeconds": 2.0340001583099365,
+          "monotonicDeltaSeconds": 0.7221749179989274,
+          "skewSeconds": 1.311825240311009,
+          "intervalEndKind": "sql",
+          "intervalEndLabel": "sql.dispatch.scan",
+          "phase": "within-job-processing"
+        },
+        {
+          "process": "worker",
+          "processIdentity": "1-903eb149-d665-4b4e-8be8-7f3eac65bce8",
+          "previousSequence": 425153,
+          "sequence": 425154,
+          "previousWallTime": "2026-11-03T06:00:10.574Z",
+          "wallTime": "2026-11-03T06:00:12.775Z",
+          "previousMonotonicNs": "8823677167716",
+          "monotonicNs": "8824573232864",
+          "wallDeltaSeconds": 2.201000213623047,
+          "monotonicDeltaSeconds": 0.8960651480010711,
+          "skewSeconds": 1.3049350656219758,
+          "intervalEndKind": "sql",
+          "intervalEndLabel": "sql.dispatch.scan",
+          "phase": "within-job-processing"
+        },
+        {
+          "process": "worker",
+          "processIdentity": "1-903eb149-d665-4b4e-8be8-7f3eac65bce8",
+          "previousSequence": 474686,
+          "sequence": 474687,
+          "previousWallTime": "2026-11-03T06:01:13.173Z",
+          "wallTime": "2026-11-03T06:01:15.411Z",
+          "previousMonotonicNs": "8883645671371",
+          "monotonicNs": "8884588221374",
+          "wallDeltaSeconds": 2.23799991607666,
+          "monotonicDeltaSeconds": 0.942550003001088,
+          "skewSeconds": 1.2954499130755721,
+          "intervalEndKind": "sql",
+          "intervalEndLabel": "sql.dispatch.scan",
+          "phase": "within-job-processing"
+        }
+      ],
+      "wholeRecordedLifetime": {
+        "start": {
+          "sequence": 1,
+          "wallTime": "2026-11-03T05:49:58.320Z",
+          "monoSeconds": 8236.449212767,
+          "monotonicNs": "8236449212767",
+          "wallEpochSeconds": 1793684998.32
+        },
+        "end": {
+          "sequence": 1257292,
+          "wallTime": "2026-11-03T06:16:40.206Z",
+          "monoSeconds": 9771.04727671,
+          "monotonicNs": "9771047276710",
+          "wallEpochSeconds": 1793686600.206
+        },
+        "wallSeconds": 1601.8860001564026,
+        "monotonicSeconds": 1534.598063943,
+        "differenceSeconds": 67.28793621340265
+      },
+      "observedWorkSubset": {
+        "start": {
+          "sequence": 193,
+          "wallTime": "2026-11-03T05:51:02.936Z",
+          "monoSeconds": 8298.463166926,
+          "monotonicNs": "8298463166926",
+          "wallEpochSeconds": 1793685062.936
+        },
+        "end": {
+          "sequence": 1257292,
+          "wallTime": "2026-11-03T06:16:40.206Z",
+          "monoSeconds": 9771.04727671,
+          "monotonicNs": "9771047276710",
+          "wallEpochSeconds": 1793686600.206
+        },
+        "wallSeconds": 1537.2699999809265,
+        "monotonicSeconds": 1472.5841097840002,
+        "differenceSeconds": 64.68589019692627
+      },
+      "intervalAbsSkewAboveCounts": {
+        "0.01": 96,
+        "0.1": 96,
+        "1": 6
+      },
+      "sumAnomalySkewSeconds": 7.790986398442328,
+      "sumOtherIntervalSkewSeconds": 59.49694981496032,
+      "performanceDurationVsHrtimeIntervalMs": {
+        "n": 992675,
+        "min": -0.3823210005357396,
+        "p50": 0.00411600100051146,
+        "max": 1.3650809999235207
+      },
+      "cause": "UNKNOWN; no contemporaneous sandwich samples, independent clock reference, suspend/time-namespace/clocksource or scheduler-gap evidence sufficient to identify cause"
+    }
+  }
+}
