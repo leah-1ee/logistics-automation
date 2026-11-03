@@ -116,7 +116,7 @@ export const recorder = new Recorder({enabled:process.env.B0_OBSERVE==='1',
   service:['api','worker','source','runner'].includes(process.env.B0_SERVICE||'')?process.env.B0_SERVICE!:'runner',
   maxRecords:clamp(process.env.B0_BUFFER_RECORDS,8192,32768),
   maxBufferBytes:clamp(process.env.B0_BUFFER_BYTES,8*1024*1024,32*1024*1024),
-  maxFileBytes:clamp(process.env.B0_FILE_BYTES,256*1024*1024,512*1024*1024)});
+  maxFileBytes:clamp(process.env.B0_FILE_BYTES,2*1024**3,2*1024**3)});
 // Exposed close is awaited by the existing service shutdown paths; natural CLI exit also flushes.
 if(recorder.enabled)process.once('beforeExit',()=>{void recorder.close();});
 export function observe(kind:Kind,label:Label,fields:Fields={}){try{recorder.emit({kind,label,...fields});}catch{/* observation cannot fail a business operation */}}
